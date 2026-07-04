@@ -96,6 +96,7 @@ multi-agent-research-team/
 - Missing dependencies and missing environment variables are reported with clear error messages.
 - Output directories are created automatically when saving reports.
 - The workflow is sequential to keep runtime behavior predictable.
+- Generated reports are ignored by git so production artifacts do not pollute the repository.
 
 ## Extending the System
 
