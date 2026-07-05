@@ -5,6 +5,18 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Community-health documents: `SECURITY.md`, `CODE_OF_CONDUCT.md`, a pull-request
+  template, and bug-report/feature-request issue templates.
+- CI status badge and a sample-output section in the README.
+
+### Changed
+
+- Expanded `.gitignore` to cover backup, temporary, and patch artifacts.
+
 ## [1.0.0]
 
 First production-ready release.

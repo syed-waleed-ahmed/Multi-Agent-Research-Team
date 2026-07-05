@@ -43,6 +43,13 @@ env/
 # Operating system files
 .DS_Store
 Thumbs.db
+desktop.ini
+
+# Backup, temp, and patch artifacts
+*.bak
+*.tmp
+*.orig
+*.rej
 
 # Logs
 *.log

@@ -1,7 +1,7 @@
 # Graph Report - D:\Projects & Stuff\multi-agent-research-team  (2026-07-05)
 
 ## Corpus Check
-- 16 files · ~23,285 words
+- 16 files · ~23,808 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -65,8 +65,8 @@ Cohesion: 0.19
 Nodes (16): coding_agent(), _common_kwargs(), manager_agent(), Agent factory functions.  Each factory returns a configured CrewAI :class:`~crew, Operational settings shared by every agent., The web researcher: gathers accurate, up-to-date source material., The engineer: turns research into practical, runnable examples., The synthesizer: reviews prior work and writes the final report. (+8 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.25
-Nodes (17): Command-line interface.  The CLI is a thin adapter over :func:`research_team.cre, Parse ``argv`` and execute the workflow; return a process exit code., Parse ``argv`` and execute the workflow; return a process exit code., Entry point that also handles top-level, cross-cutting failures., Entry point that also handles top-level, cross-cutting failures., Structured output of a single research run.      Returning a structured object (, Total tokens consumed by the run, if reported by the provider., ResearchResult (+9 more)
+Cohesion: 0.26
+Nodes (16): Command-line interface.  The CLI is a thin adapter over :func:`research_team.cre, Parse ``argv`` and execute the workflow; return a process exit code., Parse ``argv`` and execute the workflow; return a process exit code., Entry point that also handles top-level, cross-cutting failures., Entry point that also handles top-level, cross-cutting failures., Structured output of a single research run.      Returning a structured object (, Total tokens consumed by the run, if reported by the provider., ResearchResult (+8 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.18
@@ -81,24 +81,24 @@ Cohesion: 0.2
 Nodes (12): coding_task(), manager_task(), Task factory functions.  Tasks describe *what* each agent must produce and *how*, Task A — web research producing a structured, sourced brief., Task B — practical code/analysis grounded in the research., Task C — the manager synthesizes everything into the final deliverable., research_task(), _bare_agent() (+4 more)
 
 ### Community 7 - "Community 7"
-Cohesion: 0.27
-Nodes (10): Execute ``action`` with exponential backoff on transient provider errors.      T, Run the full research workflow and return a :class:`ResearchResult`.      Parame, run_research_workflow(), _run_with_retries(), test_empty_topic_raises_value_error(), test_rate_limit_translated(), test_retry_exhausted_raises_workflow_error(), test_retry_succeeds_after_transient() (+2 more)
-
-### Community 8 - "Community 8"
 Cohesion: 0.25
 Nodes (6): patch_litellm_cache_breakpoint(), Compatibility shims for third-party libraries.  This module isolates narrowly-sc, Stop CrewAI leaking its ``cache_breakpoint`` marker to LiteLLM providers.      C, Tests for third-party compatibility shims., test_shim_is_idempotent(), test_shim_strips_cache_breakpoint_marker()
 
-### Community 9 - "Community 9"
+### Community 8 - "Community 8"
 Cohesion: 0.25
 Nodes (7): _extract_token_usage(), Best-effort extraction of token-usage metrics from a ``CrewOutput``., _FakeOutput, _FakeUsage, test_extract_report_prefers_raw(), test_extract_token_usage_from_model_dump(), test_extract_token_usage_none()
 
-### Community 10 - "Community 10"
+### Community 9 - "Community 9"
 Cohesion: 0.25
 Nodes (6): _apply_runtime_defaults(), _rate_limit_error_type(), Workflow orchestration.  This module wires the agents and tasks into a determini, Apply privacy- and noise-friendly defaults for a standalone deployment.      Cre, Return the LiteLLM exception classes that are safe to retry.      Resolved lazil, _transient_error_types()
 
+### Community 10 - "Community 10"
+Cohesion: 0.36
+Nodes (7): Execute ``action`` with exponential backoff on transient provider errors.      T, _run_with_retries(), Tests for workflow orchestration: retries, result extraction, error mapping.  Th, test_rate_limit_translated(), test_retry_exhausted_raises_workflow_error(), test_retry_succeeds_after_transient(), test_unexpected_error_wrapped()
+
 ### Community 11 - "Community 11"
-Cohesion: 0.67
-Nodes (3): _extract_report(), Normalize a CrewAI ``CrewOutput`` (or any result) to report text., test_extract_report_empty_raises()
+Cohesion: 0.29
+Nodes (7): _extract_report(), Normalize a CrewAI ``CrewOutput`` (or any result) to report text., Run the full research workflow and return a :class:`ResearchResult`.      Parame, run_research_workflow(), test_empty_topic_raises_value_error(), test_extract_report_empty_raises(), test_run_workflow_happy_path()
 
 ### Community 12 - "Community 12"
 Cohesion: 1.0
@@ -125,11 +125,11 @@ Nodes (1): Task C: Manager synthesizes everything into a final deliverable.
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `AppConfig` connect `Community 4` to `Community 0`, `Community 2`, `Community 3`, `Community 6`, `Community 7`, `Community 9`, `Community 10`, `Community 11`?**
+- **Why does `AppConfig` connect `Community 4` to `Community 0`, `Community 2`, `Community 3`, `Community 6`, `Community 8`, `Community 9`, `Community 10`, `Community 11`?**
   _High betweenness centrality (0.299) - this node is a cross-community bridge._
-- **Why does `ResearchResult` connect `Community 3` to `Community 4`, `Community 5`, `Community 7`, `Community 9`, `Community 10`?**
+- **Why does `ResearchResult` connect `Community 3` to `Community 4`, `Community 5`, `Community 8`, `Community 9`, `Community 10`, `Community 11`?**
   _High betweenness centrality (0.105) - this node is a cross-community bridge._
-- **Why does `build_crew()` connect `Community 2` to `Community 10`, `Community 6`, `Community 7`?**
+- **Why does `build_crew()` connect `Community 2` to `Community 9`, `Community 11`, `Community 6`?**
   _High betweenness centrality (0.104) - this node is a cross-community bridge._
 - **Are the 33 inferred relationships involving `AppConfig` (e.g. with `Agent factory functions.  Each factory returns a configured CrewAI :class:`~crew` and `Operational settings shared by every agent.`) actually correct?**
   _`AppConfig` has 33 INFERRED edges - model-reasoned connections that need verification._

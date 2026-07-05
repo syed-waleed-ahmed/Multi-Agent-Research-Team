@@ -32,6 +32,8 @@ multi-agent-research-team --topic "Applications of multi-agent systems in AI aut
 - [Project structure](#project-structure)
 - [Troubleshooting](#troubleshooting)
 - [Extending the system](#extending-the-system)
+- [Contributing](#contributing)
+- [Security](#security)
 - [License](#license)
 
 ## Highlights
@@ -219,12 +221,15 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution workflow and
 multi-agent-research-team/
 ├── ARCHITECTURE.md          # High-level design (HLD)
 ├── CHANGELOG.md
+├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
 ├── LICENSE
 ├── Makefile
+├── SECURITY.md
 ├── pyproject.toml           # Packaging and tooling configuration
 ├── requirements.txt
 ├── .env.example
+├── .github/                 # CI workflow and issue/PR templates
 ├── src/
 │   └── research_team/
 │       ├── __init__.py      # Public API (lazy)
@@ -259,6 +264,19 @@ The architecture is intentionally small but layered, so it can grow into:
 - Additional agents and tasks, or a parallel/hierarchical process.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for details.
+
+## Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the
+development setup, quality gates, and pull-request workflow. This project follows
+a [Code of Conduct](CODE_OF_CONDUCT.md), and all changes are documented in
+[CHANGELOG.md](CHANGELOG.md).
+
+## Security
+
+Credentials must live only in a git-ignored `.env` file and must never be
+committed. To report a vulnerability or review how secrets are handled, see the
+[security policy](SECURITY.md).
 
 ## License
 

@@ -4,6 +4,9 @@ Thanks for your interest in improving Multi-Agent Research Team. This guide
 covers how to set up a development environment and the standards used in this
 repository.
 
+By participating, you agree to abide by our
+[Code of Conduct](CODE_OF_CONDUCT.md).
+
 ## Development setup
 
 ```bash
@@ -59,4 +62,8 @@ dependency so it can be stubbed.
 
 When filing a bug, include the command you ran, the expected and actual
 behavior, the relevant log output (run with `--verbose`), and your Python and
-package versions.
+package versions. Issue templates are provided to help.
+
+Do not report security vulnerabilities as public issues. Follow the
+[security policy](SECURITY.md) instead, and never include real API keys in any
+issue, pull request, or log.
