@@ -77,6 +77,26 @@ ignore_missing_imports = true
 warn_unused_ignores = false
 warn_redundant_casts = true
 no_implicit_optional = true
+# We type-check our own package only (files = ["src"]). Some heavy third-party
+# dependencies (and their transitive deps, e.g. numpy) ship stubs using the
+# PEP 695 `type` statement, which mypy only parses under a 3.12+ target and which
+# otherwise breaks the 3.10 target in CI. We do not depend on their static types,
+# so skip reading their stubs entirely. follow_imports_for_stubs makes the skip
+# apply to .pyi files, not just .py sources.
+follow_imports_for_stubs = true
+
+[[tool.mypy.overrides]]
+module = [
+  "numpy",
+  "numpy.*",
+  "crewai",
+  "crewai.*",
+  "crewai_tools",
+  "crewai_tools.*",
+  "litellm",
+  "litellm.*",
+]
+follow_imports = "skip"
 
 [tool.pytest.ini_options]
 minversion = "8.0"

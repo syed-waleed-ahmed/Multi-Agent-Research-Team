@@ -43,3 +43,5 @@ First production-ready release.
   A guarded, idempotent compatibility shim now removes the marker before the
   request is sent.
 - `.gitignore` no longer excludes the committed `.env.example` template.
+- Configured mypy to skip third-party stubs (for example numpy's PEP 695 `type`
+  statements) so CI type-checking passes across the Python 3.10-3.12 matrix.
