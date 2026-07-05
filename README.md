@@ -1,113 +1,243 @@
 # Multi-Agent Research Team
 
-Multi-Agent Research Team is a production-oriented command-line application built with CrewAI, Groq, and Serper. It coordinates three specialized agents to research a topic, generate implementation-oriented notes, and synthesize a final professional report.
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Style: ruff](https://img.shields.io/badge/style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+[![Typed: mypy](https://img.shields.io/badge/typed-mypy-2A6DB2.svg)](https://mypy-lang.org/)
 
-## Overview
+A production-oriented command-line application that coordinates a team of
+specialized AI agents (Research, Coding/Analysis, and a synthesizing Manager)
+to research any topic and produce a professional Markdown report.
 
-The project is designed as a standalone research workflow that can be run from the terminal, automated in scripts, or extended into a larger system. It follows a deterministic execution path so results are easier to reason about and debug in production environments.
+It is built with [CrewAI](https://github.com/crewAIInc/crewAI),
+[Groq](https://console.groq.com/), and [Serper](https://serper.dev/), and is
+organized as a clean, layered application that can grow from a CLI into a web
+service or background job runner.
 
-## Capabilities
+```bash
+multi-agent-research-team --topic "Applications of multi-agent systems in AI automation"
+```
 
-- Web-backed research with the Serper search tool.
-- Structured technical synthesis from a manager agent.
-- Code-oriented output for practical implementation guidance.
-- Optional Markdown export for reports or downstream publishing.
-- Environment-driven configuration for model selection and token limits.
+## Table of contents
 
-## Architecture
+- [Highlights](#highlights)
+- [Architecture at a glance](#architecture-at-a-glance)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Output](#output)
+- [Development](#development)
+- [Project structure](#project-structure)
+- [Troubleshooting](#troubleshooting)
+- [Extending the system](#extending-the-system)
+- [License](#license)
 
-1. [src/main.py](src/main.py) provides the CLI entry point.
-2. [src/config.py](src/config.py) loads and validates runtime configuration.
-3. [src/agents.py](src/agents.py) defines the specialist agents.
-4. [src/tasks.py](src/tasks.py) defines the task prompts and expected outputs.
-5. [src/crew.py](src/crew.py) orchestrates the sequential workflow.
+## Highlights
 
-The codebase is intentionally lightweight, but the structure supports evolution toward a broader production architecture, such as a web API, a background job runner, or a multi-tenant research service.
+- **Deterministic multi-agent pipeline.** A sequential Research, Coding, and
+  Manager workflow with explicit task context, so runs are reproducible and
+  easy to debug.
+- **Production resilience.** Typed exceptions, exponential-backoff retries on
+  transient and rate-limit errors, and conventional process exit codes.
+- **Fast, testable core.** Heavy dependencies are imported lazily, so the CLI
+  starts instantly and the logic is unit-tested without network access.
+- **Structured configuration.** Immutable, validated settings loaded from
+  environment variables and overridable per invocation via CLI flags.
+- **Observability and privacy.** Structured logging with adjustable verbosity;
+  third-party telemetry is disabled by default.
+- **Clean packaging.** A `src/` layout, a console entry point, shipped type
+  information (PEP 561), and a `ruff` + `mypy` + `pytest` toolchain with CI.
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for the full high-level design, component
+diagrams, and extension points.
+
+## Architecture at a glance
+
+```text
+CLI  ->  Workflow (orchestration)  ->  Agents / Tasks  ->  Config (LLM + tools)
+                                                           Exceptions, Logging, Compat
+```
+
+The dependency direction is strict (top to bottom). The workflow exposes a
+single transport-agnostic entry point, `run_research_workflow(topic, config)`,
+which returns a structured `ResearchResult`. That function can be wrapped by a
+CLI, an HTTP API, or a background job without any change to the domain layer.
 
 ## Requirements
 
-- Python 3.10 or newer.
-- A Groq API key.
-- A Serper API key.
-
-## Configuration
-
-Copy [.env.example](.env.example) to `.env` and populate the required values.
-
-Environment variables:
-
-- `GROQ_API_KEY` - required.
-- `SERPER_API_KEY` - required.
-- `GROQ_MODEL` - optional, defaults to `llama-3.1-8b-instant`.
-- `GROQ_TEMPERATURE` - optional, defaults to `0.2`.
-- `GROQ_MAX_TOKENS` - optional, defaults to `1024`.
+- Python 3.10 or newer
+- A [Groq](https://console.groq.com/) API key
+- A [Serper](https://serper.dev/) API key
 
 ## Installation
 
 ```bash
 python -m venv .venv
+
+# Windows
 .venv\Scripts\activate
-pip install -r requirements.txt
-```
 
-Or install the package in editable mode:
+# macOS / Linux
+source .venv/bin/activate
 
-```bash
 pip install -e .
 ```
 
+To install the development tooling (tests, linter, type checker):
+
+```bash
+pip install -e ".[dev]"
+```
+
+## Configuration
+
+Copy the example environment file and fill in your keys:
+
+```bash
+cp .env.example .env
+```
+
+| Variable | Required | Default | Description |
+| --- | --- | --- | --- |
+| `GROQ_API_KEY` | yes | | Groq API key. |
+| `SERPER_API_KEY` | yes | | Serper search API key. |
+| `GROQ_MODEL` | no | `llama-3.3-70b-versatile` | Groq model id. |
+| `GROQ_TEMPERATURE` | no | `0.2` | Sampling temperature (0.0 to 2.0). |
+| `GROQ_MAX_TOKENS` | no | `1024` | Maximum tokens per response. |
+| `GROQ_MAX_RETRIES` | no | `3` | Retries on transient provider errors. |
+| `MAX_RPM` | no | | Cap requests-per-minute across the crew. |
+| `REQUEST_TIMEOUT` | no | | Per-agent execution timeout in seconds. |
+| `LOG_LEVEL` | no | `INFO` | Logging level. |
+
+The default model balances quality with Groq's free-tier token limits. For
+faster, cheaper runs, set `GROQ_MODEL=llama-3.1-8b-instant`.
+
 ## Usage
 
-Run the workflow from the project root:
+Run the workflow:
 
 ```bash
-python -m src --topic "Applications of multi-agent systems in AI automation workflows"
+multi-agent-research-team --topic "Using CrewAI for multi-agent research"
 ```
 
-Save the generated report to disk:
+Save the report to a file:
 
 ```bash
-python -m src --topic "Applications of multi-agent systems in AI automation workflows" --output reports/research.md
+multi-agent-research-team --topic "Vector databases for RAG" --output reports/rag.md
 ```
+
+Override model settings for a single run:
+
+```bash
+multi-agent-research-team --topic "Async Python patterns" \
+  --model llama-3.1-8b-instant --temperature 0.4 --max-tokens 1500
+```
+
+You can also run it as a module: `python -m research_team --topic "..."`.
+
+### Command-line options
+
+| Flag | Description |
+| --- | --- |
+| `--topic` | Required. Research topic or user goal. |
+| `-o, --output` | Save the final Markdown report to a file. |
+| `--model` | Override the Groq model id. |
+| `--temperature` | Override the sampling temperature. |
+| `--max-tokens` | Override the maximum tokens per response. |
+| `--max-rpm` | Cap requests-per-minute across the crew. |
+| `--max-retries` | Retries on transient provider errors. |
+| `--timeout` | Per-agent execution timeout in seconds. |
+| `-v, --verbose` | Verbose agent and crew tracing plus DEBUG logs. |
+| `-q, --quiet` | Print only the report (machine-friendly). |
+| `--log-level` | One of `DEBUG`, `INFO`, `WARNING`, `ERROR`. |
+| `--version` | Print the version and exit. |
+
+### Exit codes
+
+| Code | Meaning |
+| --- | --- |
+| `0` | Success |
+| `1` | Workflow failure (including rate limiting) |
+| `2` | Configuration error (missing or invalid settings) |
+| `3` | Missing dependency |
+| `130` | Interrupted (Ctrl-C) |
 
 ## Output
 
-The application prints a Markdown report to the terminal and can also persist that report to a file. The report is structured for technical readers and includes research findings, implementation guidance, and references.
+The application produces a structured Markdown report with sections for the
+problem restatement, key findings, a recommended approach, technical
+implementation notes, and references. The report is printed to the terminal and,
+optionally, saved to a file.
 
-## Project Structure
+## Development
+
+```bash
+pip install -e ".[dev]"
+
+pytest              # run the test suite
+ruff check .        # lint
+ruff format .       # format
+mypy                # type-check
+```
+
+Common tasks are also available through the Makefile (`make check` runs every
+quality gate). The test suite runs without network access or API keys: the
+CrewAI-heavy paths are mocked, and the few tests that construct real CrewAI
+objects make no API calls.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution workflow and
+[CHANGELOG.md](CHANGELOG.md) for the release history.
+
+## Project structure
 
 ```text
 multi-agent-research-team/
-├── .env.example
+├── ARCHITECTURE.md          # High-level design (HLD)
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── Makefile
+├── pyproject.toml           # Packaging and tooling configuration
 ├── requirements.txt
-└── src/
-	├── __init__.py
-	├── __main__.py
-	├── agents.py
-	├── config.py
-	├── crew.py
-	├── main.py
-	└── tasks.py
+├── .env.example
+├── src/
+│   └── research_team/
+│       ├── __init__.py      # Public API (lazy)
+│       ├── __main__.py      # python -m research_team
+│       ├── cli.py           # Command-line interface
+│       ├── crew.py          # Orchestration and resilience
+│       ├── agents.py        # Agent factories
+│       ├── tasks.py         # Task factories and context wiring
+│       ├── config.py        # Configuration and LLM/tool factories
+│       ├── exceptions.py    # Typed error hierarchy
+│       ├── logging_config.py
+│       └── compat.py        # Third-party compatibility shims
+└── tests/
 ```
 
-## Professional Notes
+## Troubleshooting
 
-- Startup is lazy and user-facing help works without loading the full agent stack.
-- Missing dependencies and missing environment variables are reported with clear error messages.
-- Output directories are created automatically when saving reports.
-- The workflow is sequential to keep runtime behavior predictable.
-- Generated reports are ignored by git so production artifacts do not pollute the repository.
+- **`rate-limited ... after N retries`.** Groq's free tier enforces a
+  per-minute token budget that the three-agent workflow can exceed on large
+  topics. Wait a minute, use a higher-tier key, lower `GROQ_MAX_TOKENS`, or try
+  `--model llama-3.1-8b-instant`.
+- **`Missing required environment variables`.** Ensure `.env` exists (copied
+  from `.env.example`) and that both API keys are set.
 
-## Extending the System
+## Extending the system
 
-The current codebase can be extended into a fuller production system by adding:
+The architecture is intentionally small but layered, so it can grow into:
 
-- A FastAPI service layer.
-- Background job execution and persistence.
-- Structured logging and tracing.
+- A FastAPI service layer around `run_research_workflow`.
+- Background job execution and result persistence.
 - Caching for repeated research runs.
-- A front-end dashboard or internal portal.
+- Additional agents and tasks, or a parallel/hierarchical process.
 
-## Author
+See [ARCHITECTURE.md](ARCHITECTURE.md) for details.
 
-Created by Syed Waleed Ahmed
+## License
+
+Released under the [MIT License](LICENSE).
+
+Created by Syed Waleed Ahmed.

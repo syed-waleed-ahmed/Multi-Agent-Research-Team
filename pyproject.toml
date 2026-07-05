@@ -4,25 +4,82 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "multi-agent-research-team"
-version = "0.1.0"
+version = "1.0.0"
 description = "A production-oriented multi-agent research CLI built with CrewAI, Groq, and Serper."
 readme = "README.md"
 requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Syed Waleed Ahmed", email = "syedwaleedahmed9@gmail.com" }]
+keywords = ["crewai", "multi-agent", "llm", "groq", "research", "agents", "cli"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 dependencies = [
-  "crewai>=0.60.0",
-  "crewai-tools>=0.28.0",
+  "crewai>=1.0.0,<2.0.0",
+  "crewai-tools>=1.0.0,<2.0.0",
   "groq>=0.12.0",
   "litellm>=1.59.0",
   "python-dotenv>=1.0.1",
   "rich>=13.7.0",
-  "tabulate>=0.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-cov>=5.0",
+  "ruff>=0.6",
+  "mypy>=1.11",
 ]
 
 [project.scripts]
-multi-agent-research-team = "src.main:main"
+multi-agent-research-team = "research_team.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team"
+Repository = "https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team"
+Issues = "https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/issues"
 
 [tool.setuptools]
 include-package-data = true
 
+[tool.setuptools.package-data]
+research_team = ["py.typed"]
+
 [tool.setuptools.packages.find]
-include = ["src*"]
+where = ["src"]
+include = ["research_team*"]
+
+# --------------------------------------------------------------------------- #
+# Tooling
+# --------------------------------------------------------------------------- #
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "W", "C4"]
+ignore = ["E501"]  # line length is enforced by the formatter, not the linter
+
+[tool.mypy]
+python_version = "3.10"
+files = ["src"]
+ignore_missing_imports = true
+warn_unused_ignores = false
+warn_redundant_casts = true
+no_implicit_optional = true
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+pythonpath = ["src"]

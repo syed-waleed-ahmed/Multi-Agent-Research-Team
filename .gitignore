@@ -1,56 +1,61 @@
-# Python cache
+# Byte-compiled / optimized / cache
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
 *$py.class
 
-# Python build and test artifacts
+# Distribution / packaging
+build/
+dist/
+*.egg
+*.egg-info/
+pip-wheel-metadata/
+
+# Test / coverage / type-check caches
 .pytest_cache/
 .mypy_cache/
+.dmypy.json
 .ruff_cache/
 .tox/
 .nox/
 .coverage
 .coverage.*
+coverage.xml
 htmlcov/
-build/
-dist/
-*.egg-info/
-site/
-
-# Local environment markers
-.python-version
 
 # Virtual environments
 .venv/
 venv/
 env/
+.python-version
 
-# OS junk files
-.DS_Store
-Thumbs.db
-
-# IDE configs
-.vscode/
-.idea/
-
-# Environment variables / secrets
+# Environment variables and secrets
 .env
 .env.*
+# ...but keep the committed template that documents required variables.
+!.env.example
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*~
+
+# Operating system files
+.DS_Store
+Thumbs.db
 
 # Logs
 *.log
 
-# Generated reports and exports
+# Application output
 reports/
 
-# CrewAI temp files (if any)
+# CrewAI runtime artifacts
 **/outputs/
 **/.crew_cache/
 
-# Graphify cache only; keep generated graph outputs visible
+# Graphify cache only; generated graph outputs are kept under version control
 graphify-out/cache/
 
-# Notebook checkpoints
+# Jupyter
 .ipynb_checkpoints/

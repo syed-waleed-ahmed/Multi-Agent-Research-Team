@@ -1,0 +1,10 @@
+# Normalize all text files to LF in the repository for consistent, cross-platform diffs.
+* text=auto eol=lf
+
+# Explicitly treat common binary assets as binary (never normalized).
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
