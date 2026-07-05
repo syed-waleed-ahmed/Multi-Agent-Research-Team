@@ -1,7 +1,7 @@
 # Runtime dependencies. For development tooling, install the dev extra:
 #   pip install -e ".[dev]"
-crewai>=1.0.0,<2.0.0
-crewai-tools>=1.0.0,<2.0.0
+crewai>=1.15,<2.0.0
+crewai-tools>=1.15,<2.0.0
 groq>=0.12.0
 litellm>=1.59.0
 python-dotenv>=1.0.1

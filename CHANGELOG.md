@@ -34,6 +34,7 @@ First production-ready release.
 - Default model is now `llama-3.3-70b-versatile`, which reliably completes the
   three-agent workflow within Groq's free-tier token limits.
 - CrewAI telemetry and interactive tracing are disabled by default.
+- Pinned `crewai` and `crewai-tools` to the tested `>=1.15,<2.0` range.
 
 ### Fixed
 
