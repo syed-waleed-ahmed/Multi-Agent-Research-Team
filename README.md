@@ -1,5 +1,6 @@
 # Multi-Agent Research Team
 
+[![CI](https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/actions/workflows/ci.yml/badge.svg)](https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Style: ruff](https://img.shields.io/badge/style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
@@ -169,6 +170,29 @@ The application produces a structured Markdown report with sections for the
 problem restatement, key findings, a recommended approach, technical
 implementation notes, and references. The report is printed to the terminal and,
 optionally, saved to a file.
+
+Example (abridged) for the topic "Benefits of using dependency injection in Python":
+
+```markdown
+# Problem / Question Restatement
+Dependency injection is a design pattern that keeps components loosely coupled...
+
+# Summary of Key Findings
+- Improves maintainability and testability by decoupling components from dependencies
+- Allows easy swapping of implementations
+- Enhances modularity and reusability
+
+# Recommended Approach or Strategy
+1. Define a dependency interface
+2. Create concrete implementations
+3. Inject the dependency into the consuming component
+
+# Code / Technical Implementation Notes
+...
+
+# Further Reading / References
+...
+```
 
 ## Development
 
