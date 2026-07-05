@@ -53,45 +53,45 @@
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\agents.py",
       "source_location": "L1",
-      "id": "agents_rationale_1",
       "community": 2,
-      "norm_label": "agent factory functions.  each factory returns a configured crewai :class:`~crew"
+      "norm_label": "agent factory functions.  each factory returns a configured crewai :class:`~crew",
+      "id": "agents_rationale_1"
     },
     {
       "label": "Operational settings shared by every agent.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\agents.py",
       "source_location": "L25",
-      "id": "agents_rationale_25",
       "community": 2,
-      "norm_label": "operational settings shared by every agent."
+      "norm_label": "operational settings shared by every agent.",
+      "id": "agents_rationale_25"
     },
     {
       "label": "The web researcher: gathers accurate, up-to-date source material.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\agents.py",
       "source_location": "L39",
-      "id": "agents_rationale_39",
       "community": 2,
-      "norm_label": "the web researcher: gathers accurate, up-to-date source material."
+      "norm_label": "the web researcher: gathers accurate, up-to-date source material.",
+      "id": "agents_rationale_39"
     },
     {
       "label": "The engineer: turns research into practical, runnable examples.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\agents.py",
       "source_location": "L62",
-      "id": "agents_rationale_62",
       "community": 2,
-      "norm_label": "the engineer: turns research into practical, runnable examples."
+      "norm_label": "the engineer: turns research into practical, runnable examples.",
+      "id": "agents_rationale_62"
     },
     {
       "label": "The synthesizer: reviews prior work and writes the final report.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\agents.py",
       "source_location": "L83",
-      "id": "agents_rationale_83",
       "community": 2,
-      "norm_label": "the synthesizer: reviews prior work and writes the final report."
+      "norm_label": "the synthesizer: reviews prior work and writes the final report.",
+      "id": "agents_rationale_83"
     },
     {
       "label": "cli.py",
@@ -106,7 +106,7 @@
       "label": "build_parser()",
       "file_type": "code",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L35",
+      "source_location": "L41",
       "id": "cli_build_parser",
       "community": 1,
       "norm_label": "build_parser()"
@@ -115,7 +115,7 @@
       "label": "_resolve_log_level()",
       "file_type": "code",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L93",
+      "source_location": "L99",
       "id": "cli_resolve_log_level",
       "community": 1,
       "norm_label": "_resolve_log_level()"
@@ -124,7 +124,7 @@
       "label": "run()",
       "file_type": "code",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L101",
+      "source_location": "L107",
       "id": "cli_run",
       "community": 1,
       "norm_label": "run()"
@@ -133,16 +133,16 @@
       "label": "main()",
       "file_type": "code",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L160",
+      "source_location": "L166",
       "id": "cli_main",
-      "community": 4,
+      "community": 5,
       "norm_label": "main()"
     },
     {
       "label": "_get_console()",
       "file_type": "code",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L175",
+      "source_location": "L181",
       "id": "cli_get_console",
       "community": 1,
       "norm_label": "_get_console()"
@@ -151,7 +151,7 @@
       "label": "_print_error()",
       "file_type": "code",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L184",
+      "source_location": "L190",
       "id": "cli_print_error",
       "community": 1,
       "norm_label": "_print_error()"
@@ -160,7 +160,7 @@
       "label": "_save_report()",
       "file_type": "code",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L194",
+      "source_location": "L200",
       "id": "cli_save_report",
       "community": 1,
       "norm_label": "_save_report()"
@@ -169,7 +169,7 @@
       "label": "_render_report()",
       "file_type": "code",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L201",
+      "source_location": "L207",
       "id": "cli_render_report",
       "community": 1,
       "norm_label": "_render_report()"
@@ -179,26 +179,26 @@
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
       "source_location": "L1",
-      "id": "cli_rationale_1",
-      "community": 1,
-      "norm_label": "command-line interface.  the cli is a thin adapter over :func:`research_team.cre"
+      "community": 3,
+      "norm_label": "command-line interface.  the cli is a thin adapter over :func:`research_team.cre",
+      "id": "cli_rationale_1"
     },
     {
       "label": "Parse ``argv`` and execute the workflow; return a process exit code.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L102",
-      "id": "cli_rationale_102",
-      "community": 1,
+      "source_location": "L108",
+      "id": "cli_rationale_108",
+      "community": 3,
       "norm_label": "parse ``argv`` and execute the workflow; return a process exit code."
     },
     {
       "label": "Entry point that also handles top-level, cross-cutting failures.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L161",
-      "id": "cli_rationale_161",
-      "community": 4,
+      "source_location": "L167",
+      "id": "cli_rationale_167",
+      "community": 3,
       "norm_label": "entry point that also handles top-level, cross-cutting failures."
     },
     {
@@ -207,7 +207,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\compat.py",
       "source_location": "L1",
       "id": "d_projects_stuff_multi_agent_research_team_src_research_team_compat_py",
-      "community": 3,
+      "community": 8,
       "norm_label": "compat.py"
     },
     {
@@ -216,7 +216,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\compat.py",
       "source_location": "L21",
       "id": "compat_patch_litellm_cache_breakpoint",
-      "community": 3,
+      "community": 8,
       "norm_label": "patch_litellm_cache_breakpoint()"
     },
     {
@@ -224,18 +224,18 @@
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\compat.py",
       "source_location": "L1",
-      "id": "compat_rationale_1",
-      "community": 3,
-      "norm_label": "compatibility shims for third-party libraries.  this module isolates narrowly-sc"
+      "community": 8,
+      "norm_label": "compatibility shims for third-party libraries.  this module isolates narrowly-sc",
+      "id": "compat_rationale_1"
     },
     {
       "label": "Stop CrewAI leaking its ``cache_breakpoint`` marker to LiteLLM providers.      C",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\compat.py",
       "source_location": "L22",
-      "id": "compat_rationale_22",
-      "community": 3,
-      "norm_label": "stop crewai leaking its ``cache_breakpoint`` marker to litellm providers.      c"
+      "community": 8,
+      "norm_label": "stop crewai leaking its ``cache_breakpoint`` marker to litellm providers.      c",
+      "id": "compat_rationale_22"
     },
     {
       "label": "config.py",
@@ -252,7 +252,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\config.py",
       "source_location": "L46",
       "id": "config_appconfig",
-      "community": 6,
+      "community": 4,
       "norm_label": "appconfig"
     },
     {
@@ -261,7 +261,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\config.py",
       "source_location": "L65",
       "id": "config_appconfig_post_init",
-      "community": 6,
+      "community": 4,
       "norm_label": ".__post_init__()"
     },
     {
@@ -270,7 +270,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\config.py",
       "source_location": "L68",
       "id": "config_appconfig_validate",
-      "community": 6,
+      "community": 4,
       "norm_label": "._validate()"
     },
     {
@@ -350,63 +350,63 @@
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\config.py",
       "source_location": "L1",
-      "id": "config_rationale_1",
       "community": 0,
-      "norm_label": "runtime configuration and lazy factories for the llm and web-search tool.  desig"
+      "norm_label": "runtime configuration and lazy factories for the llm and web-search tool.  desig",
+      "id": "config_rationale_1"
     },
     {
       "label": "Immutable, validated application configuration.      Instances are typically cre",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\config.py",
       "source_location": "L47",
-      "id": "config_rationale_47",
-      "community": 6,
-      "norm_label": "immutable, validated application configuration.      instances are typically cre"
+      "community": 4,
+      "norm_label": "immutable, validated application configuration.      instances are typically cre",
+      "id": "config_rationale_47"
     },
     {
       "label": "Return a copy of this config with the given fields replaced.          ``None`` v",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\config.py",
       "source_location": "L90",
-      "id": "config_rationale_90",
       "community": 0,
-      "norm_label": "return a copy of this config with the given fields replaced.          ``none`` v"
+      "norm_label": "return a copy of this config with the given fields replaced.          ``none`` v",
+      "id": "config_rationale_90"
     },
     {
       "label": "Build configuration from environment variables (and optional ``.env``).",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\config.py",
       "source_location": "L100",
-      "id": "config_rationale_100",
       "community": 0,
-      "norm_label": "build configuration from environment variables (and optional ``.env``)."
+      "norm_label": "build configuration from environment variables (and optional ``.env``).",
+      "id": "config_rationale_100"
     },
     {
       "label": "Return the process-wide default configuration built from the environment.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\config.py",
       "source_location": "L160",
-      "id": "config_rationale_160",
       "community": 0,
-      "norm_label": "return the process-wide default configuration built from the environment."
+      "norm_label": "return the process-wide default configuration built from the environment.",
+      "id": "config_rationale_160"
     },
     {
       "label": "Construct a CrewAI ``LLM`` bound to the Groq provider for ``config``.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\config.py",
       "source_location": "L168",
-      "id": "config_rationale_168",
       "community": 2,
-      "norm_label": "construct a crewai ``llm`` bound to the groq provider for ``config``."
+      "norm_label": "construct a crewai ``llm`` bound to the groq provider for ``config``.",
+      "id": "config_rationale_168"
     },
     {
       "label": "Construct the Serper-backed web-search tool for ``config``.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\config.py",
       "source_location": "L188",
-      "id": "config_rationale_188",
       "community": 2,
-      "norm_label": "construct the serper-backed web-search tool for ``config``."
+      "norm_label": "construct the serper-backed web-search tool for ``config``.",
+      "id": "config_rationale_188"
     },
     {
       "label": "crew.py",
@@ -423,7 +423,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L39",
       "id": "crew_researchresult",
-      "community": 11,
+      "community": 3,
       "norm_label": "researchresult"
     },
     {
@@ -477,7 +477,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L211",
       "id": "crew_extract_report",
-      "community": 9,
+      "community": 11,
       "norm_label": "_extract_report()"
     },
     {
@@ -486,7 +486,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L220",
       "id": "crew_extract_token_usage",
-      "community": 8,
+      "community": 9,
       "norm_label": "_extract_token_usage()"
     },
     {
@@ -512,90 +512,90 @@
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L1",
-      "id": "crew_rationale_1",
       "community": 10,
-      "norm_label": "workflow orchestration.  this module wires the agents and tasks into a determini"
+      "norm_label": "workflow orchestration.  this module wires the agents and tasks into a determini",
+      "id": "crew_rationale_1"
     },
     {
       "label": "Structured output of a single research run.      Returning a structured object (",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L40",
-      "id": "crew_rationale_40",
-      "community": 11,
-      "norm_label": "structured output of a single research run.      returning a structured object ("
+      "community": 3,
+      "norm_label": "structured output of a single research run.      returning a structured object (",
+      "id": "crew_rationale_40"
     },
     {
       "label": "Total tokens consumed by the run, if reported by the provider.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L55",
-      "id": "crew_rationale_55",
-      "community": 9,
-      "norm_label": "total tokens consumed by the run, if reported by the provider."
+      "community": 3,
+      "norm_label": "total tokens consumed by the run, if reported by the provider.",
+      "id": "crew_rationale_55"
     },
     {
       "label": "Assemble the sequential research crew for ``topic``.      A single LLM and a sin",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L61",
-      "id": "crew_rationale_61",
       "community": 2,
-      "norm_label": "assemble the sequential research crew for ``topic``.      a single llm and a sin"
+      "norm_label": "assemble the sequential research crew for ``topic``.      a single llm and a sin",
+      "id": "crew_rationale_61"
     },
     {
       "label": "Run the full research workflow and return a :class:`ResearchResult`.      Parame",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L95",
-      "id": "crew_rationale_95",
       "community": 7,
-      "norm_label": "run the full research workflow and return a :class:`researchresult`.      parame"
+      "norm_label": "run the full research workflow and return a :class:`researchresult`.      parame",
+      "id": "crew_rationale_95"
     },
     {
       "label": "Apply privacy- and noise-friendly defaults for a standalone deployment.      Cre",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L157",
-      "id": "crew_rationale_157",
       "community": 10,
-      "norm_label": "apply privacy- and noise-friendly defaults for a standalone deployment.      cre"
+      "norm_label": "apply privacy- and noise-friendly defaults for a standalone deployment.      cre",
+      "id": "crew_rationale_157"
     },
     {
       "label": "Execute ``action`` with exponential backoff on transient provider errors.      T",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L174",
-      "id": "crew_rationale_174",
-      "community": 9,
-      "norm_label": "execute ``action`` with exponential backoff on transient provider errors.      t"
+      "community": 7,
+      "norm_label": "execute ``action`` with exponential backoff on transient provider errors.      t",
+      "id": "crew_rationale_174"
     },
     {
       "label": "Normalize a CrewAI ``CrewOutput`` (or any result) to report text.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L212",
-      "id": "crew_rationale_212",
-      "community": 9,
-      "norm_label": "normalize a crewai ``crewoutput`` (or any result) to report text."
+      "community": 11,
+      "norm_label": "normalize a crewai ``crewoutput`` (or any result) to report text.",
+      "id": "crew_rationale_212"
     },
     {
       "label": "Best-effort extraction of token-usage metrics from a ``CrewOutput``.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L221",
-      "id": "crew_rationale_221",
-      "community": 8,
-      "norm_label": "best-effort extraction of token-usage metrics from a ``crewoutput``."
+      "community": 9,
+      "norm_label": "best-effort extraction of token-usage metrics from a ``crewoutput``.",
+      "id": "crew_rationale_221"
     },
     {
       "label": "Return the LiteLLM exception classes that are safe to retry.      Resolved lazil",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L238",
-      "id": "crew_rationale_238",
       "community": 10,
-      "norm_label": "return the litellm exception classes that are safe to retry.      resolved lazil"
+      "norm_label": "return the litellm exception classes that are safe to retry.      resolved lazil",
+      "id": "crew_rationale_238"
     },
     {
       "label": "exceptions.py",
@@ -603,7 +603,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\exceptions.py",
       "source_location": "L1",
       "id": "d_projects_stuff_multi_agent_research_team_src_research_team_exceptions_py",
-      "community": 1,
+      "community": 0,
       "norm_label": "exceptions.py"
     },
     {
@@ -612,7 +612,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\exceptions.py",
       "source_location": "L11",
       "id": "exceptions_researchteamerror",
-      "community": 1,
+      "community": 0,
       "norm_label": "researchteamerror"
     },
     {
@@ -621,7 +621,7 @@
       "source_file": "",
       "source_location": "",
       "id": "exception",
-      "community": 1,
+      "community": 0,
       "norm_label": "exception"
     },
     {
@@ -639,7 +639,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\exceptions.py",
       "source_location": "L22",
       "id": "exceptions_dependencyerror",
-      "community": 1,
+      "community": 3,
       "norm_label": "dependencyerror"
     },
     {
@@ -648,7 +648,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\exceptions.py",
       "source_location": "L26",
       "id": "exceptions_workflowerror",
-      "community": 9,
+      "community": 3,
       "norm_label": "workflowerror"
     },
     {
@@ -657,7 +657,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\exceptions.py",
       "source_location": "L30",
       "id": "exceptions_ratelimitexceedederror",
-      "community": 9,
+      "community": 3,
       "norm_label": "ratelimitexceedederror"
     },
     {
@@ -665,54 +665,54 @@
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\exceptions.py",
       "source_location": "L1",
-      "id": "exceptions_rationale_1",
-      "community": 1,
-      "norm_label": "typed exception hierarchy for the multi-agent research team.  using a small, wel"
+      "community": 0,
+      "norm_label": "typed exception hierarchy for the multi-agent research team.  using a small, wel",
+      "id": "exceptions_rationale_1"
     },
     {
       "label": "Base class for all errors raised by this package.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\exceptions.py",
       "source_location": "L12",
-      "id": "exceptions_rationale_12",
-      "community": 1,
-      "norm_label": "base class for all errors raised by this package."
+      "community": 0,
+      "norm_label": "base class for all errors raised by this package.",
+      "id": "exceptions_rationale_12"
     },
     {
       "label": "Raised when configuration is missing or invalid.      Typically caused by absent",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\exceptions.py",
       "source_location": "L16",
-      "id": "exceptions_rationale_16",
       "community": 0,
-      "norm_label": "raised when configuration is missing or invalid.      typically caused by absent"
+      "norm_label": "raised when configuration is missing or invalid.      typically caused by absent",
+      "id": "exceptions_rationale_16"
     },
     {
       "label": "Raised when a required third-party dependency is not installed.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\exceptions.py",
       "source_location": "L23",
-      "id": "exceptions_rationale_23",
-      "community": 1,
-      "norm_label": "raised when a required third-party dependency is not installed."
+      "community": 3,
+      "norm_label": "raised when a required third-party dependency is not installed.",
+      "id": "exceptions_rationale_23"
     },
     {
       "label": "Raised when the research workflow fails to produce a result.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\exceptions.py",
       "source_location": "L27",
-      "id": "exceptions_rationale_27",
-      "community": 9,
-      "norm_label": "raised when the research workflow fails to produce a result."
+      "community": 3,
+      "norm_label": "raised when the research workflow fails to produce a result.",
+      "id": "exceptions_rationale_27"
     },
     {
       "label": "Raised when the upstream model provider rate-limits the request.      This is a",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\exceptions.py",
       "source_location": "L31",
-      "id": "exceptions_rationale_31",
-      "community": 9,
-      "norm_label": "raised when the upstream model provider rate-limits the request.      this is a"
+      "community": 3,
+      "norm_label": "raised when the upstream model provider rate-limits the request.      this is a",
+      "id": "exceptions_rationale_31"
     },
     {
       "label": "logging_config.py",
@@ -720,7 +720,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\logging_config.py",
       "source_location": "L1",
       "id": "d_projects_stuff_multi_agent_research_team_src_research_team_logging_config_py",
-      "community": 3,
+      "community": 1,
       "norm_label": "logging_config.py"
     },
     {
@@ -729,7 +729,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\logging_config.py",
       "source_location": "L18",
       "id": "logging_config_get_logger",
-      "community": 3,
+      "community": 1,
       "norm_label": "get_logger()"
     },
     {
@@ -738,7 +738,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\logging_config.py",
       "source_location": "L25",
       "id": "logging_config_normalize_level",
-      "community": 3,
+      "community": 1,
       "norm_label": "normalize_level()"
     },
     {
@@ -747,7 +747,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\logging_config.py",
       "source_location": "L35",
       "id": "logging_config_configure_logging",
-      "community": 3,
+      "community": 1,
       "norm_label": "configure_logging()"
     },
     {
@@ -755,36 +755,36 @@
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\logging_config.py",
       "source_location": "L1",
-      "id": "logging_config_rationale_1",
-      "community": 3,
-      "norm_label": "centralized logging configuration.  the package logs through the standard :mod:`"
+      "community": 1,
+      "norm_label": "centralized logging configuration.  the package logs through the standard :mod:`",
+      "id": "logging_config_rationale_1"
     },
     {
       "label": "Return a package logger, optionally namespaced by ``name``.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\logging_config.py",
       "source_location": "L19",
-      "id": "logging_config_rationale_19",
-      "community": 3,
-      "norm_label": "return a package logger, optionally namespaced by ``name``."
+      "community": 1,
+      "norm_label": "return a package logger, optionally namespaced by ``name``.",
+      "id": "logging_config_rationale_19"
     },
     {
       "label": "Coerce a level name or number to a :mod:`logging` level integer.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\logging_config.py",
       "source_location": "L26",
-      "id": "logging_config_rationale_26",
-      "community": 3,
-      "norm_label": "coerce a level name or number to a :mod:`logging` level integer."
+      "community": 1,
+      "norm_label": "coerce a level name or number to a :mod:`logging` level integer.",
+      "id": "logging_config_rationale_26"
     },
     {
       "label": "Configure the package logger once for CLI usage.      Parameters     ----------",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\logging_config.py",
       "source_location": "L36",
-      "id": "logging_config_rationale_36",
-      "community": 3,
-      "norm_label": "configure the package logger once for cli usage.      parameters     ----------"
+      "community": 1,
+      "norm_label": "configure the package logger once for cli usage.      parameters     ----------",
+      "id": "logging_config_rationale_36"
     },
     {
       "label": "tasks.py",
@@ -792,7 +792,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\tasks.py",
       "source_location": "L1",
       "id": "d_projects_stuff_multi_agent_research_team_src_research_team_tasks_py",
-      "community": 5,
+      "community": 6,
       "norm_label": "tasks.py"
     },
     {
@@ -801,7 +801,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\tasks.py",
       "source_location": "L17",
       "id": "tasks_research_task",
-      "community": 5,
+      "community": 6,
       "norm_label": "research_task()"
     },
     {
@@ -810,7 +810,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\tasks.py",
       "source_location": "L41",
       "id": "tasks_coding_task",
-      "community": 5,
+      "community": 6,
       "norm_label": "coding_task()"
     },
     {
@@ -819,7 +819,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\tasks.py",
       "source_location": "L65",
       "id": "tasks_manager_task",
-      "community": 5,
+      "community": 6,
       "norm_label": "manager_task()"
     },
     {
@@ -827,36 +827,36 @@
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\tasks.py",
       "source_location": "L1",
-      "id": "tasks_rationale_1",
-      "community": 5,
-      "norm_label": "task factory functions.  tasks describe *what* each agent must produce and *how*"
+      "community": 6,
+      "norm_label": "task factory functions.  tasks describe *what* each agent must produce and *how*",
+      "id": "tasks_rationale_1"
     },
     {
       "label": "Task A \u2014 web research producing a structured, sourced brief.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\tasks.py",
       "source_location": "L18",
-      "id": "tasks_rationale_18",
-      "community": 5,
-      "norm_label": "task a \u2014 web research producing a structured, sourced brief."
+      "community": 6,
+      "norm_label": "task a \u2014 web research producing a structured, sourced brief.",
+      "id": "tasks_rationale_18"
     },
     {
       "label": "Task B \u2014 practical code/analysis grounded in the research.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\tasks.py",
       "source_location": "L42",
-      "id": "tasks_rationale_42",
-      "community": 5,
-      "norm_label": "task b \u2014 practical code/analysis grounded in the research."
+      "community": 6,
+      "norm_label": "task b \u2014 practical code/analysis grounded in the research.",
+      "id": "tasks_rationale_42"
     },
     {
       "label": "Task C \u2014 the manager synthesizes everything into the final deliverable.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\tasks.py",
       "source_location": "L70",
-      "id": "tasks_rationale_70",
-      "community": 5,
-      "norm_label": "task c \u2014 the manager synthesizes everything into the final deliverable."
+      "community": 6,
+      "norm_label": "task c \u2014 the manager synthesizes everything into the final deliverable.",
+      "id": "tasks_rationale_70"
     },
     {
       "label": "__init__.py",
@@ -864,16 +864,16 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\__init__.py",
       "source_location": "L1",
       "id": "d_projects_stuff_multi_agent_research_team_src_research_team_init_py",
-      "community": 6,
+      "community": 4,
       "norm_label": "__init__.py"
     },
     {
       "label": "__getattr__()",
       "file_type": "code",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\__init__.py",
-      "source_location": "L29",
+      "source_location": "L42",
       "id": "init_getattr",
-      "community": 6,
+      "community": 4,
       "norm_label": "__getattr__()"
     },
     {
@@ -881,7 +881,7 @@
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\__init__.py",
       "source_location": "L1",
-      "community": 6,
+      "community": 4,
       "norm_label": "multi-agent research team package.",
       "id": "init_rationale_1"
     },
@@ -889,9 +889,9 @@
       "label": "Lazily expose the public API without importing heavy dependencies eagerly.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\__init__.py",
-      "source_location": "L30",
-      "id": "init_rationale_30",
-      "community": 6,
+      "source_location": "L43",
+      "id": "init_rationale_43",
+      "community": 4,
       "norm_label": "lazily expose the public api without importing heavy dependencies eagerly."
     },
     {
@@ -908,9 +908,9 @@
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\__main__.py",
       "source_location": "L1",
-      "id": "main_rationale_1",
       "community": 1,
-      "norm_label": "enable ``python -m research_team``."
+      "norm_label": "enable ``python -m research_team``.",
+      "id": "main_rationale_1"
     },
     {
       "label": "conftest.py",
@@ -918,7 +918,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\conftest.py",
       "source_location": "L1",
       "id": "d_projects_stuff_multi_agent_research_team_tests_conftest_py",
-      "community": 6,
+      "community": 4,
       "norm_label": "conftest.py"
     },
     {
@@ -927,7 +927,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\conftest.py",
       "source_location": "L17",
       "id": "conftest_base_config",
-      "community": 6,
+      "community": 4,
       "norm_label": "base_config()"
     },
     {
@@ -936,7 +936,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\conftest.py",
       "source_location": "L23",
       "id": "conftest_clean_env",
-      "community": 6,
+      "community": 4,
       "norm_label": "clean_env()"
     },
     {
@@ -944,27 +944,27 @@
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\conftest.py",
       "source_location": "L1",
-      "id": "conftest_rationale_1",
-      "community": 6,
-      "norm_label": "shared pytest fixtures.  tests are written to run *without* network access or re"
+      "community": 4,
+      "norm_label": "shared pytest fixtures.  tests are written to run *without* network access or re",
+      "id": "conftest_rationale_1"
     },
     {
       "label": "A minimal, valid configuration suitable for unit tests.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\conftest.py",
       "source_location": "L18",
-      "id": "conftest_rationale_18",
-      "community": 6,
-      "norm_label": "a minimal, valid configuration suitable for unit tests."
+      "community": 4,
+      "norm_label": "a minimal, valid configuration suitable for unit tests.",
+      "id": "conftest_rationale_18"
     },
     {
       "label": "Remove all recognized environment variables for deterministic parsing.",
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\conftest.py",
       "source_location": "L24",
-      "id": "conftest_rationale_24",
-      "community": 6,
-      "norm_label": "remove all recognized environment variables for deterministic parsing."
+      "community": 4,
+      "norm_label": "remove all recognized environment variables for deterministic parsing.",
+      "id": "conftest_rationale_24"
     },
     {
       "label": "test_agents_tasks.py",
@@ -972,7 +972,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_agents_tasks.py",
       "source_location": "L1",
       "id": "d_projects_stuff_multi_agent_research_team_tests_test_agents_tasks_py",
-      "community": 5,
+      "community": 6,
       "norm_label": "test_agents_tasks.py"
     },
     {
@@ -981,7 +981,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_agents_tasks.py",
       "source_location": "L21",
       "id": "test_agents_tasks_config",
-      "community": 5,
+      "community": 6,
       "norm_label": "config()"
     },
     {
@@ -990,7 +990,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_agents_tasks.py",
       "source_location": "L25",
       "id": "test_agents_tasks_bare_agent",
-      "community": 5,
+      "community": 6,
       "norm_label": "_bare_agent()"
     },
     {
@@ -999,7 +999,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_agents_tasks.py",
       "source_location": "L37",
       "id": "test_agents_tasks_test_research_task_embeds_topic",
-      "community": 5,
+      "community": 6,
       "norm_label": "test_research_task_embeds_topic()"
     },
     {
@@ -1008,7 +1008,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_agents_tasks.py",
       "source_location": "L44",
       "id": "test_agents_tasks_test_manager_task_wires_context",
-      "community": 5,
+      "community": 6,
       "norm_label": "test_manager_task_wires_context()"
     },
     {
@@ -1025,9 +1025,9 @@
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_agents_tasks.py",
       "source_location": "L1",
-      "id": "test_agents_tasks_rationale_1",
-      "community": 5,
-      "norm_label": "tests for agent and task factories.  these construct real crewai objects and are"
+      "community": 6,
+      "norm_label": "tests for agent and task factories.  these construct real crewai objects and are",
+      "id": "test_agents_tasks_rationale_1"
     },
     {
       "label": "test_cli.py",
@@ -1035,7 +1035,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L1",
       "id": "d_projects_stuff_multi_agent_research_team_tests_test_cli_py",
-      "community": 4,
+      "community": 5,
       "norm_label": "test_cli.py"
     },
     {
@@ -1044,7 +1044,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L12",
       "id": "test_cli_fake_result",
-      "community": 4,
+      "community": 5,
       "norm_label": "_fake_result()"
     },
     {
@@ -1053,7 +1053,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L23",
       "id": "test_cli_valid_env",
-      "community": 4,
+      "community": 5,
       "norm_label": "valid_env()"
     },
     {
@@ -1062,7 +1062,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L28",
       "id": "test_cli_test_version_exits_zero",
-      "community": 4,
+      "community": 5,
       "norm_label": "test_version_exits_zero()"
     },
     {
@@ -1071,7 +1071,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L34",
       "id": "test_cli_test_help_exits_zero",
-      "community": 4,
+      "community": 5,
       "norm_label": "test_help_exits_zero()"
     },
     {
@@ -1080,7 +1080,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L40",
       "id": "test_cli_test_missing_topic_errors",
-      "community": 4,
+      "community": 5,
       "norm_label": "test_missing_topic_errors()"
     },
     {
@@ -1089,7 +1089,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L46",
       "id": "test_cli_test_happy_path_returns_zero",
-      "community": 4,
+      "community": 5,
       "norm_label": "test_happy_path_returns_zero()"
     },
     {
@@ -1098,7 +1098,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L54",
       "id": "test_cli_test_output_file_is_written",
-      "community": 4,
+      "community": 5,
       "norm_label": "test_output_file_is_written()"
     },
     {
@@ -1107,7 +1107,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L67",
       "id": "test_cli_test_config_error_returns_config_exit_code",
-      "community": 4,
+      "community": 5,
       "norm_label": "test_config_error_returns_config_exit_code()"
     },
     {
@@ -1116,7 +1116,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L73",
       "id": "test_cli_test_workflow_error_returns_workflow_exit_code",
-      "community": 4,
+      "community": 5,
       "norm_label": "test_workflow_error_returns_workflow_exit_code()"
     },
     {
@@ -1125,7 +1125,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L81",
       "id": "test_cli_test_rate_limit_returns_workflow_exit_code",
-      "community": 4,
+      "community": 5,
       "norm_label": "test_rate_limit_returns_workflow_exit_code()"
     },
     {
@@ -1134,7 +1134,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L89",
       "id": "test_cli_test_cli_overrides_reach_config",
-      "community": 4,
+      "community": 5,
       "norm_label": "test_cli_overrides_reach_config()"
     },
     {
@@ -1142,9 +1142,9 @@
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L1",
-      "id": "test_cli_rationale_1",
-      "community": 4,
-      "norm_label": "tests for the command-line interface (argument parsing, exit codes, wiring)."
+      "community": 5,
+      "norm_label": "tests for the command-line interface (argument parsing, exit codes, wiring).",
+      "id": "test_cli_rationale_1"
     },
     {
       "label": "test_compat.py",
@@ -1152,7 +1152,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_compat.py",
       "source_location": "L1",
       "id": "d_projects_stuff_multi_agent_research_team_tests_test_compat_py",
-      "community": 3,
+      "community": 8,
       "norm_label": "test_compat.py"
     },
     {
@@ -1161,7 +1161,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_compat.py",
       "source_location": "L13",
       "id": "test_compat_dummy_groq_key",
-      "community": 3,
+      "community": 8,
       "norm_label": "_dummy_groq_key()"
     },
     {
@@ -1170,7 +1170,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_compat.py",
       "source_location": "L17",
       "id": "test_compat_test_shim_strips_cache_breakpoint_marker",
-      "community": 3,
+      "community": 8,
       "norm_label": "test_shim_strips_cache_breakpoint_marker()"
     },
     {
@@ -1179,7 +1179,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_compat.py",
       "source_location": "L35",
       "id": "test_compat_test_shim_is_idempotent",
-      "community": 3,
+      "community": 8,
       "norm_label": "test_shim_is_idempotent()"
     },
     {
@@ -1187,9 +1187,9 @@
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_compat.py",
       "source_location": "L1",
-      "id": "test_compat_rationale_1",
-      "community": 3,
-      "norm_label": "tests for third-party compatibility shims."
+      "community": 8,
+      "norm_label": "tests for third-party compatibility shims.",
+      "id": "test_compat_rationale_1"
     },
     {
       "label": "test_config.py",
@@ -1268,9 +1268,9 @@
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_config.py",
       "source_location": "L1",
-      "id": "test_config_rationale_1",
       "community": 0,
-      "norm_label": "tests for configuration parsing and validation."
+      "norm_label": "tests for configuration parsing and validation.",
+      "id": "test_config_rationale_1"
     },
     {
       "label": "test_crew.py",
@@ -1287,7 +1287,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L15",
       "id": "test_crew_fakeusage",
-      "community": 8,
+      "community": 9,
       "norm_label": "_fakeusage"
     },
     {
@@ -1296,7 +1296,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L16",
       "id": "test_crew_fakeusage_model_dump",
-      "community": 8,
+      "community": 9,
       "norm_label": ".model_dump()"
     },
     {
@@ -1305,7 +1305,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L20",
       "id": "test_crew_fakeoutput",
-      "community": 8,
+      "community": 9,
       "norm_label": "_fakeoutput"
     },
     {
@@ -1314,7 +1314,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L21",
       "id": "test_crew_fakeoutput_init",
-      "community": 8,
+      "community": 9,
       "norm_label": ".__init__()"
     },
     {
@@ -1323,7 +1323,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L29",
       "id": "test_crew_test_research_result_total_tokens",
-      "community": 11,
+      "community": 3,
       "norm_label": "test_research_result_total_tokens()"
     },
     {
@@ -1332,7 +1332,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L40",
       "id": "test_crew_test_research_result_total_tokens_missing",
-      "community": 11,
+      "community": 3,
       "norm_label": "test_research_result_total_tokens_missing()"
     },
     {
@@ -1341,7 +1341,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L48",
       "id": "test_crew_test_extract_report_prefers_raw",
-      "community": 8,
+      "community": 9,
       "norm_label": "test_extract_report_prefers_raw()"
     },
     {
@@ -1350,7 +1350,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L52",
       "id": "test_crew_test_extract_report_empty_raises",
-      "community": 9,
+      "community": 11,
       "norm_label": "test_extract_report_empty_raises()"
     },
     {
@@ -1359,7 +1359,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L63",
       "id": "test_crew_test_extract_token_usage_from_model_dump",
-      "community": 8,
+      "community": 9,
       "norm_label": "test_extract_token_usage_from_model_dump()"
     },
     {
@@ -1368,7 +1368,7 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L68",
       "id": "test_crew_test_extract_token_usage_none",
-      "community": 8,
+      "community": 9,
       "norm_label": "test_extract_token_usage_none()"
     },
     {
@@ -1430,9 +1430,36 @@
       "file_type": "rationale",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L1",
-      "id": "test_crew_rationale_1",
-      "community": 11,
-      "norm_label": "tests for workflow orchestration: retries, result extraction, error mapping.  th"
+      "community": 3,
+      "norm_label": "tests for workflow orchestration: retries, result extraction, error mapping.  th",
+      "id": "test_crew_rationale_1"
+    },
+    {
+      "label": "Parse ``argv`` and execute the workflow; return a process exit code.",
+      "file_type": "rationale",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L102",
+      "community": 3,
+      "norm_label": "parse ``argv`` and execute the workflow; return a process exit code.",
+      "id": "cli_rationale_102"
+    },
+    {
+      "label": "Entry point that also handles top-level, cross-cutting failures.",
+      "file_type": "rationale",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L161",
+      "community": 3,
+      "norm_label": "entry point that also handles top-level, cross-cutting failures.",
+      "id": "cli_rationale_161"
+    },
+    {
+      "label": "Lazily expose the public API without importing heavy dependencies eagerly.",
+      "file_type": "rationale",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\__init__.py",
+      "source_location": "L30",
+      "community": 4,
+      "norm_label": "lazily expose the public api without importing heavy dependencies eagerly.",
+      "id": "init_rationale_30"
     },
     {
       "label": "Task A: Web research.",
@@ -1686,8 +1713,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_agents_tasks.py",
       "source_location": "L55",
       "weight": 1.0,
-      "_src": "test_agents_tasks_test_agent_factories_disable_delegation",
-      "_tgt": "agents_coding_agent",
+      "_src": "agents_coding_agent",
+      "_tgt": "test_agents_tasks_test_agent_factories_disable_delegation",
       "source": "agents_coding_agent",
       "target": "test_agents_tasks_test_agent_factories_disable_delegation"
     },
@@ -1734,8 +1761,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_agents_tasks.py",
       "source_location": "L56",
       "weight": 1.0,
-      "_src": "test_agents_tasks_test_agent_factories_disable_delegation",
-      "_tgt": "agents_manager_agent",
+      "_src": "agents_manager_agent",
+      "_tgt": "test_agents_tasks_test_agent_factories_disable_delegation",
       "source": "agents_manager_agent",
       "target": "test_agents_tasks_test_agent_factories_disable_delegation"
     },
@@ -1747,9 +1774,9 @@
       "weight": 0.8,
       "_src": "agents_rationale_1",
       "_tgt": "config_appconfig",
+      "confidence_score": 0.5,
       "source": "agents_rationale_1",
-      "target": "config_appconfig",
-      "confidence_score": 0.5
+      "target": "config_appconfig"
     },
     {
       "relation": "uses",
@@ -1759,9 +1786,9 @@
       "weight": 0.8,
       "_src": "agents_rationale_25",
       "_tgt": "config_appconfig",
+      "confidence_score": 0.5,
       "source": "agents_rationale_25",
-      "target": "config_appconfig",
-      "confidence_score": 0.5
+      "target": "config_appconfig"
     },
     {
       "relation": "uses",
@@ -1771,9 +1798,9 @@
       "weight": 0.8,
       "_src": "agents_rationale_39",
       "_tgt": "config_appconfig",
+      "confidence_score": 0.5,
       "source": "agents_rationale_39",
-      "target": "config_appconfig",
-      "confidence_score": 0.5
+      "target": "config_appconfig"
     },
     {
       "relation": "uses",
@@ -1783,9 +1810,9 @@
       "weight": 0.8,
       "_src": "agents_rationale_62",
       "_tgt": "config_appconfig",
+      "confidence_score": 0.5,
       "source": "agents_rationale_62",
-      "target": "config_appconfig",
-      "confidence_score": 0.5
+      "target": "config_appconfig"
     },
     {
       "relation": "uses",
@@ -1795,15 +1822,15 @@
       "weight": 0.8,
       "_src": "agents_rationale_83",
       "_tgt": "config_appconfig",
+      "confidence_score": 0.5,
       "source": "agents_rationale_83",
-      "target": "config_appconfig",
-      "confidence_score": 0.5
+      "target": "config_appconfig"
     },
     {
       "relation": "imports_from",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L22",
+      "source_location": "L23",
       "weight": 1.0,
       "_src": "d_projects_stuff_multi_agent_research_team_src_research_team_cli_py",
       "_tgt": "d_projects_stuff_multi_agent_research_team_src_research_team_init_py",
@@ -1815,7 +1842,7 @@
       "relation": "imports_from",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 1.0,
       "_src": "d_projects_stuff_multi_agent_research_team_src_research_team_cli_py",
       "_tgt": "d_projects_stuff_multi_agent_research_team_src_research_team_exceptions_py",
@@ -1827,7 +1854,7 @@
       "relation": "imports_from",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L24",
+      "source_location": "L25",
       "weight": 1.0,
       "_src": "d_projects_stuff_multi_agent_research_team_src_research_team_cli_py",
       "_tgt": "d_projects_stuff_multi_agent_research_team_src_research_team_logging_config_py",
@@ -1836,10 +1863,22 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_src": "d_projects_stuff_multi_agent_research_team_src_research_team_cli_py",
+      "_tgt": "d_projects_stuff_multi_agent_research_team_src_research_team_crew_py",
+      "source": "d_projects_stuff_multi_agent_research_team_src_research_team_cli_py",
+      "target": "d_projects_stuff_multi_agent_research_team_src_research_team_crew_py",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L35",
+      "source_location": "L41",
       "weight": 1.0,
       "_src": "d_projects_stuff_multi_agent_research_team_src_research_team_cli_py",
       "_tgt": "cli_build_parser",
@@ -1851,7 +1890,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L93",
+      "source_location": "L99",
       "weight": 1.0,
       "_src": "d_projects_stuff_multi_agent_research_team_src_research_team_cli_py",
       "_tgt": "cli_resolve_log_level",
@@ -1863,7 +1902,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L101",
+      "source_location": "L107",
       "weight": 1.0,
       "_src": "d_projects_stuff_multi_agent_research_team_src_research_team_cli_py",
       "_tgt": "cli_run",
@@ -1875,7 +1914,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L160",
+      "source_location": "L166",
       "weight": 1.0,
       "_src": "d_projects_stuff_multi_agent_research_team_src_research_team_cli_py",
       "_tgt": "cli_main",
@@ -1887,7 +1926,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L175",
+      "source_location": "L181",
       "weight": 1.0,
       "_src": "d_projects_stuff_multi_agent_research_team_src_research_team_cli_py",
       "_tgt": "cli_get_console",
@@ -1899,7 +1938,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L184",
+      "source_location": "L190",
       "weight": 1.0,
       "_src": "d_projects_stuff_multi_agent_research_team_src_research_team_cli_py",
       "_tgt": "cli_print_error",
@@ -1911,7 +1950,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L194",
+      "source_location": "L200",
       "weight": 1.0,
       "_src": "d_projects_stuff_multi_agent_research_team_src_research_team_cli_py",
       "_tgt": "cli_save_report",
@@ -1923,7 +1962,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L201",
+      "source_location": "L207",
       "weight": 1.0,
       "_src": "d_projects_stuff_multi_agent_research_team_src_research_team_cli_py",
       "_tgt": "cli_render_report",
@@ -1959,7 +1998,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L103",
+      "source_location": "L109",
       "weight": 1.0,
       "_src": "cli_run",
       "_tgt": "cli_build_parser",
@@ -1971,7 +2010,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L106",
+      "source_location": "L112",
       "weight": 1.0,
       "_src": "cli_run",
       "_tgt": "cli_resolve_log_level",
@@ -1983,7 +2022,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L134",
+      "source_location": "L140",
       "weight": 1.0,
       "_src": "cli_run",
       "_tgt": "cli_print_error",
@@ -1995,7 +2034,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L137",
+      "source_location": "L143",
       "weight": 1.0,
       "_src": "cli_run",
       "_tgt": "cli_get_console",
@@ -2007,7 +2046,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L152",
+      "source_location": "L158",
       "weight": 1.0,
       "_src": "cli_run",
       "_tgt": "cli_save_report",
@@ -2019,7 +2058,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L156",
+      "source_location": "L162",
       "weight": 1.0,
       "_src": "cli_run",
       "_tgt": "cli_render_report",
@@ -2031,7 +2070,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L163",
+      "source_location": "L169",
       "weight": 1.0,
       "_src": "cli_main",
       "_tgt": "cli_run",
@@ -2043,12 +2082,12 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L102",
+      "source_location": "L108",
       "weight": 1.0,
-      "_src": "cli_rationale_102",
+      "_src": "cli_rationale_108",
       "_tgt": "cli_run",
       "source": "cli_run",
-      "target": "cli_rationale_102",
+      "target": "cli_rationale_108",
       "confidence_score": 1.0
     },
     {
@@ -2115,7 +2154,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L165",
+      "source_location": "L171",
       "weight": 1.0,
       "_src": "cli_main",
       "_tgt": "cli_print_error",
@@ -2127,12 +2166,12 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L161",
+      "source_location": "L167",
       "weight": 1.0,
-      "_src": "cli_rationale_161",
+      "_src": "cli_rationale_167",
       "_tgt": "cli_main",
       "source": "cli_main",
-      "target": "cli_rationale_161",
+      "target": "cli_rationale_167",
       "confidence_score": 1.0
     },
     {
@@ -2142,8 +2181,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L30",
       "weight": 1.0,
-      "_src": "test_cli_test_version_exits_zero",
-      "_tgt": "cli_main",
+      "_src": "cli_main",
+      "_tgt": "test_cli_test_version_exits_zero",
       "source": "cli_main",
       "target": "test_cli_test_version_exits_zero"
     },
@@ -2154,8 +2193,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L36",
       "weight": 1.0,
-      "_src": "test_cli_test_help_exits_zero",
-      "_tgt": "cli_main",
+      "_src": "cli_main",
+      "_tgt": "test_cli_test_help_exits_zero",
       "source": "cli_main",
       "target": "test_cli_test_help_exits_zero"
     },
@@ -2166,8 +2205,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L42",
       "weight": 1.0,
-      "_src": "test_cli_test_missing_topic_errors",
-      "_tgt": "cli_main",
+      "_src": "cli_main",
+      "_tgt": "test_cli_test_missing_topic_errors",
       "source": "cli_main",
       "target": "test_cli_test_missing_topic_errors"
     },
@@ -2178,8 +2217,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L51",
       "weight": 1.0,
-      "_src": "test_cli_test_happy_path_returns_zero",
-      "_tgt": "cli_main",
+      "_src": "cli_main",
+      "_tgt": "test_cli_test_happy_path_returns_zero",
       "source": "cli_main",
       "target": "test_cli_test_happy_path_returns_zero"
     },
@@ -2190,8 +2229,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L61",
       "weight": 1.0,
-      "_src": "test_cli_test_output_file_is_written",
-      "_tgt": "cli_main",
+      "_src": "cli_main",
+      "_tgt": "test_cli_test_output_file_is_written",
       "source": "cli_main",
       "target": "test_cli_test_output_file_is_written"
     },
@@ -2202,8 +2241,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L69",
       "weight": 1.0,
-      "_src": "test_cli_test_config_error_returns_config_exit_code",
-      "_tgt": "cli_main",
+      "_src": "cli_main",
+      "_tgt": "test_cli_test_config_error_returns_config_exit_code",
       "source": "cli_main",
       "target": "test_cli_test_config_error_returns_config_exit_code"
     },
@@ -2214,8 +2253,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L78",
       "weight": 1.0,
-      "_src": "test_cli_test_workflow_error_returns_workflow_exit_code",
-      "_tgt": "cli_main",
+      "_src": "cli_main",
+      "_tgt": "test_cli_test_workflow_error_returns_workflow_exit_code",
       "source": "cli_main",
       "target": "test_cli_test_workflow_error_returns_workflow_exit_code"
     },
@@ -2226,8 +2265,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L86",
       "weight": 1.0,
-      "_src": "test_cli_test_rate_limit_returns_workflow_exit_code",
-      "_tgt": "cli_main",
+      "_src": "cli_main",
+      "_tgt": "test_cli_test_rate_limit_returns_workflow_exit_code",
       "source": "cli_main",
       "target": "test_cli_test_rate_limit_returns_workflow_exit_code"
     },
@@ -2238,8 +2277,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L97",
       "weight": 1.0,
-      "_src": "test_cli_test_cli_overrides_reach_config",
-      "_tgt": "cli_main",
+      "_src": "cli_main",
+      "_tgt": "test_cli_test_cli_overrides_reach_config",
       "source": "cli_main",
       "target": "test_cli_test_cli_overrides_reach_config"
     },
@@ -2247,7 +2286,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L185",
+      "source_location": "L191",
       "weight": 1.0,
       "_src": "cli_print_error",
       "_tgt": "cli_get_console",
@@ -2263,9 +2302,9 @@
       "weight": 0.8,
       "_src": "cli_rationale_1",
       "_tgt": "exceptions_configerror",
+      "confidence_score": 0.5,
       "source": "cli_rationale_1",
-      "target": "exceptions_configerror",
-      "confidence_score": 0.5
+      "target": "exceptions_configerror"
     },
     {
       "relation": "uses",
@@ -2275,9 +2314,9 @@
       "weight": 0.8,
       "_src": "cli_rationale_1",
       "_tgt": "exceptions_dependencyerror",
+      "confidence_score": 0.5,
       "source": "cli_rationale_1",
-      "target": "exceptions_dependencyerror",
-      "confidence_score": 0.5
+      "target": "exceptions_dependencyerror"
     },
     {
       "relation": "uses",
@@ -2287,9 +2326,9 @@
       "weight": 0.8,
       "_src": "cli_rationale_1",
       "_tgt": "exceptions_ratelimitexceedederror",
+      "confidence_score": 0.5,
       "source": "cli_rationale_1",
-      "target": "exceptions_ratelimitexceedederror",
-      "confidence_score": 0.5
+      "target": "exceptions_ratelimitexceedederror"
     },
     {
       "relation": "uses",
@@ -2299,8 +2338,20 @@
       "weight": 0.8,
       "_src": "cli_rationale_1",
       "_tgt": "exceptions_workflowerror",
+      "confidence_score": 0.5,
       "source": "cli_rationale_1",
-      "target": "exceptions_workflowerror",
+      "target": "exceptions_workflowerror"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L30",
+      "weight": 0.8,
+      "_src": "cli_rationale_1",
+      "_tgt": "crew_researchresult",
+      "source": "cli_rationale_1",
+      "target": "crew_researchresult",
       "confidence_score": 0.5
     },
     {
@@ -2311,7 +2362,79 @@
       "weight": 0.8,
       "_src": "cli_rationale_1",
       "_tgt": "config_appconfig",
+      "confidence_score": 0.5,
       "source": "cli_rationale_1",
+      "target": "config_appconfig"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L24",
+      "weight": 0.8,
+      "_src": "cli_rationale_108",
+      "_tgt": "exceptions_configerror",
+      "source": "cli_rationale_108",
+      "target": "exceptions_configerror",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L24",
+      "weight": 0.8,
+      "_src": "cli_rationale_108",
+      "_tgt": "exceptions_dependencyerror",
+      "source": "cli_rationale_108",
+      "target": "exceptions_dependencyerror",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L24",
+      "weight": 0.8,
+      "_src": "cli_rationale_108",
+      "_tgt": "exceptions_ratelimitexceedederror",
+      "source": "cli_rationale_108",
+      "target": "exceptions_ratelimitexceedederror",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L24",
+      "weight": 0.8,
+      "_src": "cli_rationale_108",
+      "_tgt": "exceptions_workflowerror",
+      "source": "cli_rationale_108",
+      "target": "exceptions_workflowerror",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L30",
+      "weight": 0.8,
+      "_src": "cli_rationale_108",
+      "_tgt": "crew_researchresult",
+      "source": "cli_rationale_108",
+      "target": "crew_researchresult",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L121",
+      "weight": 0.8,
+      "_src": "cli_rationale_108",
+      "_tgt": "config_appconfig",
+      "source": "cli_rationale_108",
       "target": "config_appconfig",
       "confidence_score": 0.5
     },
@@ -2319,11 +2442,11 @@
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 0.8,
-      "_src": "cli_rationale_102",
+      "_src": "cli_rationale_167",
       "_tgt": "exceptions_configerror",
-      "source": "cli_rationale_102",
+      "source": "cli_rationale_167",
       "target": "exceptions_configerror",
       "confidence_score": 0.5
     },
@@ -2331,11 +2454,11 @@
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 0.8,
-      "_src": "cli_rationale_102",
+      "_src": "cli_rationale_167",
       "_tgt": "exceptions_dependencyerror",
-      "source": "cli_rationale_102",
+      "source": "cli_rationale_167",
       "target": "exceptions_dependencyerror",
       "confidence_score": 0.5
     },
@@ -2343,11 +2466,11 @@
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 0.8,
-      "_src": "cli_rationale_102",
+      "_src": "cli_rationale_167",
       "_tgt": "exceptions_ratelimitexceedederror",
-      "source": "cli_rationale_102",
+      "source": "cli_rationale_167",
       "target": "exceptions_ratelimitexceedederror",
       "confidence_score": 0.5
     },
@@ -2355,11 +2478,11 @@
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 0.8,
-      "_src": "cli_rationale_102",
+      "_src": "cli_rationale_167",
       "_tgt": "exceptions_workflowerror",
-      "source": "cli_rationale_102",
+      "source": "cli_rationale_167",
       "target": "exceptions_workflowerror",
       "confidence_score": 0.5
     },
@@ -2367,71 +2490,23 @@
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L115",
+      "source_location": "L30",
       "weight": 0.8,
-      "_src": "cli_rationale_102",
+      "_src": "cli_rationale_167",
+      "_tgt": "crew_researchresult",
+      "source": "cli_rationale_167",
+      "target": "crew_researchresult",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L121",
+      "weight": 0.8,
+      "_src": "cli_rationale_167",
       "_tgt": "config_appconfig",
-      "source": "cli_rationale_102",
-      "target": "config_appconfig",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "uses",
-      "confidence": "INFERRED",
-      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L23",
-      "weight": 0.8,
-      "_src": "cli_rationale_161",
-      "_tgt": "exceptions_configerror",
-      "source": "cli_rationale_161",
-      "target": "exceptions_configerror",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "uses",
-      "confidence": "INFERRED",
-      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L23",
-      "weight": 0.8,
-      "_src": "cli_rationale_161",
-      "_tgt": "exceptions_dependencyerror",
-      "source": "cli_rationale_161",
-      "target": "exceptions_dependencyerror",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "uses",
-      "confidence": "INFERRED",
-      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L23",
-      "weight": 0.8,
-      "_src": "cli_rationale_161",
-      "_tgt": "exceptions_ratelimitexceedederror",
-      "source": "cli_rationale_161",
-      "target": "exceptions_ratelimitexceedederror",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "uses",
-      "confidence": "INFERRED",
-      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L23",
-      "weight": 0.8,
-      "_src": "cli_rationale_161",
-      "_tgt": "exceptions_workflowerror",
-      "source": "cli_rationale_161",
-      "target": "exceptions_workflowerror",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "uses",
-      "confidence": "INFERRED",
-      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
-      "source_location": "L115",
-      "weight": 0.8,
-      "_src": "cli_rationale_161",
-      "_tgt": "config_appconfig",
-      "source": "cli_rationale_161",
+      "source": "cli_rationale_167",
       "target": "config_appconfig",
       "confidence_score": 0.5
     },
@@ -2490,8 +2565,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\config.py",
       "source_location": "L175",
       "weight": 1.0,
-      "_src": "config_build_llm",
-      "_tgt": "compat_patch_litellm_cache_breakpoint",
+      "_src": "compat_patch_litellm_cache_breakpoint",
+      "_tgt": "config_build_llm",
       "source": "compat_patch_litellm_cache_breakpoint",
       "target": "config_build_llm"
     },
@@ -2502,8 +2577,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_compat.py",
       "source_location": "L18",
       "weight": 1.0,
-      "_src": "test_compat_test_shim_strips_cache_breakpoint_marker",
-      "_tgt": "compat_patch_litellm_cache_breakpoint",
+      "_src": "compat_patch_litellm_cache_breakpoint",
+      "_tgt": "test_compat_test_shim_strips_cache_breakpoint_marker",
       "source": "compat_patch_litellm_cache_breakpoint",
       "target": "test_compat_test_shim_strips_cache_breakpoint_marker"
     },
@@ -2514,8 +2589,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_compat.py",
       "source_location": "L36",
       "weight": 1.0,
-      "_src": "test_compat_test_shim_is_idempotent",
-      "_tgt": "compat_patch_litellm_cache_breakpoint",
+      "_src": "compat_patch_litellm_cache_breakpoint",
+      "_tgt": "test_compat_test_shim_is_idempotent",
       "source": "compat_patch_litellm_cache_breakpoint",
       "target": "test_compat_test_shim_is_idempotent"
     },
@@ -2707,9 +2782,9 @@
       "weight": 0.8,
       "_src": "config_appconfig",
       "_tgt": "exceptions_configerror",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "exceptions_configerror",
-      "confidence_score": 0.5
+      "target": "exceptions_configerror"
     },
     {
       "relation": "uses",
@@ -2717,11 +2792,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L24",
       "weight": 0.8,
-      "_src": "crew_researchresult",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "crew_researchresult",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "crew_researchresult",
-      "confidence_score": 0.5
+      "target": "crew_researchresult"
     },
     {
       "relation": "uses",
@@ -2729,11 +2804,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L24",
       "weight": 0.8,
-      "_src": "crew_rationale_1",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "crew_rationale_1",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "crew_rationale_1",
-      "confidence_score": 0.5
+      "target": "crew_rationale_1"
     },
     {
       "relation": "uses",
@@ -2741,11 +2816,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L24",
       "weight": 0.8,
-      "_src": "crew_rationale_40",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "crew_rationale_40",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "crew_rationale_40",
-      "confidence_score": 0.5
+      "target": "crew_rationale_40"
     },
     {
       "relation": "uses",
@@ -2753,11 +2828,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L24",
       "weight": 0.8,
-      "_src": "crew_rationale_55",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "crew_rationale_55",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "crew_rationale_55",
-      "confidence_score": 0.5
+      "target": "crew_rationale_55"
     },
     {
       "relation": "uses",
@@ -2765,11 +2840,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L24",
       "weight": 0.8,
-      "_src": "crew_rationale_61",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "crew_rationale_61",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "crew_rationale_61",
-      "confidence_score": 0.5
+      "target": "crew_rationale_61"
     },
     {
       "relation": "uses",
@@ -2777,11 +2852,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L24",
       "weight": 0.8,
-      "_src": "crew_rationale_95",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "crew_rationale_95",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "crew_rationale_95",
-      "confidence_score": 0.5
+      "target": "crew_rationale_95"
     },
     {
       "relation": "uses",
@@ -2789,11 +2864,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L24",
       "weight": 0.8,
-      "_src": "crew_rationale_157",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "crew_rationale_157",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "crew_rationale_157",
-      "confidence_score": 0.5
+      "target": "crew_rationale_157"
     },
     {
       "relation": "uses",
@@ -2801,11 +2876,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L24",
       "weight": 0.8,
-      "_src": "crew_rationale_174",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "crew_rationale_174",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "crew_rationale_174",
-      "confidence_score": 0.5
+      "target": "crew_rationale_174"
     },
     {
       "relation": "uses",
@@ -2813,11 +2888,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L24",
       "weight": 0.8,
-      "_src": "crew_rationale_212",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "crew_rationale_212",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "crew_rationale_212",
-      "confidence_score": 0.5
+      "target": "crew_rationale_212"
     },
     {
       "relation": "uses",
@@ -2825,11 +2900,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L24",
       "weight": 0.8,
-      "_src": "crew_rationale_221",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "crew_rationale_221",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "crew_rationale_221",
-      "confidence_score": 0.5
+      "target": "crew_rationale_221"
     },
     {
       "relation": "uses",
@@ -2837,11 +2912,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L24",
       "weight": 0.8,
-      "_src": "crew_rationale_238",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "crew_rationale_238",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "crew_rationale_238",
-      "confidence_score": 0.5
+      "target": "crew_rationale_238"
     },
     {
       "relation": "uses",
@@ -2849,22 +2924,22 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\__init__.py",
       "source_location": "L39",
       "weight": 0.8,
-      "_src": "init_rationale_1",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "init_rationale_1",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "init_rationale_1",
-      "confidence_score": 0.5
+      "target": "init_rationale_1"
     },
     {
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\__init__.py",
-      "source_location": "L39",
+      "source_location": "L50",
       "weight": 0.8,
-      "_src": "init_rationale_30",
+      "_src": "init_rationale_43",
       "_tgt": "config_appconfig",
       "source": "config_appconfig",
-      "target": "init_rationale_30",
+      "target": "init_rationale_43",
       "confidence_score": 0.5
     },
     {
@@ -2873,11 +2948,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\conftest.py",
       "source_location": "L13",
       "weight": 0.8,
-      "_src": "conftest_rationale_1",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "conftest_rationale_1",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "conftest_rationale_1",
-      "confidence_score": 0.5
+      "target": "conftest_rationale_1"
     },
     {
       "relation": "uses",
@@ -2885,11 +2960,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\conftest.py",
       "source_location": "L13",
       "weight": 0.8,
-      "_src": "conftest_rationale_18",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "conftest_rationale_18",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "conftest_rationale_18",
-      "confidence_score": 0.5
+      "target": "conftest_rationale_18"
     },
     {
       "relation": "uses",
@@ -2897,11 +2972,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\conftest.py",
       "source_location": "L13",
       "weight": 0.8,
-      "_src": "conftest_rationale_24",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "conftest_rationale_24",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "conftest_rationale_24",
-      "confidence_score": 0.5
+      "target": "conftest_rationale_24"
     },
     {
       "relation": "uses",
@@ -2909,11 +2984,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_agents_tasks.py",
       "source_location": "L15",
       "weight": 0.8,
-      "_src": "test_agents_tasks_rationale_1",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "test_agents_tasks_rationale_1",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "test_agents_tasks_rationale_1",
-      "confidence_score": 0.5
+      "target": "test_agents_tasks_rationale_1"
     },
     {
       "relation": "uses",
@@ -2921,11 +2996,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_config.py",
       "source_location": "L7",
       "weight": 0.8,
-      "_src": "test_config_rationale_1",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "test_config_rationale_1",
+      "confidence_score": 0.5,
       "source": "config_appconfig",
-      "target": "test_config_rationale_1",
-      "confidence_score": 0.5
+      "target": "test_config_rationale_1"
     },
     {
       "relation": "calls",
@@ -2934,8 +3009,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\conftest.py",
       "source_location": "L19",
       "weight": 1.0,
-      "_src": "conftest_base_config",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "conftest_base_config",
       "source": "config_appconfig",
       "target": "conftest_base_config"
     },
@@ -2946,8 +3021,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_agents_tasks.py",
       "source_location": "L22",
       "weight": 1.0,
-      "_src": "test_agents_tasks_config",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "test_agents_tasks_config",
       "source": "config_appconfig",
       "target": "test_agents_tasks_config"
     },
@@ -2958,10 +3033,46 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_config.py",
       "source_location": "L78",
       "weight": 1.0,
-      "_src": "test_config_test_out_of_range_values_raise",
-      "_tgt": "config_appconfig",
+      "_src": "config_appconfig",
+      "_tgt": "test_config_test_out_of_range_values_raise",
       "source": "config_appconfig",
       "target": "test_config_test_out_of_range_values_raise"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L115",
+      "weight": 0.8,
+      "_src": "cli_rationale_102",
+      "_tgt": "config_appconfig",
+      "confidence_score": 0.5,
+      "source": "config_appconfig",
+      "target": "cli_rationale_102"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L115",
+      "weight": 0.8,
+      "_src": "cli_rationale_161",
+      "_tgt": "config_appconfig",
+      "confidence_score": 0.5,
+      "source": "config_appconfig",
+      "target": "cli_rationale_161"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\__init__.py",
+      "source_location": "L39",
+      "weight": 0.8,
+      "_src": "config_appconfig",
+      "_tgt": "init_rationale_30",
+      "confidence_score": 0.5,
+      "source": "config_appconfig",
+      "target": "init_rationale_30"
     },
     {
       "relation": "calls",
@@ -3006,8 +3117,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_config.py",
       "source_location": "L82",
       "weight": 1.0,
-      "_src": "test_config_test_with_overrides_ignores_none_and_applies_values",
-      "_tgt": "config_appconfig_with_overrides",
+      "_src": "config_appconfig_with_overrides",
+      "_tgt": "test_config_test_with_overrides_ignores_none_and_applies_values",
       "source": "config_appconfig_with_overrides",
       "target": "test_config_test_with_overrides_ignores_none_and_applies_values"
     },
@@ -3018,8 +3129,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_config.py",
       "source_location": "L91",
       "weight": 1.0,
-      "_src": "test_config_test_with_overrides_without_changes_returns_same_instance",
-      "_tgt": "config_appconfig_with_overrides",
+      "_src": "config_appconfig_with_overrides",
+      "_tgt": "test_config_test_with_overrides_without_changes_returns_same_instance",
       "source": "config_appconfig_with_overrides",
       "target": "test_config_test_with_overrides_without_changes_returns_same_instance"
     },
@@ -3078,8 +3189,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_config.py",
       "source_location": "L20",
       "weight": 1.0,
-      "_src": "test_config_test_from_env_uses_defaults_for_optional_values",
-      "_tgt": "config_from_env",
+      "_src": "config_from_env",
+      "_tgt": "test_config_test_from_env_uses_defaults_for_optional_values",
       "source": "config_from_env",
       "target": "test_config_test_from_env_uses_defaults_for_optional_values"
     },
@@ -3090,8 +3201,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_config.py",
       "source_location": "L39",
       "weight": 1.0,
-      "_src": "test_config_test_from_env_reads_overrides",
-      "_tgt": "config_from_env",
+      "_src": "config_from_env",
+      "_tgt": "test_config_test_from_env_reads_overrides",
       "source": "config_from_env",
       "target": "test_config_test_from_env_reads_overrides"
     },
@@ -3102,8 +3213,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_config.py",
       "source_location": "L49",
       "weight": 1.0,
-      "_src": "test_config_test_missing_api_keys_raise_config_error",
-      "_tgt": "config_from_env",
+      "_src": "config_from_env",
+      "_tgt": "test_config_test_missing_api_keys_raise_config_error",
       "source": "config_from_env",
       "target": "test_config_test_missing_api_keys_raise_config_error"
     },
@@ -3114,8 +3225,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_config.py",
       "source_location": "L61",
       "weight": 1.0,
-      "_src": "test_config_test_non_numeric_temperature_raises",
-      "_tgt": "config_from_env",
+      "_src": "config_from_env",
+      "_tgt": "test_config_test_non_numeric_temperature_raises",
       "source": "config_from_env",
       "target": "test_config_test_non_numeric_temperature_raises"
     },
@@ -3174,8 +3285,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L120",
       "weight": 1.0,
-      "_src": "crew_run_research_workflow",
-      "_tgt": "config_get_config",
+      "_src": "config_get_config",
+      "_tgt": "crew_run_research_workflow",
       "source": "config_get_config",
       "target": "crew_run_research_workflow"
     },
@@ -3198,8 +3309,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L71",
       "weight": 1.0,
-      "_src": "crew_build_crew",
-      "_tgt": "config_build_llm",
+      "_src": "config_build_llm",
+      "_tgt": "crew_build_crew",
       "source": "config_build_llm",
       "target": "crew_build_crew"
     },
@@ -3222,8 +3333,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\crew.py",
       "source_location": "L72",
       "weight": 1.0,
-      "_src": "crew_build_crew",
-      "_tgt": "config_build_web_search_tool",
+      "_src": "config_build_web_search_tool",
+      "_tgt": "crew_build_crew",
       "source": "config_build_web_search_tool",
       "target": "crew_build_crew"
     },
@@ -3235,9 +3346,9 @@
       "weight": 0.8,
       "_src": "config_rationale_1",
       "_tgt": "exceptions_configerror",
+      "confidence_score": 0.5,
       "source": "config_rationale_1",
-      "target": "exceptions_configerror",
-      "confidence_score": 0.5
+      "target": "exceptions_configerror"
     },
     {
       "relation": "uses",
@@ -3247,9 +3358,9 @@
       "weight": 0.8,
       "_src": "config_rationale_47",
       "_tgt": "exceptions_configerror",
+      "confidence_score": 0.5,
       "source": "config_rationale_47",
-      "target": "exceptions_configerror",
-      "confidence_score": 0.5
+      "target": "exceptions_configerror"
     },
     {
       "relation": "uses",
@@ -3259,9 +3370,9 @@
       "weight": 0.8,
       "_src": "config_rationale_90",
       "_tgt": "exceptions_configerror",
+      "confidence_score": 0.5,
       "source": "config_rationale_90",
-      "target": "exceptions_configerror",
-      "confidence_score": 0.5
+      "target": "exceptions_configerror"
     },
     {
       "relation": "uses",
@@ -3271,9 +3382,9 @@
       "weight": 0.8,
       "_src": "config_rationale_100",
       "_tgt": "exceptions_configerror",
+      "confidence_score": 0.5,
       "source": "config_rationale_100",
-      "target": "exceptions_configerror",
-      "confidence_score": 0.5
+      "target": "exceptions_configerror"
     },
     {
       "relation": "uses",
@@ -3283,9 +3394,9 @@
       "weight": 0.8,
       "_src": "config_rationale_160",
       "_tgt": "exceptions_configerror",
+      "confidence_score": 0.5,
       "source": "config_rationale_160",
-      "target": "exceptions_configerror",
-      "confidence_score": 0.5
+      "target": "exceptions_configerror"
     },
     {
       "relation": "uses",
@@ -3295,9 +3406,9 @@
       "weight": 0.8,
       "_src": "config_rationale_168",
       "_tgt": "exceptions_configerror",
+      "confidence_score": 0.5,
       "source": "config_rationale_168",
-      "target": "exceptions_configerror",
-      "confidence_score": 0.5
+      "target": "exceptions_configerror"
     },
     {
       "relation": "uses",
@@ -3307,9 +3418,9 @@
       "weight": 0.8,
       "_src": "config_rationale_188",
       "_tgt": "exceptions_configerror",
+      "confidence_score": 0.5,
       "source": "config_rationale_188",
-      "target": "exceptions_configerror",
-      "confidence_score": 0.5
+      "target": "exceptions_configerror"
     },
     {
       "relation": "imports_from",
@@ -3511,9 +3622,9 @@
       "weight": 0.8,
       "_src": "crew_researchresult",
       "_tgt": "exceptions_ratelimitexceedederror",
+      "confidence_score": 0.5,
       "source": "crew_researchresult",
-      "target": "exceptions_ratelimitexceedederror",
-      "confidence_score": 0.5
+      "target": "exceptions_ratelimitexceedederror"
     },
     {
       "relation": "uses",
@@ -3523,9 +3634,9 @@
       "weight": 0.8,
       "_src": "crew_researchresult",
       "_tgt": "exceptions_workflowerror",
+      "confidence_score": 0.5,
       "source": "crew_researchresult",
-      "target": "exceptions_workflowerror",
-      "confidence_score": 0.5
+      "target": "exceptions_workflowerror"
     },
     {
       "relation": "uses",
@@ -3533,11 +3644,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L8",
       "weight": 0.8,
-      "_src": "test_cli_rationale_1",
-      "_tgt": "crew_researchresult",
+      "_src": "crew_researchresult",
+      "_tgt": "test_cli_rationale_1",
+      "confidence_score": 0.5,
       "source": "crew_researchresult",
-      "target": "test_cli_rationale_1",
-      "confidence_score": 0.5
+      "target": "test_cli_rationale_1"
     },
     {
       "relation": "uses",
@@ -3545,11 +3656,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L11",
       "weight": 0.8,
-      "_src": "test_crew_fakeusage",
-      "_tgt": "crew_researchresult",
+      "_src": "crew_researchresult",
+      "_tgt": "test_crew_fakeusage",
+      "confidence_score": 0.5,
       "source": "crew_researchresult",
-      "target": "test_crew_fakeusage",
-      "confidence_score": 0.5
+      "target": "test_crew_fakeusage"
     },
     {
       "relation": "uses",
@@ -3557,11 +3668,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L11",
       "weight": 0.8,
-      "_src": "test_crew_fakeoutput",
-      "_tgt": "crew_researchresult",
+      "_src": "crew_researchresult",
+      "_tgt": "test_crew_fakeoutput",
+      "confidence_score": 0.5,
       "source": "crew_researchresult",
-      "target": "test_crew_fakeoutput",
-      "confidence_score": 0.5
+      "target": "test_crew_fakeoutput"
     },
     {
       "relation": "uses",
@@ -3569,11 +3680,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L11",
       "weight": 0.8,
-      "_src": "test_crew_rationale_1",
-      "_tgt": "crew_researchresult",
+      "_src": "crew_researchresult",
+      "_tgt": "test_crew_rationale_1",
+      "confidence_score": 0.5,
       "source": "crew_researchresult",
-      "target": "test_crew_rationale_1",
-      "confidence_score": 0.5
+      "target": "test_crew_rationale_1"
     },
     {
       "relation": "calls",
@@ -3582,8 +3693,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L13",
       "weight": 1.0,
-      "_src": "test_cli_fake_result",
-      "_tgt": "crew_researchresult",
+      "_src": "crew_researchresult",
+      "_tgt": "test_cli_fake_result",
       "source": "crew_researchresult",
       "target": "test_cli_fake_result"
     },
@@ -3594,8 +3705,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L30",
       "weight": 1.0,
-      "_src": "test_crew_test_research_result_total_tokens",
-      "_tgt": "crew_researchresult",
+      "_src": "crew_researchresult",
+      "_tgt": "test_crew_test_research_result_total_tokens",
       "source": "crew_researchresult",
       "target": "test_crew_test_research_result_total_tokens"
     },
@@ -3606,8 +3717,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L41",
       "weight": 1.0,
-      "_src": "test_crew_test_research_result_total_tokens_missing",
-      "_tgt": "crew_researchresult",
+      "_src": "crew_researchresult",
+      "_tgt": "test_crew_test_research_result_total_tokens_missing",
       "source": "crew_researchresult",
       "target": "test_crew_test_research_result_total_tokens_missing"
     },
@@ -3738,8 +3849,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L131",
       "weight": 1.0,
-      "_src": "test_crew_test_empty_topic_raises_value_error",
-      "_tgt": "crew_run_research_workflow",
+      "_src": "crew_run_research_workflow",
+      "_tgt": "test_crew_test_empty_topic_raises_value_error",
       "source": "crew_run_research_workflow",
       "target": "test_crew_test_empty_topic_raises_value_error"
     },
@@ -3750,8 +3861,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L142",
       "weight": 1.0,
-      "_src": "test_crew_test_run_workflow_happy_path",
-      "_tgt": "crew_run_research_workflow",
+      "_src": "crew_run_research_workflow",
+      "_tgt": "test_crew_test_run_workflow_happy_path",
       "source": "crew_run_research_workflow",
       "target": "test_crew_test_run_workflow_happy_path"
     },
@@ -3834,8 +3945,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L86",
       "weight": 1.0,
-      "_src": "test_crew_test_retry_succeeds_after_transient",
-      "_tgt": "crew_run_with_retries",
+      "_src": "crew_run_with_retries",
+      "_tgt": "test_crew_test_retry_succeeds_after_transient",
       "source": "crew_run_with_retries",
       "target": "test_crew_test_retry_succeeds_after_transient"
     },
@@ -3846,8 +3957,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L99",
       "weight": 1.0,
-      "_src": "test_crew_test_retry_exhausted_raises_workflow_error",
-      "_tgt": "crew_run_with_retries",
+      "_src": "crew_run_with_retries",
+      "_tgt": "test_crew_test_retry_exhausted_raises_workflow_error",
       "source": "crew_run_with_retries",
       "target": "test_crew_test_retry_exhausted_raises_workflow_error"
     },
@@ -3858,8 +3969,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L113",
       "weight": 1.0,
-      "_src": "test_crew_test_rate_limit_translated",
-      "_tgt": "crew_run_with_retries",
+      "_src": "crew_run_with_retries",
+      "_tgt": "test_crew_test_rate_limit_translated",
       "source": "crew_run_with_retries",
       "target": "test_crew_test_rate_limit_translated"
     },
@@ -3870,8 +3981,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L123",
       "weight": 1.0,
-      "_src": "test_crew_test_unexpected_error_wrapped",
-      "_tgt": "crew_run_with_retries",
+      "_src": "crew_run_with_retries",
+      "_tgt": "test_crew_test_unexpected_error_wrapped",
       "source": "crew_run_with_retries",
       "target": "test_crew_test_unexpected_error_wrapped"
     },
@@ -3906,8 +4017,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L49",
       "weight": 1.0,
-      "_src": "test_crew_test_extract_report_prefers_raw",
-      "_tgt": "crew_extract_report",
+      "_src": "crew_extract_report",
+      "_tgt": "test_crew_test_extract_report_prefers_raw",
       "source": "crew_extract_report",
       "target": "test_crew_test_extract_report_prefers_raw"
     },
@@ -3918,8 +4029,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L60",
       "weight": 1.0,
-      "_src": "test_crew_test_extract_report_empty_raises",
-      "_tgt": "crew_extract_report",
+      "_src": "crew_extract_report",
+      "_tgt": "test_crew_test_extract_report_empty_raises",
       "source": "crew_extract_report",
       "target": "test_crew_test_extract_report_empty_raises"
     },
@@ -3942,8 +4053,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L64",
       "weight": 1.0,
-      "_src": "test_crew_test_extract_token_usage_from_model_dump",
-      "_tgt": "crew_extract_token_usage",
+      "_src": "crew_extract_token_usage",
+      "_tgt": "test_crew_test_extract_token_usage_from_model_dump",
       "source": "crew_extract_token_usage",
       "target": "test_crew_test_extract_token_usage_from_model_dump"
     },
@@ -3954,8 +4065,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L69",
       "weight": 1.0,
-      "_src": "test_crew_test_extract_token_usage_none",
-      "_tgt": "crew_extract_token_usage",
+      "_src": "crew_extract_token_usage",
+      "_tgt": "test_crew_test_extract_token_usage_none",
       "source": "crew_extract_token_usage",
       "target": "test_crew_test_extract_token_usage_none"
     },
@@ -3979,9 +4090,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_1",
       "_tgt": "exceptions_ratelimitexceedederror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_1",
-      "target": "exceptions_ratelimitexceedederror",
-      "confidence_score": 0.5
+      "target": "exceptions_ratelimitexceedederror"
     },
     {
       "relation": "uses",
@@ -3991,9 +4102,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_1",
       "_tgt": "exceptions_workflowerror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_1",
-      "target": "exceptions_workflowerror",
-      "confidence_score": 0.5
+      "target": "exceptions_workflowerror"
     },
     {
       "relation": "uses",
@@ -4003,9 +4114,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_40",
       "_tgt": "exceptions_ratelimitexceedederror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_40",
-      "target": "exceptions_ratelimitexceedederror",
-      "confidence_score": 0.5
+      "target": "exceptions_ratelimitexceedederror"
     },
     {
       "relation": "uses",
@@ -4015,9 +4126,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_40",
       "_tgt": "exceptions_workflowerror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_40",
-      "target": "exceptions_workflowerror",
-      "confidence_score": 0.5
+      "target": "exceptions_workflowerror"
     },
     {
       "relation": "uses",
@@ -4027,9 +4138,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_55",
       "_tgt": "exceptions_ratelimitexceedederror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_55",
-      "target": "exceptions_ratelimitexceedederror",
-      "confidence_score": 0.5
+      "target": "exceptions_ratelimitexceedederror"
     },
     {
       "relation": "uses",
@@ -4039,9 +4150,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_55",
       "_tgt": "exceptions_workflowerror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_55",
-      "target": "exceptions_workflowerror",
-      "confidence_score": 0.5
+      "target": "exceptions_workflowerror"
     },
     {
       "relation": "uses",
@@ -4051,9 +4162,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_61",
       "_tgt": "exceptions_ratelimitexceedederror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_61",
-      "target": "exceptions_ratelimitexceedederror",
-      "confidence_score": 0.5
+      "target": "exceptions_ratelimitexceedederror"
     },
     {
       "relation": "uses",
@@ -4063,9 +4174,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_61",
       "_tgt": "exceptions_workflowerror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_61",
-      "target": "exceptions_workflowerror",
-      "confidence_score": 0.5
+      "target": "exceptions_workflowerror"
     },
     {
       "relation": "uses",
@@ -4075,9 +4186,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_95",
       "_tgt": "exceptions_ratelimitexceedederror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_95",
-      "target": "exceptions_ratelimitexceedederror",
-      "confidence_score": 0.5
+      "target": "exceptions_ratelimitexceedederror"
     },
     {
       "relation": "uses",
@@ -4087,9 +4198,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_95",
       "_tgt": "exceptions_workflowerror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_95",
-      "target": "exceptions_workflowerror",
-      "confidence_score": 0.5
+      "target": "exceptions_workflowerror"
     },
     {
       "relation": "uses",
@@ -4099,9 +4210,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_157",
       "_tgt": "exceptions_ratelimitexceedederror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_157",
-      "target": "exceptions_ratelimitexceedederror",
-      "confidence_score": 0.5
+      "target": "exceptions_ratelimitexceedederror"
     },
     {
       "relation": "uses",
@@ -4111,9 +4222,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_157",
       "_tgt": "exceptions_workflowerror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_157",
-      "target": "exceptions_workflowerror",
-      "confidence_score": 0.5
+      "target": "exceptions_workflowerror"
     },
     {
       "relation": "uses",
@@ -4123,9 +4234,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_174",
       "_tgt": "exceptions_ratelimitexceedederror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_174",
-      "target": "exceptions_ratelimitexceedederror",
-      "confidence_score": 0.5
+      "target": "exceptions_ratelimitexceedederror"
     },
     {
       "relation": "uses",
@@ -4135,9 +4246,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_174",
       "_tgt": "exceptions_workflowerror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_174",
-      "target": "exceptions_workflowerror",
-      "confidence_score": 0.5
+      "target": "exceptions_workflowerror"
     },
     {
       "relation": "uses",
@@ -4147,9 +4258,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_212",
       "_tgt": "exceptions_ratelimitexceedederror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_212",
-      "target": "exceptions_ratelimitexceedederror",
-      "confidence_score": 0.5
+      "target": "exceptions_ratelimitexceedederror"
     },
     {
       "relation": "uses",
@@ -4159,9 +4270,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_212",
       "_tgt": "exceptions_workflowerror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_212",
-      "target": "exceptions_workflowerror",
-      "confidence_score": 0.5
+      "target": "exceptions_workflowerror"
     },
     {
       "relation": "uses",
@@ -4171,9 +4282,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_221",
       "_tgt": "exceptions_ratelimitexceedederror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_221",
-      "target": "exceptions_ratelimitexceedederror",
-      "confidence_score": 0.5
+      "target": "exceptions_ratelimitexceedederror"
     },
     {
       "relation": "uses",
@@ -4183,9 +4294,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_221",
       "_tgt": "exceptions_workflowerror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_221",
-      "target": "exceptions_workflowerror",
-      "confidence_score": 0.5
+      "target": "exceptions_workflowerror"
     },
     {
       "relation": "uses",
@@ -4195,9 +4306,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_238",
       "_tgt": "exceptions_ratelimitexceedederror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_238",
-      "target": "exceptions_ratelimitexceedederror",
-      "confidence_score": 0.5
+      "target": "exceptions_ratelimitexceedederror"
     },
     {
       "relation": "uses",
@@ -4207,9 +4318,9 @@
       "weight": 0.8,
       "_src": "crew_rationale_238",
       "_tgt": "exceptions_workflowerror",
+      "confidence_score": 0.5,
       "source": "crew_rationale_238",
-      "target": "exceptions_workflowerror",
-      "confidence_score": 0.5
+      "target": "exceptions_workflowerror"
     },
     {
       "relation": "contains",
@@ -4361,11 +4472,35 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_config.py",
       "source_location": "L13",
       "weight": 0.8,
-      "_src": "test_config_rationale_1",
-      "_tgt": "exceptions_configerror",
+      "_src": "exceptions_configerror",
+      "_tgt": "test_config_rationale_1",
+      "confidence_score": 0.5,
       "source": "exceptions_configerror",
-      "target": "test_config_rationale_1",
-      "confidence_score": 0.5
+      "target": "test_config_rationale_1"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L23",
+      "weight": 0.8,
+      "_src": "cli_rationale_102",
+      "_tgt": "exceptions_configerror",
+      "confidence_score": 0.5,
+      "source": "exceptions_configerror",
+      "target": "cli_rationale_102"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L23",
+      "weight": 0.8,
+      "_src": "cli_rationale_161",
+      "_tgt": "exceptions_configerror",
+      "confidence_score": 0.5,
+      "source": "exceptions_configerror",
+      "target": "cli_rationale_161"
     },
     {
       "relation": "rationale_for",
@@ -4378,6 +4513,30 @@
       "source": "exceptions_dependencyerror",
       "target": "exceptions_rationale_23",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L23",
+      "weight": 0.8,
+      "_src": "cli_rationale_102",
+      "_tgt": "exceptions_dependencyerror",
+      "confidence_score": 0.5,
+      "source": "exceptions_dependencyerror",
+      "target": "cli_rationale_102"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L23",
+      "weight": 0.8,
+      "_src": "cli_rationale_161",
+      "_tgt": "exceptions_dependencyerror",
+      "confidence_score": 0.5,
+      "source": "exceptions_dependencyerror",
+      "target": "cli_rationale_161"
     },
     {
       "relation": "inherits",
@@ -4409,11 +4568,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L9",
       "weight": 0.8,
-      "_src": "test_cli_rationale_1",
-      "_tgt": "exceptions_workflowerror",
+      "_src": "exceptions_workflowerror",
+      "_tgt": "test_cli_rationale_1",
+      "confidence_score": 0.5,
       "source": "exceptions_workflowerror",
-      "target": "test_cli_rationale_1",
-      "confidence_score": 0.5
+      "target": "test_cli_rationale_1"
     },
     {
       "relation": "uses",
@@ -4421,11 +4580,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L12",
       "weight": 0.8,
-      "_src": "test_crew_fakeusage",
-      "_tgt": "exceptions_workflowerror",
+      "_src": "exceptions_workflowerror",
+      "_tgt": "test_crew_fakeusage",
+      "confidence_score": 0.5,
       "source": "exceptions_workflowerror",
-      "target": "test_crew_fakeusage",
-      "confidence_score": 0.5
+      "target": "test_crew_fakeusage"
     },
     {
       "relation": "uses",
@@ -4433,11 +4592,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L12",
       "weight": 0.8,
-      "_src": "test_crew_fakeoutput",
-      "_tgt": "exceptions_workflowerror",
+      "_src": "exceptions_workflowerror",
+      "_tgt": "test_crew_fakeoutput",
+      "confidence_score": 0.5,
       "source": "exceptions_workflowerror",
-      "target": "test_crew_fakeoutput",
-      "confidence_score": 0.5
+      "target": "test_crew_fakeoutput"
     },
     {
       "relation": "uses",
@@ -4445,11 +4604,35 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L12",
       "weight": 0.8,
-      "_src": "test_crew_rationale_1",
-      "_tgt": "exceptions_workflowerror",
+      "_src": "exceptions_workflowerror",
+      "_tgt": "test_crew_rationale_1",
+      "confidence_score": 0.5,
       "source": "exceptions_workflowerror",
-      "target": "test_crew_rationale_1",
-      "confidence_score": 0.5
+      "target": "test_crew_rationale_1"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L23",
+      "weight": 0.8,
+      "_src": "cli_rationale_102",
+      "_tgt": "exceptions_workflowerror",
+      "confidence_score": 0.5,
+      "source": "exceptions_workflowerror",
+      "target": "cli_rationale_102"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L23",
+      "weight": 0.8,
+      "_src": "cli_rationale_161",
+      "_tgt": "exceptions_workflowerror",
+      "confidence_score": 0.5,
+      "source": "exceptions_workflowerror",
+      "target": "cli_rationale_161"
     },
     {
       "relation": "rationale_for",
@@ -4469,11 +4652,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_cli.py",
       "source_location": "L9",
       "weight": 0.8,
-      "_src": "test_cli_rationale_1",
-      "_tgt": "exceptions_ratelimitexceedederror",
+      "_src": "exceptions_ratelimitexceedederror",
+      "_tgt": "test_cli_rationale_1",
+      "confidence_score": 0.5,
       "source": "exceptions_ratelimitexceedederror",
-      "target": "test_cli_rationale_1",
-      "confidence_score": 0.5
+      "target": "test_cli_rationale_1"
     },
     {
       "relation": "uses",
@@ -4481,11 +4664,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L12",
       "weight": 0.8,
-      "_src": "test_crew_fakeusage",
-      "_tgt": "exceptions_ratelimitexceedederror",
+      "_src": "exceptions_ratelimitexceedederror",
+      "_tgt": "test_crew_fakeusage",
+      "confidence_score": 0.5,
       "source": "exceptions_ratelimitexceedederror",
-      "target": "test_crew_fakeusage",
-      "confidence_score": 0.5
+      "target": "test_crew_fakeusage"
     },
     {
       "relation": "uses",
@@ -4493,11 +4676,11 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L12",
       "weight": 0.8,
-      "_src": "test_crew_fakeoutput",
-      "_tgt": "exceptions_ratelimitexceedederror",
+      "_src": "exceptions_ratelimitexceedederror",
+      "_tgt": "test_crew_fakeoutput",
+      "confidence_score": 0.5,
       "source": "exceptions_ratelimitexceedederror",
-      "target": "test_crew_fakeoutput",
-      "confidence_score": 0.5
+      "target": "test_crew_fakeoutput"
     },
     {
       "relation": "uses",
@@ -4505,11 +4688,35 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_crew.py",
       "source_location": "L12",
       "weight": 0.8,
-      "_src": "test_crew_rationale_1",
-      "_tgt": "exceptions_ratelimitexceedederror",
+      "_src": "exceptions_ratelimitexceedederror",
+      "_tgt": "test_crew_rationale_1",
+      "confidence_score": 0.5,
       "source": "exceptions_ratelimitexceedederror",
-      "target": "test_crew_rationale_1",
-      "confidence_score": 0.5
+      "target": "test_crew_rationale_1"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L23",
+      "weight": 0.8,
+      "_src": "cli_rationale_102",
+      "_tgt": "exceptions_ratelimitexceedederror",
+      "confidence_score": 0.5,
+      "source": "exceptions_ratelimitexceedederror",
+      "target": "cli_rationale_102"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\cli.py",
+      "source_location": "L23",
+      "weight": 0.8,
+      "_src": "cli_rationale_161",
+      "_tgt": "exceptions_ratelimitexceedederror",
+      "confidence_score": 0.5,
+      "source": "exceptions_ratelimitexceedederror",
+      "target": "cli_rationale_161"
     },
     {
       "relation": "contains",
@@ -4686,8 +4893,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_agents_tasks.py",
       "source_location": "L38",
       "weight": 1.0,
-      "_src": "test_agents_tasks_test_research_task_embeds_topic",
-      "_tgt": "tasks_research_task",
+      "_src": "tasks_research_task",
+      "_tgt": "test_agents_tasks_test_research_task_embeds_topic",
       "source": "tasks_research_task",
       "target": "test_agents_tasks_test_research_task_embeds_topic"
     },
@@ -4698,8 +4905,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_agents_tasks.py",
       "source_location": "L46",
       "weight": 1.0,
-      "_src": "test_agents_tasks_test_manager_task_wires_context",
-      "_tgt": "tasks_research_task",
+      "_src": "tasks_research_task",
+      "_tgt": "test_agents_tasks_test_manager_task_wires_context",
       "source": "tasks_research_task",
       "target": "test_agents_tasks_test_manager_task_wires_context"
     },
@@ -4722,8 +4929,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_agents_tasks.py",
       "source_location": "L47",
       "weight": 1.0,
-      "_src": "test_agents_tasks_test_manager_task_wires_context",
-      "_tgt": "tasks_coding_task",
+      "_src": "tasks_coding_task",
+      "_tgt": "test_agents_tasks_test_manager_task_wires_context",
       "source": "tasks_coding_task",
       "target": "test_agents_tasks_test_manager_task_wires_context"
     },
@@ -4746,8 +4953,8 @@
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\tests\\test_agents_tasks.py",
       "source_location": "L48",
       "weight": 1.0,
-      "_src": "test_agents_tasks_test_manager_task_wires_context",
-      "_tgt": "tasks_manager_task",
+      "_src": "tasks_manager_task",
+      "_tgt": "test_agents_tasks_test_manager_task_wires_context",
       "source": "tasks_manager_task",
       "target": "test_agents_tasks_test_manager_task_wires_context"
     },
@@ -4755,7 +4962,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\__init__.py",
-      "source_location": "L29",
+      "source_location": "L42",
       "weight": 1.0,
       "_src": "d_projects_stuff_multi_agent_research_team_src_research_team_init_py",
       "_tgt": "init_getattr",
@@ -4779,12 +4986,12 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "D:\\Projects & Stuff\\multi-agent-research-team\\src\\research_team\\__init__.py",
-      "source_location": "L30",
+      "source_location": "L43",
       "weight": 1.0,
-      "_src": "init_rationale_30",
+      "_src": "init_rationale_43",
       "_tgt": "init_getattr",
       "source": "init_getattr",
-      "target": "init_rationale_30",
+      "target": "init_rationale_43",
       "confidence_score": 1.0
     },
     {
