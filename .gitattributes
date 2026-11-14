@@ -8,3 +8,6 @@
 *.gif binary
 *.ico binary
 *.pdf binary
+
+# Generated knowledge-graph output: keep it out of GitHub language statistics.
+graphify-out/** linguist-generated
