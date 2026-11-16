@@ -86,7 +86,8 @@ test("full journey: landing → live agents → report, sources, copy and downlo
   await page.getByRole("link", { name: "New research" }).first().click();
   await expect(page).toHaveURL(/\/research$/);
   const history = page.getByRole("region", { name: /Your recent research/ });
-  await history.getByRole("link", { name: new RegExp(topic.replace(/[()]/g, "\\$&")) }).click();
+  // Plain-text match: no hand-built RegExp from user-provided text.
+  await history.getByRole("link", { name: topic }).click();
   await expect(page).toHaveURL(jobUrl);
   await expect(page.getByRole("article", { name: "Report" })).toBeVisible();
 

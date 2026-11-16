@@ -36,6 +36,14 @@ Every fix below was found by exercising that deployment.
   `groq:openai/gpt-oss-20b`), a free fallback because free-tier token limits
   are per model.
 
+### Security
+
+- Pin the frontend toolchain's `minimatch` to the patched 11.x line
+  (GHSA-g3hv-75wg-m249, development-only); `npm audit` now reports no
+  vulnerabilities in any dependency.
+- Resolve a CodeQL finding in the end-to-end tests by matching a link by plain
+  text instead of a hand-escaped regular expression.
+
 ## [2.0.0] - 2026-11-15
 
 The CLI becomes a public, open-source web research platform. The CLI remains a
