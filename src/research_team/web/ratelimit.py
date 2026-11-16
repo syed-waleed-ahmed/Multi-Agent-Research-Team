@@ -16,25 +16,56 @@ Client IPs are never stored: they are reduced to a salted SHA-256 digest.
 from __future__ import annotations
 
 import hashlib
+import ipaddress
 import math
 import threading
 import time
 from collections import deque
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping, Sequence
 
 
-def client_ip(peer: str | None, forwarded_for: str | None, trusted_hops: int) -> str:
-    """Resolve the real client IP.
+def _valid_ip(value: str | None) -> str | None:
+    """Return ``value`` if it is a literal IPv4/IPv6 address, else ``None``."""
+    if not value:
+        return None
+    candidate = value.strip()
+    try:
+        ipaddress.ip_address(candidate)
+    except ValueError:
+        return None
+    return candidate
 
-    ``X-Forwarded-For`` is only honoured when ``trusted_hops`` > 0 (i.e. the
-    operator declared how many reverse proxies sit in front of the app). The
-    entry appended by the outermost trusted proxy is used, so a client cannot
-    spoof its address by sending its own header.
+
+def client_ip(
+    peer: str | None,
+    get_header: Callable[[str], str | None],
+    *,
+    trusted_hops: int = 0,
+    ip_headers: Sequence[str] = (),
+) -> str:
+    """Resolve the real client IP, in order of trust.
+
+    1. ``ip_headers`` — single-value headers that a trusted edge proxy sets and
+       *overwrites* on every request (e.g. Cloudflare's ``CF-Connecting-IP``;
+       Render runs behind Cloudflare). Only configure headers your edge
+       guarantees to overwrite, otherwise clients could spoof them.
+    2. ``X-Forwarded-For`` with ``trusted_hops`` > 0: the entry appended by the
+       outermost trusted proxy (never the client-controlled left-most entry).
+    3. The socket peer address.
+
+    Header values must parse as IP addresses; anything else is ignored.
     """
+    for name in ip_headers:
+        value = _valid_ip(get_header(name))
+        if value is not None:
+            return value
+    forwarded_for = get_header("x-forwarded-for")
     if trusted_hops > 0 and forwarded_for:
         chain = [part.strip() for part in forwarded_for.split(",") if part.strip()]
         if len(chain) >= trusted_hops:
-            return chain[-trusted_hops]
+            value = _valid_ip(chain[-trusted_hops])
+            if value is not None:
+                return value
     return peer or "unknown"
 
 

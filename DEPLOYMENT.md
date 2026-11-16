@@ -82,13 +82,19 @@ most often that the configured `GROQ_MODEL` is not served by Groq any more.
 
 ### Client IP behind Render's proxy
 
-Per-IP quotas use the `X-Forwarded-For` entry added by the proxy in front of the
-app. The blueprint sets `TRUSTED_PROXY_HOPS=1`. **Verify after deploying:**
-open `GET $APP/api/v1/usage` from two different networks (e.g. Wi-Fi and a
-phone hotspot) after starting a run on one of them — `jobs_today` must differ.
-If both networks share one counter, Render added more than one proxy hop:
-increase `TRUSTED_PROXY_HOPS` by one. Never set it higher than the number of
-proxies you actually have, or clients could spoof their IP.
+Per-visitor quotas need the real client IP. Render runs behind Cloudflare, and
+on the live deployment the last `X-Forwarded-For` hop was an internal Render
+proxy address that **changed between requests** (so quotas keyed on it did not
+work), while the left-most entry is whatever the client sent. The blueprint
+therefore sets `CLIENT_IP_HEADERS=CF-Connecting-IP` — a header Cloudflare
+overwrites on every request — with `TRUSTED_PROXY_HOPS=1` only as a fallback.
+`True-Client-IP` is deliberately not trusted: Cloudflare only sets it when a
+zone enables it, and otherwise a client could supply its own.
+
+**Verify after deploying:** start one run, then `GET $APP/api/v1/usage` a few
+times; `jobs_today` must stay at 1. Sending a forged `CF-Connecting-IP` header
+must not change the count (Cloudflare replaces it). On other hosts, configure
+only headers your own edge proxy guarantees to overwrite.
 
 ## 4. Run the container anywhere (local or another host)
 

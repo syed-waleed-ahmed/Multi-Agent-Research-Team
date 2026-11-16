@@ -82,6 +82,8 @@ def _insert(db: Database, job_id: str, status: str, *, expires_in_days: float = 
             expires_at=repo.utcnow() + timedelta(days=expires_in_days),
         )
         job.status = status
+        if status == "running":
+            job.stages = [{**job.stages[0], "status": "running"}, *job.stages[1:]]
         repo.add_event(session, job_id, "queued", None, "queued", {})
 
 
@@ -98,6 +100,12 @@ def test_restart_recovery_fails_running_and_resumes_queued(tmp_path):
         interrupted = client.get(f"/api/v1/research/{'1' * 32}/status").json()
         assert interrupted["status"] == "failed"
         assert interrupted["error"]["code"] == "interrupted"
+        # No stage may still look "running" on a job that has ended.
+        assert [stage["status"] for stage in interrupted["stages"]] == [
+            "failed",
+            "pending",
+            "pending",
+        ]
         resumed = wait_for_status(client, "2" * 32, {"succeeded"})
         assert resumed["result_available"] is True
     assert [call["topic"] for call in runner.calls] == ["recovery topic"]
@@ -162,11 +170,51 @@ def test_concurrency_limiter():
         ("10.0.0.1", "6.6.6.6, 1.1.1.1", 1, "1.1.1.1"),  # spoofed left-most entry ignored
         ("10.0.0.1", "1.1.1.1, 2.2.2.2", 2, "1.1.1.1"),
         ("10.0.0.1", "1.1.1.1", 2, "10.0.0.1"),  # chain shorter than declared hops
+        ("10.0.0.1", "not-an-ip", 1, "10.0.0.1"),  # garbage is ignored
         (None, None, 0, "unknown"),
     ],
 )
 def test_client_ip_resolution(peer, xff, hops, expected):
-    assert client_ip(peer, xff, hops) == expected
+    headers = {"x-forwarded-for": xff} if xff else {}
+    assert client_ip(peer, headers.get, trusted_hops=hops) == expected
+
+
+def test_trusted_edge_header_wins_and_is_validated():
+    headers = {
+        "true-client-ip": "203.0.113.7",
+        "cf-connecting-ip": "198.51.100.1",
+        "x-forwarded-for": "6.6.6.6, 10.1.1.1",
+    }
+    edge = ("true-client-ip", "cf-connecting-ip")
+    assert client_ip("10.0.0.1", headers.get, trusted_hops=1, ip_headers=edge) == "203.0.113.7"
+    # The first configured header that holds a valid IP wins.
+    headers["true-client-ip"] = "garbage"
+    assert client_ip("10.0.0.1", headers.get, trusted_hops=1, ip_headers=edge) == "198.51.100.1"
+    # IPv6 is supported; unconfigured headers are never trusted.
+    assert (
+        client_ip(None, {"cf-connecting-ip": "2001:db8::1"}.get, ip_headers=edge) == "2001:db8::1"
+    )
+    assert client_ip("10.0.0.1", {"cf-connecting-ip": "1.2.3.4"}.get) == "10.0.0.1"
+
+
+def test_quota_follows_edge_header_not_changing_proxy_ips():
+    """Behind Cloudflare/Render the last XFF hop changes per request; quotas must not."""
+    with TestClient(
+        make_app(client_ip_headers=("cf-connecting-ip",), trusted_proxy_hops=1)
+    ) as client:
+        visitor = {"CF-Connecting-IP": "203.0.113.9"}
+        created = client.post(
+            "/api/v1/research",
+            json={"topic": "edge header topic"},
+            headers={**visitor, "X-Forwarded-For": "203.0.113.9, 10.0.0.1"},
+        )
+        assert created.status_code == 202
+        usage = client.get(
+            "/api/v1/usage", headers={**visitor, "X-Forwarded-For": "203.0.113.9, 10.0.0.99"}
+        ).json()
+        assert usage["jobs_today"] == 1
+        other = client.get("/api/v1/usage", headers={"CF-Connecting-IP": "198.51.100.5"}).json()
+        assert other["jobs_today"] == 0
 
 
 def test_client_hash_is_salted_and_not_reversible():
@@ -185,6 +233,7 @@ def test_client_hash_is_salted_and_not_reversible():
         {"cors_origins": ("*",)},
         {"trusted_proxy_hops": -1},
         {"database_url": " "},
+        {"client_ip_headers": ("bad header!",)},
     ],
 )
 def test_invalid_web_settings_raise(overrides):
@@ -198,10 +247,12 @@ def test_web_settings_from_env(monkeypatch):
     monkeypatch.setenv("MAX_CONCURRENT_JOBS", "2")
     monkeypatch.setenv("CORS_ORIGINS", "https://a.example, https://b.example")
     monkeypatch.setenv("ALLOWED_MODELS", "openai/gpt-oss-20b")
+    monkeypatch.setenv("CLIENT_IP_HEADERS", "True-Client-IP, CF-Connecting-IP")
     settings = WebSettings.from_env()
     assert settings.max_concurrent_jobs == 2
     assert settings.cors_origins == ("https://a.example", "https://b.example")
     assert settings.allowed_models == ("openai/gpt-oss-20b",)
+    assert settings.client_ip_headers == ("true-client-ip", "cf-connecting-ip")
     assert "salt" not in repr(settings)
 
 

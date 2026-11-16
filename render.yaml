@@ -33,11 +33,17 @@ services:
         value: openai/gpt-oss-120b
       - key: REASONING_EFFORT
         value: low
-      # --- proxy handling: Render terminates TLS in front of the container
+      # --- proxy handling: Render runs behind Cloudflare, which always overwrites
+      # CF-Connecting-IP with the real client IP. X-Forwarded-For is NOT reliable
+      # on Render: its proxy appends a changing internal IP and keeps any value
+      # the client sent. True-Client-IP is deliberately not trusted: Cloudflare
+      # only sets it when a zone enables it, otherwise a client could supply it.
+      - key: CLIENT_IP_HEADERS
+        value: CF-Connecting-IP
       - key: FORWARDED_ALLOW_IPS
         value: "*"
       - key: TRUSTED_PROXY_HOPS
-        value: "1"
+        value: "1" # fallback only; never trusts the client-controlled left-most entry
       # --- conservative limits for a single free instance (512 MB RAM)
       - key: MAX_CONCURRENT_JOBS
         value: "1"

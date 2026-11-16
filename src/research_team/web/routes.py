@@ -128,8 +128,9 @@ def _state(request: Request) -> WebState:
 def _client_hash(request: Request, state: WebState) -> str:
     ip = client_ip(
         request.client.host if request.client else None,
-        request.headers.get("x-forwarded-for"),
-        state.settings.trusted_proxy_hops,
+        request.headers.get,
+        trusted_hops=state.settings.trusted_proxy_hops,
+        ip_headers=state.settings.client_ip_headers,
     )
     return hash_client(ip, state.settings.ip_hash_salt)
 
