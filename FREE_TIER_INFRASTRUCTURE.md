@@ -41,6 +41,7 @@ Source: <https://render.com/docs/free> (official docs, read 2026-11-15).
 | Instance hours | **750 Free instance hours per workspace per calendar month**; when exhausted, Free services are suspended until next month (enough for one always-on service) |
 | Filesystem | **Ephemeral** — local SQLite data is lost on redeploy, restart or spin-down; persistent disks are not available on Free |
 | Restarts | "Render might restart a Free web service at any time" |
+| Shutdown window | On deploys the old instance keeps serving for 60 s, then gets SIGTERM and is killed 30 s later. `maxShutdownDelaySeconds` is rejected on Free ("max shutdown delay is not supported for free tier services", observed 2026-11-16), so the app's graceful shutdown is sized to fit 30 s |
 | Bandwidth | Counts against the workspace's monthly included bandwidth; **if no payment method is on file, Render suspends Free services instead of billing** |
 | RAM / CPU | Not stated on that page. Widely reported as 512 MB RAM / 0.1 CPU (third-party). The app measured ~310 MB RSS with the full agent stack loaded, so the default is **one concurrent job** |
 | Credit card | The Free docs do not state that a card is required for Free instances |

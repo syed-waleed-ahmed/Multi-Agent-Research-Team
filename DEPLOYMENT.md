@@ -136,10 +136,13 @@ request still waits for the API to wake up.
 ## 7. Operating notes
 
 * **Zero-downtime deploys.** Render keeps the old instance for 60 s after
-  switching traffic, then sends SIGTERM and allows `maxShutdownDelaySeconds`
-  (300 in the blueprint) before SIGKILL. The old instance starts no new jobs,
-  lets running ones finish for up to `SHUTDOWN_DRAIN_SECONDS` (240), and keeps
-  heartbeating them so the new instance does not treat them as orphaned.
+  switching traffic, then sends SIGTERM and kills it 30 s later (this delay
+  cannot be changed on the Free plan). The old instance starts no new jobs,
+  closes open connections after `GRACEFUL_SHUTDOWN_SECONDS` (5; event streams
+  reconnect to the new instance), lets running jobs finish for up to
+  `SHUTDOWN_DRAIN_SECONDS` (20), and keeps heartbeating them so the new
+  instance does not treat them as orphaned. A running job therefore gets about
+  80 s to complete after a deploy starts.
   Queued jobs are picked up by the new instance. Only a job that outlives the
   drain window is recorded as `interrupted` (requires the shared Postgres
   database; with ephemeral SQLite each instance has its own data).
