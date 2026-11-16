@@ -16,9 +16,19 @@
 
 ## Checklist
 
-- [ ] `ruff check .` passes
-- [ ] `ruff format --check .` passes
+Backend:
+
+- [ ] `ruff check .` and `ruff format --check .` pass
 - [ ] `mypy` passes
 - [ ] `pytest` passes (added or updated tests where relevant)
-- [ ] Documentation updated (README / ARCHITECTURE / CHANGELOG) if needed
+
+Frontend (if `frontend/` changed):
+
+- [ ] `npm run lint`, `npm run typecheck`, `npm run test` and `npm run build` pass
+- [ ] `npm run test:e2e` passes for user-facing changes
+
+General:
+
+- [ ] Documentation updated (README / ARCHITECTURE / CHANGELOG / docs) if needed
 - [ ] No secrets or credentials are included in the diff
+- [ ] Free-tier impact considered (quota usage, limits, cold starts)
