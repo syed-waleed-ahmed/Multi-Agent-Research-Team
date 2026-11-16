@@ -45,6 +45,7 @@ DEFAULT_MAX_TOKENS = 2048
 DEFAULT_SYNTHESIS_MAX_TOKENS = 3072
 DEFAULT_REASONING_EFFORT = "low"
 DEFAULT_MAX_RETRIES = 3
+DEFAULT_RATE_LIMIT_MAX_WAIT = 60
 DEFAULT_LOG_LEVEL = "INFO"
 
 #: LLM providers the engine knows how to talk to (all through LiteLLM).
@@ -78,6 +79,9 @@ class AppConfig:
     synthesis_max_tokens: int = DEFAULT_SYNTHESIS_MAX_TOKENS
     #: Retries for a *single* failed LLM call (never the whole pipeline).
     max_retries: int = DEFAULT_MAX_RETRIES
+    #: Seconds one request may spend waiting out provider rate limits (free-tier
+    #: token-per-minute windows reset within a minute).
+    rate_limit_max_wait: int = DEFAULT_RATE_LIMIT_MAX_WAIT
     # Optional operational guard rails for larger / long-running deployments.
     max_rpm: int | None = None
     #: Per-agent execution timeout in seconds (CrewAI ``max_execution_time``).
@@ -120,10 +124,16 @@ class AppConfig:
             missing = self.missing_credentials(self.llm_provider)
             if missing:
                 errors.append(missing)
-        unknown_fallbacks = [p for p in self.fallback_providers if p not in SUPPORTED_PROVIDERS]
+        unknown_fallbacks = [
+            entry
+            for entry in self.fallback_providers
+            if entry.partition(":")[0] not in SUPPORTED_PROVIDERS
+            or (":" in entry and not entry.partition(":")[2].strip())
+        ]
         if unknown_fallbacks:
             errors.append(
-                f"LLM_FALLBACK_PROVIDERS contains unknown providers: {unknown_fallbacks}."
+                "LLM_FALLBACK_PROVIDERS entries must be 'provider' or 'provider:model' with a "
+                f"supported provider; invalid: {unknown_fallbacks}."
             )
         if not (self.serper_api_key or self.tavily_api_key):
             errors.append("SERPER_API_KEY is required (or set TAVILY_API_KEY).")
@@ -138,6 +148,8 @@ class AppConfig:
             errors.append(f"GROQ_MAX_TOKENS must be between 1 and {_MAX_REASONABLE_TOKENS}.")
         if not 1 <= self.synthesis_max_tokens <= _MAX_REASONABLE_TOKENS:
             errors.append(f"SYNTHESIS_MAX_TOKENS must be between 1 and {_MAX_REASONABLE_TOKENS}.")
+        if self.rate_limit_max_wait < 0:
+            errors.append("RATE_LIMIT_MAX_WAIT_SECONDS must be zero or greater.")
         if self.max_retries < 0:
             errors.append("GROQ_MAX_RETRIES must be zero or greater.")
         if self.max_rpm is not None and self.max_rpm < 1:
@@ -202,6 +214,11 @@ class AppConfig:
             ),
             max_retries=_parse_int(
                 env("GROQ_MAX_RETRIES"), DEFAULT_MAX_RETRIES, "GROQ_MAX_RETRIES"
+            ),
+            rate_limit_max_wait=_parse_int(
+                env("RATE_LIMIT_MAX_WAIT_SECONDS"),
+                DEFAULT_RATE_LIMIT_MAX_WAIT,
+                "RATE_LIMIT_MAX_WAIT_SECONDS",
             ),
             max_rpm=_parse_optional_int(env("MAX_RPM"), "MAX_RPM"),
             request_timeout=_parse_optional_int(env("REQUEST_TIMEOUT"), "REQUEST_TIMEOUT"),

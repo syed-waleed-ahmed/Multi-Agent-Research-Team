@@ -139,7 +139,7 @@ def create_app(
             yield
         finally:
             log.info("Shutting down: stopping job runner")
-            jobs.shutdown()
+            jobs.shutdown(drain_seconds=settings.shutdown_drain_seconds)
             db.dispose()
 
     docs = settings.enable_api_docs

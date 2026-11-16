@@ -224,6 +224,7 @@ class ResearchPipeline:
             max_retries=self.config.max_retries,
             on_progress=self.on_progress,
             provider=spec.label,
+            rate_limit_budget=float(self.config.rate_limit_max_wait),
         )
         llm = build_llm(spec, self.config, guard=guard)
         synthesis_llm = build_llm(
@@ -269,7 +270,8 @@ class ResearchPipeline:
             ProgressEvent(
                 EventType.PROVIDER_FALLBACK,
                 stage,
-                f"{previous.label} unavailable; continuing this stage on {nxt.label}",
+                f"{previous.label} ({previous.model}) unavailable; continuing this stage on "
+                f"{nxt.label} ({nxt.model})",
                 {"from": previous.name, "to": nxt.name, "model": nxt.model},
             ),
         )

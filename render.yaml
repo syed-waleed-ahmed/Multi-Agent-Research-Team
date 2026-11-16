@@ -13,6 +13,10 @@ services:
     plan: free
     # Keep the app next to its database (e.g. Neon AWS eu-central-1 / Frankfurt).
     region: frankfurt
+    # Render keeps the old instance for 60 s after a deploy switches traffic, then
+    # sends SIGTERM; this is the window before SIGKILL. The app drains running
+    # research jobs inside it (SHUTDOWN_DRAIN_SECONDS) instead of cutting them off.
+    maxShutdownDelaySeconds: 300
     dockerfilePath: ./Dockerfile
     healthCheckPath: /api/health
     autoDeploy: true
@@ -33,6 +37,12 @@ services:
         value: openai/gpt-oss-120b
       - key: REASONING_EFFORT
         value: low
+      # Groq's free tier limits tokens per minute PER MODEL, so a second model is a
+      # genuine, free fallback when the first one is rate-limited.
+      - key: LLM_FALLBACK_PROVIDERS
+        value: groq:openai/gpt-oss-20b
+      - key: RATE_LIMIT_MAX_WAIT_SECONDS
+        value: "60"
       # --- proxy handling: Render runs behind Cloudflare, which always overwrites
       # CF-Connecting-IP with the real client IP. X-Forwarded-For is NOT reliable
       # on Render: its proxy appends a changing internal IP and keeps any value
@@ -51,6 +61,8 @@ services:
         value: "5"
       - key: JOB_TIMEOUT_SECONDS
         value: "600"
+      - key: SHUTDOWN_DRAIN_SECONDS
+        value: "240"
       - key: JOBS_PER_IP_PER_HOUR
         value: "5"
       - key: JOBS_PER_IP_PER_DAY

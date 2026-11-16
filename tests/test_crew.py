@@ -109,7 +109,7 @@ def fake_search(monkeypatch):
 
 @pytest.fixture
 def config():
-    return AppConfig(groq_api_key="gk", serper_api_key="sk", max_retries=1)
+    return AppConfig(groq_api_key="gk", serper_api_key="sk", max_retries=1, rate_limit_max_wait=5)
 
 
 def test_full_pipeline_runs_three_real_agents(monkeypatch, fake_search, config):
@@ -150,6 +150,7 @@ def test_rate_limit_falls_back_for_current_stage_only(monkeypatch, fake_search):
         groq_api_key="gk",
         serper_api_key="sk",
         max_retries=0,
+        rate_limit_max_wait=0,
         fallback_providers=("openrouter",),
         openrouter_api_key="ok",
     )
@@ -235,3 +236,20 @@ def test_manager_receives_actually_retrieved_sources(monkeypatch, fake_search, c
     assert synthesis
     assert "Retrieved sources" in synthesis[0]
     assert "https://docs.example.org/guide" in synthesis[0]
+
+
+def test_rate_limited_model_falls_back_to_another_groq_model(monkeypatch, fake_search):
+    config = AppConfig(
+        groq_api_key="gk",
+        serper_api_key="sk",
+        rate_limit_max_wait=0,
+        fallback_providers=("groq:openai/gpt-oss-20b",),
+    )
+    ScriptedLLM(monkeypatch, fail_models={"groq/openai/gpt-oss-120b"})
+    events = []
+
+    result = run_research_workflow("Topic", config, on_progress=events.append)
+
+    assert result.model == "openai/gpt-oss-20b"
+    fallback = next(e for e in events if e.type is EventType.PROVIDER_FALLBACK)
+    assert "openai/gpt-oss-20b" in fallback.message

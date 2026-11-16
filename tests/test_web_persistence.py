@@ -272,3 +272,70 @@ def test_shutdown_marks_running_jobs_interrupted_not_cancelled(tmp_path):
         assert stored.status == "failed"
         assert stored.error_code == "interrupted"
     db.dispose()
+
+
+# --------------------------------------------------------------------------- #
+# Zero-downtime deploys: heartbeats, sweeping, draining
+# --------------------------------------------------------------------------- #
+def test_recovery_leaves_jobs_with_a_fresh_heartbeat_alone(tmp_path):
+    db = Database(f"sqlite:///{tmp_path / 'heartbeat.db'}")
+    db.migrate()
+    _insert(db, "7" * 32, "running")  # another instance's job, still heartbeating
+    _insert(db, "8" * 32, "running")  # a crashed instance's job
+    now = repo.utcnow()
+    with db.session() as session:
+        repo.get_job(session, "7" * 32).heartbeat_at = now
+        repo.get_job(session, "8" * 32).heartbeat_at = now - timedelta(minutes=5)
+    with db.session() as session:
+        repo.recover_interrupted(session, stale_before=now - timedelta(seconds=90))
+    with db.session() as session:
+        assert repo.get_job(session, "7" * 32).status == "running"
+        assert repo.get_job(session, "8" * 32).status == "failed"
+    db.dispose()
+
+
+def test_touch_heartbeats_only_updates_running_jobs(tmp_path):
+    db = Database(f"sqlite:///{tmp_path / 'touch.db'}")
+    db.migrate()
+    _insert(db, "a" * 32, "running")
+    _insert(db, "b" * 32, "succeeded")
+    with db.session() as session:
+        repo.touch_heartbeats(session, ["a" * 32, "b" * 32])
+    with db.session() as session:
+        assert repo.get_job(session, "a" * 32).heartbeat_at is not None
+        assert repo.get_job(session, "b" * 32).heartbeat_at is None
+    db.dispose()
+
+
+def test_sweep_picks_up_queued_job_left_by_another_instance(tmp_path):
+    url = f"sqlite:///{tmp_path / 'sweep.db'}"
+    runner = FakeRunner()
+    with TestClient(make_app(runner, database_url=url)) as client:
+        db = Database(url)
+        _insert(db, "c" * 32, "queued")  # arrived after this instance's startup sweep
+        db.dispose()
+        assert client.app.state.web.jobs.sweep() == 1
+        wait_for_status(client, "c" * 32, {"succeeded"})
+        assert client.app.state.web.jobs.sweep() == 0  # nothing left to pick up
+    assert len(runner.calls) == 1
+
+
+def test_shutdown_drains_running_job_to_completion(tmp_path):
+    import threading
+
+    gate = threading.Event()
+    url = f"sqlite:///{tmp_path / 'drain.db'}"
+    client = TestClient(
+        make_app(FakeRunner(gate=gate), database_url=url, shutdown_drain_seconds=10)
+    )
+    with client:
+        job = client.post("/api/v1/research", json={"topic": "drain topic"}).json()
+        wait_for_status(client, job["id"], {"running"})
+        # The job finishes shortly after shutdown begins, inside the drain window.
+        threading.Timer(0.5, gate.set).start()
+    db = Database(url)
+    with db.session() as session:
+        stored = repo.get_job(session, job["id"])
+        assert stored.status == "succeeded"
+        assert repo.get_result(session, job["id"]) is not None
+    db.dispose()

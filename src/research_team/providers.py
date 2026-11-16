@@ -25,6 +25,7 @@ cancelled or timed-out run stops at the next agent step.
 from __future__ import annotations
 
 import random
+import re
 from collections.abc import Callable
 from dataclasses import dataclass
 from functools import lru_cache
@@ -112,13 +113,20 @@ def resolve_providers(config: AppConfig, model: str | None = None) -> list[Provi
     failing the run: they are an optional safety net.
     """
     specs = [provider_spec(config.llm_provider, config, model)]
-    for name in config.fallback_providers:
-        if name == config.llm_provider:
-            continue
+    seen = {(specs[0].name, specs[0].model)}
+    for entry in config.fallback_providers:
+        # "provider" or "provider:model" — e.g. "groq:openai/gpt-oss-20b". Free-tier
+        # token-per-minute limits are per model, so another model on the same
+        # provider is a genuine, free fallback.
+        name, _, fallback_model = entry.partition(":")
         if config.missing_credentials(name):
             log.warning("Skipping fallback provider %s: not configured", name)
             continue
-        specs.append(provider_spec(name, config))
+        spec = provider_spec(name, config, fallback_model or None)
+        if (spec.name, spec.model) in seen:
+            continue
+        seen.add((spec.name, spec.model))
+        specs.append(spec)
     return specs
 
 
@@ -168,20 +176,35 @@ def rate_limit_error_type() -> type[BaseException] | None:
         return None
 
 
+_TRY_AGAIN_IN = re.compile(
+    r"try again in\s+(?:(?P<m>\d+)m)?(?P<n>\d+(?:\.\d+)?)(?P<unit>ms|s)\b", re.IGNORECASE
+)
+
+
 def _retry_after_seconds(exc: BaseException) -> float | None:
-    """Extract a ``Retry-After`` hint (seconds) from a provider error, if any."""
+    """Extract the provider's wait hint (seconds) from a rate-limit error.
+
+    Uses the ``Retry-After`` header when the response carries one, otherwise the
+    provider's message (Groq: "Please try again in 7.66s" / "in 1m2.5s" /
+    "in 520ms").
+    """
     response = getattr(exc, "response", None)
     headers = getattr(response, "headers", None)
-    if not headers:
+    if headers:
+        try:
+            value = headers.get("retry-after")
+            if value is not None:
+                return max(0.0, float(value))
+        except (TypeError, ValueError):
+            pass
+        except Exception:  # pragma: no cover - defensive
+            pass
+    match = _TRY_AGAIN_IN.search(str(exc))
+    if match is None:
         return None
-    try:
-        value = headers.get("retry-after")
-    except Exception:  # pragma: no cover - defensive
-        return None
-    try:
-        return max(0.0, float(value)) if value is not None else None
-    except (TypeError, ValueError):
-        return None
+    amount = float(match.group("n"))
+    seconds = amount / 1000 if match.group("unit").lower() == "ms" else amount
+    return int(match.group("m") or 0) * 60 + seconds
 
 
 class CallGuard:
@@ -203,9 +226,14 @@ class CallGuard:
         transient: tuple[type[BaseException], ...] | None = None,
         rate_limit: type[BaseException] | None = None,
         fatal: tuple[type[BaseException], ...] | None = None,
+        rate_limit_budget: float = 60.0,
     ) -> None:
         self.control = control or RunControl()
         self.max_retries = max_retries
+        #: Total seconds one request may spend waiting out rate limits. Free-tier
+        #: token-per-minute windows need up to a minute to clear, so rate limits
+        #: are retried against a time budget rather than a fixed attempt count.
+        self.rate_limit_budget = rate_limit_budget
         self.on_progress = on_progress
         self.provider = provider
         self.base_delay = base_delay
@@ -252,6 +280,8 @@ class CallGuard:
 
     def _run(self, call: Callable[[], Any]) -> Any:
         attempt = 0
+        transient_failures = 0
+        rate_limit_waited = 0.0
         while True:
             self.control.check()
             self.calls += 1
@@ -279,23 +309,26 @@ class CallGuard:
             except self._transient as exc:  # type: ignore[misc]
                 attempt += 1
                 is_rate_limit = self._rate_limit is not None and isinstance(exc, self._rate_limit)
-                if attempt > self.max_retries:
-                    if is_rate_limit:
-                        raise RateLimitExceededError(
-                            f"{self.provider} rate-limited the request after "
-                            f"{self.max_retries} retries: {exc}"
-                        ) from exc
-                    raise ProviderUnavailableError(
-                        f"{self.provider} failed after {self.max_retries} retries: {exc}"
-                    ) from exc
                 delay = self.delay_for(attempt, exc)
+                if is_rate_limit:
+                    if rate_limit_waited + delay > self.rate_limit_budget:
+                        raise RateLimitExceededError(
+                            f"{self.provider} kept rate-limiting the request after waiting "
+                            f"{rate_limit_waited:.0f}s: {exc}"
+                        ) from exc
+                    rate_limit_waited += delay
+                else:
+                    transient_failures += 1
+                    if transient_failures > self.max_retries:
+                        raise ProviderUnavailableError(
+                            f"{self.provider} failed after {self.max_retries} retries: {exc}"
+                        ) from exc
                 reason = "rate limited" if is_rate_limit else type(exc).__name__
                 log.warning(
-                    "Transient %s error (%s); retry %d/%d in %.1fs",
+                    "Transient %s error (%s); retry #%d in %.1fs",
                     self.provider,
                     reason,
                     attempt,
-                    self.max_retries,
                     delay,
                 )
                 emit(

@@ -152,7 +152,7 @@ def mark_running(session: Session, job_id: str) -> bool:
     result = session.execute(
         update(ResearchJob)
         .where(ResearchJob.id == job_id, ResearchJob.status == JobStatus.QUEUED.value)
-        .values(status=JobStatus.RUNNING.value, started_at=utcnow())
+        .values(status=JobStatus.RUNNING.value, started_at=utcnow(), heartbeat_at=utcnow())
     )
     return bool(getattr(result, "rowcount", 0))
 
@@ -221,16 +221,33 @@ def update_stage(session: Session, job_id: str, stage: str, **changes: Any) -> N
     job.stages = stages  # reassign so SQLAlchemy detects the JSON change
 
 
-def recover_interrupted(session: Session) -> list[str]:
-    """After a restart: fail jobs that were running, return queued job ids in order.
+def touch_heartbeats(session: Session, job_ids: Sequence[str]) -> None:
+    """Record that this process is still executing ``job_ids``."""
+    if not job_ids:
+        return
+    session.execute(
+        update(ResearchJob)
+        .where(ResearchJob.id.in_(list(job_ids)), ResearchJob.status == JobStatus.RUNNING.value)
+        .values(heartbeat_at=utcnow())
+    )
 
-    Stages that were running are marked failed too, so the UI never shows a
-    stage "running" on a job that has already ended.
+
+def recover_interrupted(session: Session, stale_before: datetime | None = None) -> list[str]:
+    """Fail orphaned running jobs; return queued job ids in creation order.
+
+    A running job is orphaned when its worker stopped heartbeating: its
+    heartbeat is missing or older than ``stale_before``. Jobs another live
+    instance is still executing (fresh heartbeat, e.g. during a zero-downtime
+    deploy) are left alone. Stages that were running are marked failed too, so
+    the UI never shows a stage "running" on a job that has already ended.
     """
     now = utcnow()
-    for job in session.scalars(
-        select(ResearchJob).where(ResearchJob.status == JobStatus.RUNNING.value)
-    ):
+    orphaned = select(ResearchJob).where(ResearchJob.status == JobStatus.RUNNING.value)
+    if stale_before is not None:
+        orphaned = orphaned.where(
+            (ResearchJob.heartbeat_at.is_(None)) | (ResearchJob.heartbeat_at < stale_before)
+        )
+    for job in session.scalars(orphaned):
         job.status = JobStatus.FAILED.value
         job.finished_at = now
         job.error_code = "interrupted"

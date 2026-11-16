@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Per-visitor quotas behind Render/Cloudflare: clients are identified by
+  `CF-Connecting-IP` (`CLIENT_IP_HEADERS`) instead of a changing proxy hop.
+- Zero-downtime deploys no longer interrupt research runs: workers heartbeat
+  their jobs (migration `0002`), recovery only fails jobs with a stale
+  heartbeat, a periodic sweep picks up unclaimed queued jobs, and shutdown
+  drains running jobs (`SHUTDOWN_DRAIN_SECONDS`).
+- Rate limits are retried against a time budget (`RATE_LIMIT_MAX_WAIT_SECONDS`)
+  using the provider's own retry hint (header or message) instead of three
+  short retries that could not outlast a token-per-minute window.
+- An interrupted job no longer shows a stage as still running.
+
+### Added
+
+- `LLM_FALLBACK_PROVIDERS` accepts `provider:model` entries (e.g.
+  `groq:openai/gpt-oss-20b`), a free fallback because free-tier token limits
+  are per model.
+
 ## [2.0.0] - 2026-11-15
 
 The CLI becomes a public, open-source web research platform. The CLI remains a
