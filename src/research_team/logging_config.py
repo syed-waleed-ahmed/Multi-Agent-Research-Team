@@ -54,9 +54,12 @@ def configure_logging(level: str | int = "INFO", *, quiet: bool = False) -> None
 
     handler: logging.Handler
     try:
+        from rich.console import Console
         from rich.logging import RichHandler
 
+        # Logs go to stderr so stdout stays reserved for the report.
         handler = RichHandler(
+            console=Console(stderr=True),
             rich_tracebacks=True,
             show_time=False,
             show_path=False,
@@ -64,7 +67,7 @@ def configure_logging(level: str | int = "INFO", *, quiet: bool = False) -> None
         )
         handler.setFormatter(logging.Formatter("%(message)s"))
     except Exception:  # pragma: no cover - rich should be installed
-        handler = logging.StreamHandler()
+        handler = logging.StreamHandler()  # defaults to sys.stderr
         handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s"))
 
     handler.setLevel(effective)
