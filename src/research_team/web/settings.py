@@ -53,7 +53,7 @@ class WebSettings:
     #: Number of reverse proxies in front of the app whose X-Forwarded-For can be trusted.
     trusted_proxy_hops: int = 0
     #: Headers (lower-case) that a trusted edge proxy overwrites with the client IP,
-    #: e.g. ("true-client-ip", "cf-connecting-ip") behind Cloudflare (as on Render).
+    #: e.g. ("cf-connecting-ip",) behind Cloudflare (as on Render).
     client_ip_headers: tuple[str, ...] = ()
 
     # --- job execution -----------------------------------------------------

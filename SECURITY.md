@@ -40,7 +40,7 @@ free API quota. The main risks and their controls:
 | **Privacy** | Client IPs are never stored or logged — only salted SHA-256 hashes (`IP_HASH_SALT`). CrewAI telemetry and tracing are disabled by default. Finished jobs are deleted after `JOB_RETENTION_DAYS`. |
 | **Oversized requests** | `MAX_REQUEST_BYTES` body limit (checked on `Content-Length` and while streaming), field length limits, and a maximum report size. |
 | **CORS** | Same-origin by default; cross-origin access only for explicitly listed `CORS_ORIGINS` (wildcards are rejected). |
-| **Client IP spoofing** | The client IP comes from headers a trusted edge overwrites (`CLIENT_IP_HEADERS`, e.g. Cloudflare's `True-Client-IP` on Render), validated as IP addresses; otherwise from `X-Forwarded-For` only when `TRUSTED_PROXY_HOPS` is set, using the entry appended by the outermost trusted proxy — never the client-controlled left-most entry. |
+| **Client IP spoofing** | The client IP comes from headers a trusted edge overwrites (`CLIENT_IP_HEADERS`, e.g. Cloudflare's `CF-Connecting-IP` on Render), validated as IP addresses; otherwise from `X-Forwarded-For` only when `TRUSTED_PROXY_HOPS` is set, using the entry appended by the outermost trusted proxy — never the client-controlled left-most entry. |
 | **Container hardening** | The image runs as a non-root user, contains no secrets (`.dockerignore` excludes `.env`), and needs no runtime downloads. |
 
 ## Handling secrets

@@ -46,9 +46,9 @@ def client_ip(
     """Resolve the real client IP, in order of trust.
 
     1. ``ip_headers`` — single-value headers that a trusted edge proxy sets and
-       *overwrites* on every request (e.g. Cloudflare's ``True-Client-IP`` /
-       ``CF-Connecting-IP``; Render runs behind Cloudflare). Only configure
-       headers your edge guarantees, otherwise clients could spoof them.
+       *overwrites* on every request (e.g. Cloudflare's ``CF-Connecting-IP``;
+       Render runs behind Cloudflare). Only configure headers your edge
+       guarantees to overwrite, otherwise clients could spoof them.
     2. ``X-Forwarded-For`` with ``trusted_hops`` > 0: the entry appended by the
        outermost trusted proxy (never the client-controlled left-most entry).
     3. The socket peer address.

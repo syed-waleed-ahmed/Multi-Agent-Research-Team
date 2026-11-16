@@ -86,9 +86,10 @@ Per-visitor quotas need the real client IP. Render runs behind Cloudflare, and
 on the live deployment the last `X-Forwarded-For` hop was an internal Render
 proxy address that **changed between requests** (so quotas keyed on it did not
 work), while the left-most entry is whatever the client sent. The blueprint
-therefore sets `CLIENT_IP_HEADERS=True-Client-IP,CF-Connecting-IP` — headers
-Cloudflare overwrites on every request — with `TRUSTED_PROXY_HOPS=1` only as a
-fallback.
+therefore sets `CLIENT_IP_HEADERS=CF-Connecting-IP` — a header Cloudflare
+overwrites on every request — with `TRUSTED_PROXY_HOPS=1` only as a fallback.
+`True-Client-IP` is deliberately not trusted: Cloudflare only sets it when a
+zone enables it, and otherwise a client could supply its own.
 
 **Verify after deploying:** start one run, then `GET $APP/api/v1/usage` a few
 times; `jobs_today` must stay at 1. Sending a forged `CF-Connecting-IP` header
