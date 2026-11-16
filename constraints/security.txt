@@ -1,0 +1,9 @@
+# Security floors for transitive dependencies (pulled in by CrewAI).
+# Applied by the Docker image and the CI dependency audit:
+#   pip install -c constraints/security.txt ".[web]"
+# The fixed releases require Python >= 3.11, hence the markers; Python 3.10
+# installs cannot receive these upstream fixes. Reviewed 2026-11-15 — see
+# SECURITY.md ("Dependency advisories").
+pillow>=13.0.0; python_version >= "3.11"
+soupsieve>=4.0.0; python_version >= "3.11.5"
+filelock>=4.2.1; python_version >= "3.11"

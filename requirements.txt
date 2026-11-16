@@ -1,8 +1,9 @@
-# Runtime dependencies. For development tooling, install the dev extra:
-#   pip install -e ".[dev]"
+# Runtime dependencies of the research engine and CLI (mirrors pyproject.toml).
+# Web app:          pip install -e ".[web]"
+# Development:      pip install -e ".[dev]"
+# Secure deploys:   pip install -c constraints/security.txt ".[web]"
 crewai>=1.15,<2.0.0
-crewai-tools>=1.15,<2.0.0
-groq>=0.12.0
 litellm>=1.59.0
+httpx>=0.27
 python-dotenv>=1.0.1
 rich>=13.7.0

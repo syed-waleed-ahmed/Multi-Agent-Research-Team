@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="An open-source team of AI agents that researches a topic on the web, writes code examples and delivers a cited Markdown report — with a live view of every step."
+    />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Multi-Agent Research Team</title>
+    <!-- Applies the saved or system theme before first paint (external file: CSP forbids inline scripts). -->
+    <script src="/theme-init.js"></script>
+  </head>
+  <body>
+    <noscript>
+      <p style="padding: 1rem; font-family: system-ui, sans-serif">
+        This application needs JavaScript. The API is documented at <a href="/api/docs">/api/docs</a>.
+      </p>
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

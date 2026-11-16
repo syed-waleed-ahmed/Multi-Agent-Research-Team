@@ -66,3 +66,14 @@ graphify-out/cache/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Web app local data (SQLite database)
+data/
+
+# Frontend build and test artifacts
+frontend/node_modules/
+frontend/dist/
+frontend/test-results/
+frontend/playwright-report/
+frontend/blob-report/
+frontend/playwright/.cache/

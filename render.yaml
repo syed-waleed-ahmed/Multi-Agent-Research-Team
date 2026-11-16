@@ -1,0 +1,55 @@
+# Render Blueprint — one free web service that serves the website and API.
+# Docs: https://render.com/docs/blueprint-spec
+#
+# Render Free (verified 2026-11 at https://render.com/docs/free): spins down
+# after 15 minutes without traffic (~1 minute cold start), 750 free instance
+# hours per workspace per month, ephemeral filesystem, no persistent disks.
+# Set DATABASE_URL to a free Neon Postgres database to keep results across
+# restarts; without it the app falls back to SQLite on the ephemeral disk.
+services:
+  - type: web
+    name: multi-agent-research-team
+    runtime: docker
+    plan: free
+    # Keep the app next to its database (e.g. Neon AWS eu-central-1 / Frankfurt).
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      # --- secrets: you will be prompted for these when applying the blueprint
+      - key: GROQ_API_KEY
+        sync: false
+      - key: SERPER_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY # optional fallback search provider
+        sync: false
+      - key: DATABASE_URL # optional but recommended (e.g. Neon free Postgres)
+        sync: false
+      - key: IP_HASH_SALT
+        generateValue: true
+      # --- engine
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-120b
+      - key: REASONING_EFFORT
+        value: low
+      # --- proxy handling: Render terminates TLS in front of the container
+      - key: FORWARDED_ALLOW_IPS
+        value: "*"
+      - key: TRUSTED_PROXY_HOPS
+        value: "1"
+      # --- conservative limits for a single free instance (512 MB RAM)
+      - key: MAX_CONCURRENT_JOBS
+        value: "1"
+      - key: MAX_QUEUED_JOBS
+        value: "5"
+      - key: JOB_TIMEOUT_SECONDS
+        value: "600"
+      - key: JOBS_PER_IP_PER_HOUR
+        value: "5"
+      - key: JOBS_PER_IP_PER_DAY
+        value: "10"
+      - key: GLOBAL_JOBS_PER_DAY
+        value: "60"
+      - key: LOG_LEVEL
+        value: INFO

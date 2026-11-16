@@ -1,214 +1,176 @@
 # Architecture (High-Level Design)
 
-This document describes the high-level design (HLD) of the Multi-Agent Research
-Team: its components, data flow, key design decisions, and the extension points
-that let it grow from a CLI into a larger service.
+This document describes the high-level design of the Multi-Agent Research Team
+platform: its components, runtime flow, key design decisions, and extension
+points. Decision rationale is recorded in
+[IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md).
 
 ## 1. System context
 
-The application is a standalone CLI that orchestrates a team of LLM agents. It
-depends on two external services and is driven by a human operator or an
-automation script.
-
 ```mermaid
 flowchart LR
-    user([Operator / Script]) -->|--topic| CLI[Multi-Agent Research Team]
-    CLI -->|chat completions| Groq[(Groq LLM API)]
-    CLI -->|web search| Serper[(Serper Search API)]
-    CLI -->|Markdown report| out[[stdout / report file]]
+    visitor([Visitor's browser]) -->|HTTPS| app
+    operator([Operator / script]) -->|CLI| cli[CLI]
+    subgraph app[Docker container]
+        web[React website]
+        api[FastAPI /api]
+        runner[Job runner]
+    end
+    api --> runner
+    cli --> engine
+    runner --> engine[Research engine]
+    engine -->|chat completions| llm[(Groq · Gemini · OpenRouter · Ollama)]
+    engine -->|web search| search[(Serper · Tavily)]
+    runner --> db[(SQLite or Postgres)]
 ```
 
-Design intent: the system is a thin, deterministic orchestration layer over
-CrewAI. All heavy lifting (reasoning, tool calls) is delegated to the agent
-framework and the model provider. The application owns configuration,
-resilience, observability, and the user-facing contract.
+The **research engine** is a reusable Python library. The **CLI** and the **web
+app** are two thin interfaces over the same entry point,
+`run_research_workflow(topic, config, options, on_progress=..., control=...)`,
+which returns a structured `ResearchResult`.
 
 ## 2. Component view
 
-The package is organized into small, single-responsibility modules with a
-strict dependency direction (CLI to orchestration to agents/tasks to config).
-Nothing lower ever imports something higher.
-
 ```mermaid
 flowchart TD
-    subgraph Interface
-        cli[cli.py<br/><i>argparse, exit codes, rendering</i>]
+    subgraph Interfaces
+        cli[cli.py]
+        subgraph web[web/]
+            app[app.py · routes.py · middleware.py]
+            jobs[jobs.py · repository.py]
+            dbm[db.py · models.py · migrations/]
+        end
     end
-    subgraph Orchestration
-        crew[crew.py<br/><i>build crew, retries, ResearchResult</i>]
-    end
-    subgraph Domain
-        agents[agents.py<br/><i>agent factories</i>]
-        tasks[tasks.py<br/><i>task factories + context wiring</i>]
+    subgraph Engine
+        crew[crew.py<br/><i>staged pipeline</i>]
+        agents[agents.py]
+        tasks[tasks.py<br/><i>hardened prompts</i>]
+        providers[providers.py<br/><i>LLM registry · CallGuard</i>]
+        search[search.py<br/><i>Serper/Tavily · sources</i>]
+        report[report.py<br/><i>citation & code checks</i>]
     end
     subgraph Platform
-        config[config.py<br/><i>AppConfig, LLM/tool factories</i>]
-        exceptions[exceptions.py<br/><i>typed error hierarchy</i>]
-        logging[logging_config.py<br/><i>structured logging</i>]
-        compat[compat.py<br/><i>upstream bug shims</i>]
+        config[config.py]
+        progress[progress.py<br/><i>events · RunControl</i>]
+        exceptions[exceptions.py]
+        compat[compat.py]
+        logging[logging_config.py]
     end
-
     cli --> crew
-    crew --> agents
-    crew --> tasks
-    crew --> config
-    agents --> config
-    config --> compat
-    cli --> exceptions
-    crew --> exceptions
-    cli --> logging
-    crew --> logging
+    app --> jobs --> crew
+    jobs --> dbm
+    crew --> agents & tasks & providers & search & report
+    providers --> config & compat & progress
+    crew --> progress
 ```
+
+Dependency direction is strict: interfaces → engine → platform. The engine
+never imports the web layer.
 
 | Module | Responsibility |
 | --- | --- |
-| `cli.py` | Parse arguments, configure logging, resolve config and overrides, render output, map exceptions to exit codes. |
-| `crew.py` | Assemble the sequential crew, run it with retries and backoff, return a structured `ResearchResult`. |
-| `agents.py` | Build the three specialist agents from configuration. |
-| `tasks.py` | Describe each task and wire the manager task's context dependencies. |
-| `config.py` | Immutable, validated `AppConfig`; lazy factories for the LLM and search tool. |
-| `exceptions.py` | Typed error hierarchy so callers can react to why a run failed. |
-| `logging_config.py` | One place to configure package logging (a Rich handler for the CLI). |
-| `compat.py` | Guarded, idempotent workarounds for known third-party bugs. |
+| `crew.py` | Runs research → coding → synthesis as separate stages; provider fallback per stage; assembles `ResearchResult`. |
+| `providers.py` | Provider registry (all via LiteLLM, explicit credentials); `CallGuard` retries one request with backoff + jitter, honours `Retry-After`, checks cancellation. |
+| `search.py` | Search providers with fallback; untrusted-data framing; search budget; `SourceCollector` of every retrieved result. |
+| `report.py` | Citation-marker normalisation, link-vs-source check, Python syntax check, size limit, methodology and sources sections. |
+| `progress.py` | `ProgressEvent` types and `RunControl` (cancellation + deadline). |
+| `tasks.py` / `agents.py` | Prompts with delimited user data; agents without delegation, code execution, or task-level retries. |
+| `web/jobs.py` | Persist-then-execute job runner, bounded thread pool, restart recovery, cancellation, janitor. |
+| `web/routes.py` | REST + SSE endpoints, validation, quotas, caching, idempotency. |
+| `web/middleware.py` | Request IDs, security headers/CSP, body limit, per-IP rate limit (pure ASGI). |
 
-## 3. Runtime flow
-
-A single run is a deterministic, sequential pipeline. Each agent's output feeds
-the next, and the manager synthesizes the final report from explicit context.
+## 3. Runtime flow of one research job
 
 ```mermaid
 sequenceDiagram
-    participant U as Operator
-    participant C as CLI
-    participant W as Workflow (crew.py)
-    participant R as Research Agent
-    participant K as Coding Agent
-    participant M as Manager Agent
-    participant G as Groq / Serper
+    participant B as Browser
+    participant A as API
+    participant D as Database
+    participant W as Worker thread
+    participant E as Engine
+    participant P as LLM / Search
 
-    U->>C: --topic "..."
-    C->>C: load + validate AppConfig
-    C->>W: run_research_workflow(topic, config)
-    W->>R: research_task
-    R->>G: web search + summarize
-    G-->>R: sourced brief
-    W->>K: coding_task (grounded in brief)
-    K->>G: generate examples
-    G-->>K: code + explanation
-    W->>M: manager_task (context = [brief, code])
-    M->>G: synthesize
-    G-->>M: final Markdown report
-    W-->>C: ResearchResult(report, tokens, duration)
-    C-->>U: render report / save file
+    B->>A: POST /api/v1/research
+    A->>D: validate, quotas, dedup/cache, insert job (queued)
+    A-->>B: 202 {id, owner_token}
+    B->>A: GET /research/{id}/events (SSE)
+    A->>W: submit(id)
+    W->>D: queued → running
+    W->>E: run_research_workflow(...)
+    loop each stage: research, coding, synthesis
+        E->>D: stage_started (via observer)
+        E->>P: model requests / searches (CallGuard: retry only the failed call)
+        E->>D: search, llm_call, retry … events
+        E->>D: stage_completed
+    end
+    E-->>W: ResearchResult
+    W->>D: save result, running → succeeded
+    A-->>B: events streamed as they are stored, then "end"
+    B->>A: GET /research/{id} (report, sources, citation check)
 ```
 
-Determinism: delegation is disabled on every agent and the process is
-`Process.sequential`. Agents communicate only through declared task context,
-which keeps runs reproducible and easy to debug. This is a deliberate trade of
-autonomy for predictability.
+**Failure handling.** A transient error retries one request. If a provider stays
+rate-limited or unavailable, the current stage restarts on the next configured
+fallback provider; completed stages are never repeated. Cancellation and the
+time budget are checked before every model request and search.
 
 ## 4. Key data structures
 
 ```mermaid
 classDiagram
-    class AppConfig {
-        +str groq_api_key
-        +str serper_api_key
-        +str groq_model
-        +float temperature
-        +int max_tokens
-        +int max_retries
-        +int|None max_rpm
-        +int|None request_timeout
-        +bool verbose
-        +from_env() AppConfig
-        +with_overrides() AppConfig
+    class ResearchJob {
+        id (128-bit random)
+        status: queued|running|succeeded|failed|cancelled
+        topic, instructions, depth, report_style, model
+        stages: per-stage status, timestamps, counters
+        cache_key, owner_token_hash, client_hash
+        error_code, error_message, expires_at
     }
-    class ResearchResult {
-        +str topic
-        +str report
-        +str model
-        +float duration_seconds
-        +dict token_usage
-        +total_tokens int|None
+    class JobEvent {
+        id, job_id, type, stage, message, data, created_at
     }
+    class ResearchResultRow {
+        job_id, payload (ResultOut)
+    }
+    ResearchJob "1" --> "*" JobEvent
+    ResearchJob "1" --> "0..1" ResearchResultRow
 ```
 
-- `AppConfig` is frozen and validated at construction, so misconfiguration fails
-  fast with a clear `ConfigError` before any API call is made.
-- `ResearchResult` is a structured return value rather than a bare string, so
-  the workflow is equally usable from an HTTP handler or a job runner.
+`AppConfig` (engine) and `WebSettings` (server) are frozen, validated
+dataclasses built from environment variables.
 
 ## 5. Cross-cutting concerns
 
-### Resilience
-
-Model providers routinely return transient errors (rate limits, timeouts, 5xx).
-`_run_with_retries` retries these with exponential backoff and translates
-terminal failures into typed exceptions (`RateLimitExceededError`,
-`WorkflowError`). The set of retryable error types is resolved defensively from
-LiteLLM so the application tolerates version drift.
-
-### Error taxonomy and exit codes
-
-| Exception | Exit code | Meaning |
-| --- | --- | --- |
-| (none) | `0` | Success |
-| `WorkflowError` / `RateLimitExceededError` | `1` | Run failed |
-| `ConfigError` | `2` | Missing or invalid configuration |
-| `DependencyError` | `3` | A required dependency is not installed |
-| `KeyboardInterrupt` | `130` | Interrupted |
-
-### Observability
-
-All logging flows through the `research_team` logger namespace, so a host
-process can attach its own handlers or route to a structured sink. The CLI
-installs a Rich handler; `--verbose`, `--quiet`, and `--log-level` control
-verbosity.
-
-### Performance and startup
-
-Heavy dependencies (CrewAI, LiteLLM) are imported lazily inside factories, so
-`--help` and `--version` and the unit tests run without loading the full agent
-stack. A single LLM and search tool are shared across the agents.
-
-### Privacy
-
-CrewAI telemetry and interactive tracing are disabled by default
-(`CREWAI_DISABLE_TELEMETRY`, `CREWAI_TRACING_ENABLED`). Operators can opt back
-in through environment variables.
+* **Resilience** — per-call retries, per-stage provider fallback, bounded
+  queues, timeouts, restart recovery, graceful shutdown (running jobs recorded
+  as `interrupted`).
+* **Security & abuse protection** — see [SECURITY.md](SECURITY.md).
+* **Observability** — structured logs under the `research_team` logger
+  namespace (stderr), request ids, readiness checks that probe the LLM provider
+  cheaply (model list) and confirm the configured model is still served.
+* **Performance** — heavy imports are lazy; CrewAI runs in worker threads, never
+  on the event loop; the SSE endpoint is async and polls the database once per
+  second; finished jobs expire.
+* **Privacy** — salted IP hashes only; telemetry disabled.
 
 ## 6. Extensibility
 
-The layering is chosen so the system can evolve without rewrites:
-
-- **Add an agent or task.** Add a factory in `agents.py` or `tasks.py` and wire
-  it into `build_crew`. Nothing else changes.
-- **Swap the model provider.** `config.build_llm` is the only place that binds
-  Groq; point it at another LiteLLM-supported provider.
-- **Expose an API.** `run_research_workflow(topic, config)` returns a
-  `ResearchResult` and is transport-agnostic. Wrap it in FastAPI, a queue
-  consumer, or a scheduler without touching the domain layer.
-- **Persist or cache.** Results are structured; add a repository around the
-  workflow boundary.
-
-```mermaid
-flowchart LR
-    subgraph Future
-        api[FastAPI] --> core
-        jobs[Job Runner] --> core
-        cli2[CLI] --> core
-    end
-    core[[run_research_workflow]] --> crewai[CrewAI pipeline]
-```
+* **Another LLM provider** — add it to `providers.provider_spec` (anything
+  LiteLLM supports).
+* **Another search provider** — implement `SearchProvider.search()` in `search.py`.
+* **Another agent/stage** — add a factory in `agents.py`/`tasks.py`, a `Stage`
+  member in `progress.py`, and a call in `ResearchPipeline.run`; the UI picks up
+  stages from the API.
+* **Scale out** — move `JobManager._execute` into a separate worker process that
+  polls `queued` jobs (the database already holds all state), then run several
+  API instances behind a load balancer (move the in-memory API rate limiter to a
+  shared store at that point).
 
 ## 7. Known constraints
 
-- **Free-tier token limits.** Groq's free tier enforces a per-minute token
-  budget. The three-agent workflow accumulates context, so very large topics
-  may be rate-limited. The application retries with backoff and surfaces a clear
-  message. Use a higher-tier key, a lighter model, or a lower `GROQ_MAX_TOKENS`
-  for heavy workloads.
-- **Sequential by design.** Throughput is bounded by sequential execution. This
-  is intentional for determinism; a parallel or hierarchical process is a
-  possible future mode.
+* **Free-tier quotas** bound throughput (Groq: 8K tokens/minute per model);
+  see [FREE_TIER_INFRASTRUCTURE.md](FREE_TIER_INFRASTRUCTURE.md).
+* **Single instance.** The API rate limiter and concurrency caps are in-memory;
+  job quotas are in the database.
+* **Sequential by design.** Stages run in order so each can build on the
+  previous one; parallel stages are a possible future mode.

@@ -6,277 +6,297 @@
 [![Style: ruff](https://img.shields.io/badge/style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Typed: mypy](https://img.shields.io/badge/typed-mypy-2A6DB2.svg)](https://mypy-lang.org/)
 
-A production-oriented command-line application that coordinates a team of
-specialized AI agents (Research, Coding/Analysis, and a synthesizing Manager)
-to research any topic and produce a professional Markdown report.
+An open-source AI research platform. Give it a topic and a team of three AI
+agents researches the web, writes practical code examples, and delivers a
+cited, structured Markdown report — while you watch each agent work in real
+time.
 
-It is built with [CrewAI](https://github.com/crewAIInc/crewAI),
-[Groq](https://console.groq.com/), and [Serper](https://serper.dev/), and is
-organized as a clean, layered application that can grow from a CLI into a web
-service or background job runner.
+It runs as a **web app** (FastAPI + React) and as a **CLI**, built with
+[CrewAI](https://github.com/crewAIInc/crewAI), [Groq](https://console.groq.com/),
+and [Serper](https://serper.dev/). Every required service has a free tier with
+no credit card.
 
 ```bash
-multi-agent-research-team --topic "Applications of multi-agent systems in AI automation"
+multi-agent-research-team --topic "How to choose a vector database for RAG"
 ```
 
-## Table of contents
+> **Live demo:** not deployed yet. Everything needed to deploy for free is in
+> [DEPLOYMENT.md](DEPLOYMENT.md); a URL will be added here once a deployment is
+> live and verified.
 
-- [Highlights](#highlights)
-- [Architecture at a glance](#architecture-at-a-glance)
-- [Requirements](#requirements)
-- [Installation](#installation)
+## Contents
+
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [How it works](#how-it-works)
+- [Architecture](#architecture)
+- [Technology stack](#technology-stack)
+- [Quick start](#quick-start)
 - [Configuration](#configuration)
-- [Usage](#usage)
-- [Output](#output)
-- [Development](#development)
+- [Using the CLI](#using-the-cli)
+- [Using the API](#using-the-api)
+- [Deployment](#deployment)
+- [Free-tier limits](#free-tier-limits)
+- [Testing](#testing)
 - [Project structure](#project-structure)
-- [Troubleshooting](#troubleshooting)
-- [Extending the system](#extending-the-system)
-- [Contributing](#contributing)
-- [Security](#security)
-- [License](#license)
+- [Contributing](#contributing) · [Security](#security) · [License](#license)
 
-## Highlights
+## Features
 
-- **Deterministic multi-agent pipeline.** A sequential Research, Coding, and
-  Manager workflow with explicit task context, so runs are reproducible and
-  easy to debug.
-- **Production resilience.** Typed exceptions, exponential-backoff retries on
-  transient and rate-limit errors, and conventional process exit codes.
-- **Fast, testable core.** Heavy dependencies are imported lazily, so the CLI
-  starts instantly and the logic is unit-tested without network access.
-- **Structured configuration.** Immutable, validated settings loaded from
-  environment variables and overridable per invocation via CLI flags.
-- **Observability and privacy.** Structured logging with adjustable verbosity;
-  third-party telemetry is disabled by default.
-- **Clean packaging.** A `src/` layout, a console entry point, shipped type
-  information (PEP 561), and a `ruff` + `mypy` + `pytest` toolchain with CI.
+- **Three cooperating agents** — a Research Agent (web search, sourced notes), a
+  Coding Agent (runnable examples) and a Manager Agent (review and synthesis).
+- **Live agent monitoring** — every status change, search query, model request,
+  retry and provider fallback is streamed from the backend over Server-Sent
+  Events. Nothing is simulated.
+- **Honest sourcing** — every link in a report is checked against the URLs the
+  search tool actually retrieved; links that were not retrieved are flagged.
+  Sources are labelled as search results, never as "verified".
+- **Practical output** — technical report, executive brief or tutorial styles;
+  research notes and code examples shown separately; Python blocks are
+  syntax-checked (never executed); a factual methodology section.
+- **Downloads** — Markdown, JSON, and print / save as PDF; copy to clipboard.
+- **Built for free tiers** — per-call retries with backoff and jitter (honouring
+  `Retry-After`), per-stage provider fallback, result caching, per-IP and global
+  quotas, a bounded queue, and clear messages when a limit is reached.
+- **Production engineering** — persisted jobs with restart recovery,
+  cancellation, migrations (SQLite or Postgres), readiness probes, CSP and
+  security headers, rate limiting, typed code, and a CI pipeline with unit,
+  integration and end-to-end tests.
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for the full high-level design, component
-diagrams, and extension points.
+## Screenshots
 
-## Architecture at a glance
+A **real run** (Groq `openai/gpt-oss-120b` + Serper, 2026-11-16): three agents,
+10 sources retrieved, 5 of 5 report links matched to retrieved sources, 29 s,
+~12K tokens.
+
+![A completed real research run](docs/screenshots/report-real.png)
+
+The images below come from the **deterministic test engine** used by the
+end-to-end tests, so their content is sample output:
+
+| Landing page | Live agent monitoring | Report with a flagged link |
+| --- | --- | --- |
+| ![Landing page](docs/screenshots/landing.png) | ![Agents running](docs/screenshots/workspace-running.png) | ![Report with citation warning](docs/screenshots/report.png) |
+
+## How it works
+
+```mermaid
+flowchart LR
+    topic([Topic + options]) --> R
+    subgraph pipeline[Sequential pipeline]
+        R[Research Agent<br/>web search · sourced notes] --> C[Coding Agent<br/>runnable examples]
+        C --> M[Manager Agent<br/>review · synthesis]
+        R -. notes + retrieved sources .-> M
+    end
+    M --> report([Report + sources +<br/>citation check + methodology])
+```
+
+1. **Research.** The Research Agent searches the web (2–6 queries depending on
+   depth) and writes notes that cite their sources. Search results are treated
+   as untrusted data.
+2. **Code.** The Coding Agent turns the notes into short, runnable examples with
+   setup instructions.
+3. **Synthesis.** The Manager Agent reviews both, drops unsupported claims, and
+   writes the final report, citing only URLs that were actually retrieved.
+4. **Checks.** The engine compares the report's links with the retrieved
+   sources, syntax-checks Python code, and appends the sources and a factual
+   methodology.
+
+## Architecture
 
 ```text
-CLI  ->  Workflow (orchestration)  ->  Agents / Tasks  ->  Config (LLM + tools)
-                                                           Exceptions, Logging, Compat
+Browser ─▶ React website ─▶ FastAPI (/api/v1, SSE) ─▶ Job runner (threads) ─▶ Research engine
+                                    │                         │                  ├─ Groq / fallbacks (LiteLLM)
+                                    └─ security middleware     └─ SQLite/Postgres └─ Serper / Tavily
+CLI ───────────────────────────────────────────────────────────────────────────▶ Research engine
 ```
 
-The dependency direction is strict (top to bottom). The workflow exposes a
-single transport-agnostic entry point, `run_research_workflow(topic, config)`,
-which returns a structured `ResearchResult`. That function can be wrapped by a
-CLI, an HTTP API, or a background job without any change to the domain layer.
+The research engine is a reusable library with one entry point,
+`run_research_workflow(topic, config, options)`. The CLI and the web app are
+thin interfaces over it. See [ARCHITECTURE.md](ARCHITECTURE.md) for component
+and sequence diagrams, and [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) for
+the design decisions.
 
-## Requirements
+## Technology stack
 
-- Python 3.10 or newer
-- A [Groq](https://console.groq.com/) API key
-- A [Serper](https://serper.dev/) API key
+| Layer | Technology |
+| --- | --- |
+| Agents | CrewAI 1.x, LiteLLM |
+| LLM | Groq `openai/gpt-oss-120b` (default); Gemini, OpenRouter, Ollama, OpenAI-compatible as fallbacks |
+| Web search | Serper (Google results), Tavily fallback |
+| Backend | Python 3.10+, FastAPI, Uvicorn, SQLAlchemy 2, Alembic, SQLite / PostgreSQL (pg8000) |
+| Frontend | React 19, TypeScript, Vite, Tailwind CSS 4, react-router, react-markdown, lucide icons |
+| Quality | pytest, Ruff, mypy, Vitest, ESLint, Playwright, pip-audit, npm audit |
+| Delivery | Docker, Render Free blueprint, GitHub Actions |
 
-## Installation
+## Quick start
+
+Requirements: Python 3.10+ (3.11+ recommended), Node 22+, a free
+[Groq API key](https://console.groq.com/keys) and a free
+[Serper API key](https://serper.dev).
 
 ```bash
+git clone https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team.git
+cd Multi-Agent-Research-Team
+
 python -m venv .venv
+source .venv/bin/activate            # Windows: .venv\Scripts\activate
+pip install -e ".[web]"
 
-# Windows
-.venv\Scripts\activate
+cp .env.example .env                 # then add GROQ_API_KEY and SERPER_API_KEY
 
-# macOS / Linux
-source .venv/bin/activate
-
-pip install -e .
+cd frontend && npm ci && npm run build && cd ..
+research-team-web                    # open http://localhost:8000
 ```
 
-To install the development tooling (tests, linter, type checker):
+CLI only? `pip install -e .` is enough (no Node needed).
 
-```bash
-pip install -e ".[dev]"
-```
+> **Upgrading from 1.x?** Groq retired `llama-3.3-70b-versatile`. If your `.env`
+> contains `GROQ_MODEL=llama-3.3-70b-versatile`, change it to
+> `openai/gpt-oss-120b` (or delete the line).
 
 ## Configuration
 
-Copy the example environment file and fill in your keys:
-
-```bash
-cp .env.example .env
-```
+All settings come from environment variables (or `.env`). The essentials:
 
 | Variable | Required | Default | Description |
 | --- | --- | --- | --- |
-| `GROQ_API_KEY` | yes | | Groq API key. |
-| `SERPER_API_KEY` | yes | | Serper search API key. |
-| `GROQ_MODEL` | no | `llama-3.3-70b-versatile` | Groq model id. |
-| `GROQ_TEMPERATURE` | no | `0.2` | Sampling temperature (0.0 to 2.0). |
-| `GROQ_MAX_TOKENS` | no | `1024` | Maximum tokens per response. |
-| `GROQ_MAX_RETRIES` | no | `3` | Retries on transient provider errors. |
-| `MAX_RPM` | no | | Cap requests-per-minute across the crew. |
-| `REQUEST_TIMEOUT` | no | | Per-agent execution timeout in seconds. |
-| `LOG_LEVEL` | no | `INFO` | Logging level. |
+| `GROQ_API_KEY` | yes* | | Groq API key (*unless another `LLM_PROVIDER` is used) |
+| `SERPER_API_KEY` | yes* | | Serper key (*or `TAVILY_API_KEY`) |
+| `GROQ_MODEL` | no | `openai/gpt-oss-120b` | Groq model id |
+| `GROQ_MAX_TOKENS` / `SYNTHESIS_MAX_TOKENS` | no | `2048` / `3072` | Output budgets (agents / final report) |
+| `GROQ_MAX_RETRIES` | no | `3` | Retries for a single failed model request |
+| `REASONING_EFFORT` | no | `low` | Reasoning budget for reasoning models |
+| `LLM_PROVIDER` / `LLM_FALLBACK_PROVIDERS` | no | `groq` / – | Primary provider and ordered fallbacks |
+| `TAVILY_API_KEY` | no | | Fallback web search |
+| `DATABASE_URL` | no | SQLite file | Postgres URL for persistence (e.g. Neon) |
+| `LOG_LEVEL` | no | `INFO` | Logging level |
 
-The default model balances quality with Groq's free-tier token limits. For
-faster, cheaper runs, set `GROQ_MODEL=llama-3.1-8b-instant`.
+Abuse-protection limits (`JOBS_PER_IP_PER_DAY`, `GLOBAL_JOBS_PER_DAY`,
+`MAX_CONCURRENT_JOBS`, …), CORS, proxy and timeout settings are documented in
+[`.env.example`](.env.example).
 
-## Usage
-
-Run the workflow:
-
-```bash
-multi-agent-research-team --topic "Using CrewAI for multi-agent research"
-```
-
-Save the report to a file:
+## Using the CLI
 
 ```bash
-multi-agent-research-team --topic "Vector databases for RAG" --output reports/rag.md
+multi-agent-research-team --topic "Async Python patterns" --depth quick
+multi-agent-research-team --topic "Vector databases for RAG" --style executive_brief -o reports/rag.md
+multi-agent-research-team --topic "..." --model openai/gpt-oss-20b --temperature 0.4
+python -m research_team --topic "..."        # same thing
 ```
 
-Override model settings for a single run:
-
-```bash
-multi-agent-research-team --topic "Async Python patterns" \
-  --model llama-3.1-8b-instant --temperature 0.4 --max-tokens 1500
-```
-
-You can also run it as a module: `python -m research_team --topic "..."`.
-
-### Command-line options
+The report goes to **stdout**; progress, logs and errors go to **stderr**, so
+`... --quiet > report.md` captures only the report. `-o` saves the full
+document (report, retrieved sources, methodology).
 
 | Flag | Description |
 | --- | --- |
-| `--topic` | Required. Research topic or user goal. |
-| `-o, --output` | Save the final Markdown report to a file. |
-| `--model` | Override the Groq model id. |
-| `--temperature` | Override the sampling temperature. |
-| `--max-tokens` | Override the maximum tokens per response. |
-| `--max-rpm` | Cap requests-per-minute across the crew. |
-| `--max-retries` | Retries on transient provider errors. |
-| `--timeout` | Per-agent execution timeout in seconds. |
-| `-v, --verbose` | Verbose agent and crew tracing plus DEBUG logs. |
-| `-q, --quiet` | Print only the report (machine-friendly). |
-| `--log-level` | One of `DEBUG`, `INFO`, `WARNING`, `ERROR`. |
-| `--version` | Print the version and exit. |
+| `--topic` | Required. Research topic or question. |
+| `--depth` | `quick` (2 searches), `standard` (4), `deep` (6). |
+| `--style` | `technical_report`, `executive_brief`, `tutorial`. |
+| `--instructions` | Extra guidance, e.g. audience or focus. |
+| `-o, --output` | Save the full Markdown document to a file. |
+| `--provider`, `--model` | LLM provider and model. |
+| `--temperature`, `--max-tokens`, `--max-rpm`, `--max-retries` | Model tuning. |
+| `--timeout`, `--workflow-timeout` | Per-agent and whole-run time limits (seconds). |
+| `-v`, `-q`, `--log-level` | Verbosity. |
+| `--version` | Print the version. |
 
-### Exit codes
+Exit codes: `0` success · `1` workflow failure (rate limit, cancellation,
+timeout) · `2` configuration error · `3` missing dependency · `130` interrupted.
 
-| Code | Meaning |
-| --- | --- |
-| `0` | Success |
-| `1` | Workflow failure (including rate limiting) |
-| `2` | Configuration error (missing or invalid settings) |
-| `3` | Missing dependency |
-| `130` | Interrupted (Ctrl-C) |
+## Using the API
 
-## Output
-
-The application produces a structured Markdown report with sections for the
-problem restatement, key findings, a recommended approach, technical
-implementation notes, and references. The report is printed to the terminal and,
-optionally, saved to a file.
-
-Example (abridged) for the topic "Benefits of using dependency injection in Python":
-
-```markdown
-# Problem / Question Restatement
-Dependency injection is a design pattern that keeps components loosely coupled...
-
-# Summary of Key Findings
-- Improves maintainability and testability by decoupling components from dependencies
-- Allows easy swapping of implementations
-- Enhances modularity and reusability
-
-# Recommended Approach or Strategy
-1. Define a dependency interface
-2. Create concrete implementations
-3. Inject the dependency into the consuming component
-
-# Code / Technical Implementation Notes
-...
-
-# Further Reading / References
-...
-```
-
-## Development
+The web app exposes a versioned REST API with interactive docs at
+**`/api/docs`**. Full reference: [docs/API.md](docs/API.md).
 
 ```bash
-pip install -e ".[dev]"
-
-pytest              # run the test suite
-ruff check .        # lint
-ruff format .       # format
-mypy                # type-check
+# submit
+curl -s -X POST localhost:8000/api/v1/research -H 'Content-Type: application/json' \
+     -d '{"topic": "How to choose a vector database for RAG", "depth": "quick"}'
+# follow live progress
+curl -N localhost:8000/api/v1/research/<id>/events
+# fetch the result / download
+curl -s localhost:8000/api/v1/research/<id>/result
+curl -OJ "localhost:8000/api/v1/research/<id>/download?format=md"
 ```
 
-Common tasks are also available through the Makefile (`make check` runs every
-quality gate). The test suite runs without network access or API keys: the
-CrewAI-heavy paths are mocked, and the few tests that construct real CrewAI
-objects make no API calls.
+## Deployment
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution workflow and
-[CHANGELOG.md](CHANGELOG.md) for the release history.
+One Docker image serves the website and the API. The repository includes a
+[Render](https://render.com) Free blueprint ([`render.yaml`](render.yaml)) and
+supports an optional free [Neon](https://neon.tech) Postgres database for
+persistence. Step-by-step instructions, the verification checklist and
+alternatives are in [DEPLOYMENT.md](DEPLOYMENT.md).
+
+```bash
+docker build -t multi-agent-research-team .
+docker run --rm -p 8000:8000 --env-file .env multi-agent-research-team
+```
+
+## Free-tier limits
+
+Free is not unlimited. Verified on 2026-11-15 (details and sources in
+[FREE_TIER_INFRASTRUCTURE.md](FREE_TIER_INFRASTRUCTURE.md)):
+
+- **Groq** (measured): 1,000 requests/day and 8,000 tokens/minute per model. A
+  run uses ~10–12K tokens, so rate-limit pauses during a run are normal and
+  handled automatically.
+- **Serper**: 2,500 free searches at signup (each run uses 2–6).
+- **Render Free**: sleeps after 15 minutes idle (first request takes ~1 minute),
+  750 instance hours/month, ephemeral disk — use Neon to keep results.
+- The shipped limits (10 runs per visitor per day, 60 per day in total, one run
+  at a time) keep a public demo within these quotas. This is a portfolio-scale
+  service, not a high-traffic one.
+
+## Testing
+
+```bash
+pytest                            # backend: unit + integration (no network, no keys)
+cd frontend && npm run test       # frontend unit/component tests
+cd frontend && npm run test:e2e   # Playwright end-to-end journey
+```
+
+The backend suite drives **real CrewAI agents** with scripted LiteLLM responses,
+runs the web API against an in-memory database, and covers retries, fallbacks,
+cancellation, quotas, restart recovery and security headers. End-to-end tests
+run the real API with a deterministic test engine. CI also runs Ruff, mypy,
+ESLint, TypeScript checks, dependency audits, and a Docker build smoke test.
 
 ## Project structure
 
 ```text
-multi-agent-research-team/
-├── ARCHITECTURE.md          # High-level design (HLD)
-├── CHANGELOG.md
-├── CODE_OF_CONDUCT.md
-├── CONTRIBUTING.md
-├── LICENSE
-├── Makefile
-├── SECURITY.md
-├── pyproject.toml           # Packaging and tooling configuration
-├── requirements.txt
-├── .env.example
-├── .github/                 # CI workflow and issue/PR templates
-├── src/
-│   └── research_team/
-│       ├── __init__.py      # Public API (lazy)
-│       ├── __main__.py      # python -m research_team
-│       ├── cli.py           # Command-line interface
-│       ├── crew.py          # Orchestration and resilience
-│       ├── agents.py        # Agent factories
-│       ├── tasks.py         # Task factories and context wiring
-│       ├── config.py        # Configuration and LLM/tool factories
-│       ├── exceptions.py    # Typed error hierarchy
-│       ├── logging_config.py
-│       └── compat.py        # Third-party compatibility shims
-└── tests/
+├── src/research_team/
+│   ├── cli.py              # CLI
+│   ├── crew.py             # staged three-agent pipeline
+│   ├── agents.py, tasks.py # agent factories, hardened prompts
+│   ├── providers.py        # LLM providers, per-call retries (CallGuard)
+│   ├── search.py           # Serper/Tavily, source collection, search tool
+│   ├── report.py           # citation and code checks, methodology
+│   ├── progress.py         # progress events, cancellation, deadlines
+│   ├── config.py, exceptions.py, logging_config.py, compat.py
+│   └── web/                # FastAPI app, routes, jobs, DB, migrations, security
+├── frontend/               # React + TypeScript website
+├── tests/                  # backend tests; tests/e2e/server.py (E2E test server)
+├── docs/                   # API reference, screenshots
+├── Dockerfile, render.yaml # deployment
+├── constraints/security.txt
+└── ARCHITECTURE.md, DEPLOYMENT.md, FREE_TIER_INFRASTRUCTURE.md, IMPLEMENTATION_PLAN.md, …
 ```
-
-## Troubleshooting
-
-- **`rate-limited ... after N retries`.** Groq's free tier enforces a
-  per-minute token budget that the three-agent workflow can exceed on large
-  topics. Wait a minute, use a higher-tier key, lower `GROQ_MAX_TOKENS`, or try
-  `--model llama-3.1-8b-instant`.
-- **`Missing required environment variables`.** Ensure `.env` exists (copied
-  from `.env.example`) and that both API keys are set.
-
-## Extending the system
-
-The architecture is intentionally small but layered, so it can grow into:
-
-- A FastAPI service layer around `run_research_workflow`.
-- Background job execution and result persistence.
-- Caching for repeated research runs.
-- Additional agents and tasks, or a parallel/hierarchical process.
-
-See [ARCHITECTURE.md](ARCHITECTURE.md) for details.
 
 ## Contributing
 
-Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the
-development setup, quality gates, and pull-request workflow. This project follows
-a [Code of Conduct](CODE_OF_CONDUCT.md), and all changes are documented in
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for setup,
+quality gates and the pull-request workflow. This project follows a
+[Code of Conduct](CODE_OF_CONDUCT.md); changes are recorded in
 [CHANGELOG.md](CHANGELOG.md).
 
 ## Security
 
-Credentials must live only in a git-ignored `.env` file and must never be
-committed. To report a vulnerability or review how secrets are handled, see the
-[security policy](SECURITY.md).
+Credentials belong in a git-ignored `.env` file or your host's secret store and
+must never be committed. The threat model, controls and dependency advisories
+are documented in the [security policy](SECURITY.md), which also explains how
+to report a vulnerability.
 
 ## License
 

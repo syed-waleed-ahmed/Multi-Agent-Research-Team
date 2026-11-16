@@ -67,3 +67,27 @@ def patch_litellm_cache_breakpoint() -> bool:
     setattr(LLM, _CACHE_BREAKPOINT_FLAG, True)
     log.debug("Applied CrewAI/LiteLLM cache_breakpoint compatibility shim")
     return True
+
+
+def configure_crewai_console(*, verbose: bool) -> bool:
+    """Align CrewAI's global console formatter with our ``verbose`` setting.
+
+    CrewAI's module-level ``event_listener`` starts with a *verbose* console
+    formatter and only a ``Crew`` object turns it down. The staged pipeline runs
+    tasks without a ``Crew``, so without this CrewAI would print decorated panels
+    to stdout (polluting the report stream, and crashing on non-UTF-8 Windows
+    consoles because the panels contain emoji).
+
+    Returns ``True`` if the setting was applied, ``False`` if the upstream
+    surface changed (in which case this is a harmless no-op).
+    """
+    try:
+        from crewai.events.event_listener import event_listener
+    except Exception:  # pragma: no cover - crewai always present at runtime
+        return False
+    formatter = getattr(event_listener, "formatter", None)
+    if formatter is None or not hasattr(formatter, "verbose"):
+        log.debug("CrewAI console shim skipped: formatter not found")
+        return False
+    formatter.verbose = verbose
+    return True
