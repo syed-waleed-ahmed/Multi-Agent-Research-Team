@@ -169,6 +169,7 @@ def create_app(
         max_body_bytes=settings.max_request_bytes,
         limiter=SlidingWindowLimiter(settings.api_requests_per_ip_per_minute, 60.0),
         trusted_proxy_hops=settings.trusted_proxy_hops,
+        client_ip_headers=settings.client_ip_headers,
         ip_salt=settings.ip_hash_salt,
     )
 

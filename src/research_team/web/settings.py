@@ -9,6 +9,7 @@ fails fast instead of surfacing as a confusing runtime error.
 from __future__ import annotations
 
 import os
+import re
 import secrets
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -17,6 +18,7 @@ from ..config import _parse_int
 from ..exceptions import ConfigError
 
 _PACKAGE_DIR = Path(__file__).resolve().parent
+_HEADER_NAME = re.compile(r"^[a-z0-9-]{1,64}$")
 
 
 def _csv(value: str | None) -> tuple[str, ...]:
@@ -50,6 +52,9 @@ class WebSettings:
     cors_origins: tuple[str, ...] = ()
     #: Number of reverse proxies in front of the app whose X-Forwarded-For can be trusted.
     trusted_proxy_hops: int = 0
+    #: Headers (lower-case) that a trusted edge proxy overwrites with the client IP,
+    #: e.g. ("true-client-ip", "cf-connecting-ip") behind Cloudflare (as on Render).
+    client_ip_headers: tuple[str, ...] = ()
 
     # --- job execution -----------------------------------------------------
     max_concurrent_jobs: int = 1
@@ -104,6 +109,8 @@ class WebSettings:
         errors += [f"{name} must be zero or greater." for name, v in non_negative.items() if v < 0]
         if self.max_concurrent_jobs > 8:
             errors.append("MAX_CONCURRENT_JOBS above 8 is not supported on a single instance.")
+        if any(not _HEADER_NAME.match(name) for name in self.client_ip_headers):
+            errors.append("CLIENT_IP_HEADERS must be a comma-separated list of header names.")
         if "*" in self.cors_origins:
             errors.append("CORS_ORIGINS must list explicit origins; '*' is not allowed.")
         if not self.database_url.strip():
@@ -120,6 +127,7 @@ class WebSettings:
             database_url=env("DATABASE_URL", "").strip() or cls.database_url,
             cors_origins=_csv(env("CORS_ORIGINS")),
             trusted_proxy_hops=_parse_int(env("TRUSTED_PROXY_HOPS"), 0, "TRUSTED_PROXY_HOPS"),
+            client_ip_headers=tuple(name.lower() for name in _csv(env("CLIENT_IP_HEADERS"))),
             max_concurrent_jobs=_parse_int(env("MAX_CONCURRENT_JOBS"), 1, "MAX_CONCURRENT_JOBS"),
             max_queued_jobs=_parse_int(env("MAX_QUEUED_JOBS"), 5, "MAX_QUEUED_JOBS"),
             job_timeout_seconds=_parse_int(env("JOB_TIMEOUT_SECONDS"), 600, "JOB_TIMEOUT_SECONDS"),

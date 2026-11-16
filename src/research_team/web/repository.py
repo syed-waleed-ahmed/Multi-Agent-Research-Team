@@ -222,17 +222,26 @@ def update_stage(session: Session, job_id: str, stage: str, **changes: Any) -> N
 
 
 def recover_interrupted(session: Session) -> list[str]:
-    """After a restart: fail jobs that were running, return queued job ids in order."""
-    session.execute(
-        update(ResearchJob)
-        .where(ResearchJob.status == JobStatus.RUNNING.value)
-        .values(
-            status=JobStatus.FAILED.value,
-            finished_at=utcnow(),
-            error_code="interrupted",
-            error_message="The server restarted while this job was running. Please retry.",
-        )
-    )
+    """After a restart: fail jobs that were running, return queued job ids in order.
+
+    Stages that were running are marked failed too, so the UI never shows a
+    stage "running" on a job that has already ended.
+    """
+    now = utcnow()
+    for job in session.scalars(
+        select(ResearchJob).where(ResearchJob.status == JobStatus.RUNNING.value)
+    ):
+        job.status = JobStatus.FAILED.value
+        job.finished_at = now
+        job.error_code = "interrupted"
+        job.error_message = "The server restarted while this job was running. Please retry."
+        job.stages = [
+            {**s, "status": StageStatus.FAILED.value, "finished_at": now.isoformat()}
+            if s["status"] == StageStatus.RUNNING.value
+            else s
+            for s in job.stages
+        ]
+    session.flush()
     return list(
         session.scalars(
             select(ResearchJob.id)

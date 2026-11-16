@@ -89,12 +89,14 @@ class SecurityMiddleware:
         limiter: SlidingWindowLimiter,
         trusted_proxy_hops: int,
         ip_salt: str,
+        client_ip_headers: tuple[str, ...] = (),
     ) -> None:
         self.app = app
         self.max_body_bytes = max_body_bytes
         self.limiter = limiter
         self.trusted_proxy_hops = trusted_proxy_hops
         self.ip_salt = ip_salt
+        self.client_ip_headers = client_ip_headers
 
     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
         if scope["type"] != "http":
@@ -122,7 +124,10 @@ class SecurityMiddleware:
             # --- per-IP API rate limit (health checks are exempt) -----------
             if path.startswith("/api/") and not path.startswith("/api/health"):
                 ip = client_ip(
-                    _peer(scope), _header(scope, b"x-forwarded-for"), self.trusted_proxy_hops
+                    _peer(scope),
+                    lambda name: _header(scope, name.encode("latin-1")),
+                    trusted_hops=self.trusted_proxy_hops,
+                    ip_headers=self.client_ip_headers,
                 )
                 allowed, retry_after = self.limiter.hit(hash_client(ip, self.ip_salt))
                 if not allowed:
