@@ -13,10 +13,6 @@ services:
     plan: free
     # Keep the app next to its database (e.g. Neon AWS eu-central-1 / Frankfurt).
     region: frankfurt
-    # Render keeps the old instance for 60 s after a deploy switches traffic, then
-    # sends SIGTERM; this is the window before SIGKILL. The app drains running
-    # research jobs inside it (SHUTDOWN_DRAIN_SECONDS) instead of cutting them off.
-    maxShutdownDelaySeconds: 300
     dockerfilePath: ./Dockerfile
     healthCheckPath: /api/health
     autoDeploy: true
@@ -61,8 +57,15 @@ services:
         value: "5"
       - key: JOB_TIMEOUT_SECONDS
         value: "600"
+      # --- graceful shutdown on deploys: Render keeps the old instance for 60 s
+      # after switching traffic, then sends SIGTERM and kills it 30 s later (the
+      # delay is fixed on the Free plan). Close open connections quickly (live
+      # progress streams reconnect to the new instance), then let running jobs
+      # finish: 5 s + 20 s fits inside the 30 s window.
+      - key: GRACEFUL_SHUTDOWN_SECONDS
+        value: "5"
       - key: SHUTDOWN_DRAIN_SECONDS
-        value: "240"
+        value: "20"
       - key: JOBS_PER_IP_PER_HOUR
         value: "5"
       - key: JOBS_PER_IP_PER_DAY
