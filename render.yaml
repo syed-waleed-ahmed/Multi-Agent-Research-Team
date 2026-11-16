@@ -11,6 +11,8 @@ services:
     name: multi-agent-research-team
     runtime: docker
     plan: free
+    # Keep the app next to its database (e.g. Neon AWS eu-central-1 / Frankfurt).
+    region: frankfurt
     dockerfilePath: ./Dockerfile
     healthCheckPath: /api/health
     autoDeploy: true
