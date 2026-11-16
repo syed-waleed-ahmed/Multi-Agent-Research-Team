@@ -21,9 +21,11 @@ no credit card.
 multi-agent-research-team --topic "How to choose a vector database for RAG"
 ```
 
-> **Live demo:** not deployed yet. Everything needed to deploy for free is in
-> [DEPLOYMENT.md](DEPLOYMENT.md); a URL will be added here once a deployment is
-> live and verified.
+> **Live demo: <https://multi-agent-research-team-aasz.onrender.com>**
+> (Render Free + Neon Free, verified 2026-11-16). It runs on free tiers: the
+> first visit after 15 idle minutes takes about a minute to wake the server,
+> and each visitor gets 10 research runs per day. API docs:
+> [`/api/docs`](https://multi-agent-research-team-aasz.onrender.com/api/docs).
 
 ## Contents
 
@@ -66,9 +68,15 @@ multi-agent-research-team --topic "How to choose a vector database for RAG"
 
 ## Screenshots
 
-A **real run** (Groq `openai/gpt-oss-120b` + Serper, 2026-11-16): three agents,
-10 sources retrieved, 5 of 5 report links matched to retrieved sources, 29 s,
-~12K tokens.
+**The live deployment** completing a real run (2026-11-16, Groq
+`openai/gpt-oss-120b` + Serper, Render Free + Neon): all three agents finished
+in about a minute, 9 sources were retrieved, and the Manager Agent waited out a
+free-tier rate limit on its own (3 model requests) instead of failing.
+
+![A completed research run on the live deployment](docs/screenshots/live-run.jpg)
+
+A **real run** on a local machine (same providers): 10 sources retrieved, 5 of 5
+report links matched to retrieved sources, 29 s, ~12K tokens.
 
 ![A completed real research run](docs/screenshots/report-real.png)
 

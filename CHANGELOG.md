@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-11-16
+
+First verified public deployment: https://multi-agent-research-team-aasz.onrender.com (Render Free + Neon Free).
+Every fix below was found by exercising that deployment.
+
 ### Fixed
 
 - Per-visitor quotas behind Render/Cloudflare: clients are identified by
@@ -21,12 +26,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   using the provider's own retry hint (header or message) instead of three
   short retries that could not outlast a token-per-minute window.
 - An interrupted job no longer shows a stage as still running.
+- The citation check ignores local and private addresses (for example a
+  `http://localhost:16686` dashboard link in setup instructions); they are
+  never citations.
 
 ### Added
 
 - `LLM_FALLBACK_PROVIDERS` accepts `provider:model` entries (e.g.
   `groq:openai/gpt-oss-20b`), a free fallback because free-tier token limits
   are per model.
+
+### Security
+
+- Pin the frontend toolchain's `minimatch` to the patched 11.x line
+  (GHSA-g3hv-75wg-m249, development-only); `npm audit` now reports no
+  vulnerabilities in any dependency.
+- Resolve a CodeQL finding in the end-to-end tests by matching a link by plain
+  text instead of a hand-escaped regular expression.
 
 ## [2.0.0] - 2026-11-15
 
@@ -150,6 +166,7 @@ First production-ready release.
 - Configured mypy to skip third-party stubs (for example numpy's PEP 695 `type`
   statements) so CI type-checking passes across the Python 3.10-3.12 matrix.
 
-[Unreleased]: https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/releases/tag/v1.0.0

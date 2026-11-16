@@ -162,7 +162,20 @@ request still waits for the API to wake up.
 
 ## Deployment status of this repository
 
-The deployment configuration (`Dockerfile`, `render.yaml`) is complete, and CI
-builds and smoke-tests the Docker image. A public deployment requires the
-repository owner's Render account and API keys, so **no live URL is claimed
-here**; add it to the README once you have deployed and verified it.
+**Live:** <https://multi-agent-research-team-aasz.onrender.com> — Render Free
+(Frankfurt) with a Neon Free Postgres database (Frankfurt), deployed from
+`render.yaml`. Verified on 2026-11-16:
+
+* `/api/health` and `/api/health/ready` (database `postgresql (persistent)`,
+  Groq reachable with `openai/gpt-oss-120b` available, search configured).
+* Security headers on every response (CSP, HSTS, `X-Frame-Options`, request ids).
+* A real research run through the website: three agents completed, a free-tier
+  rate limit was waited out automatically, and the report rendered with its
+  citation check, sources, notes, code and methodology; Markdown and JSON
+  downloads; no browser console errors; light and dark themes.
+* Per-visitor quotas stay stable across requests, and forged client-IP headers
+  do not change a visitor's identity (Cloudflare rejects a forged
+  `CF-Connecting-IP` outright).
+
+Mobile layouts are verified by the Playwright end-to-end suite (360 px, no
+horizontal scrolling) rather than on the live site.
