@@ -62,6 +62,9 @@ class WebSettings:
     job_timeout_seconds: int = 600
     result_cache_ttl_hours: int = 24
     job_retention_days: int = 7
+    #: On shutdown, let running jobs finish for up to this many seconds before
+    #: stopping them (keep below the host's SIGTERM-to-SIGKILL window).
+    shutdown_drain_seconds: int = 25
 
     # --- request validation --------------------------------------------------
     max_topic_chars: int = 300
@@ -105,6 +108,7 @@ class WebSettings:
             "MAX_QUEUED_JOBS": self.max_queued_jobs,
             "TRUSTED_PROXY_HOPS": self.trusted_proxy_hops,
             "RESULT_CACHE_TTL_HOURS": self.result_cache_ttl_hours,
+            "SHUTDOWN_DRAIN_SECONDS": self.shutdown_drain_seconds,
         }
         errors += [f"{name} must be zero or greater." for name, v in non_negative.items() if v < 0]
         if self.max_concurrent_jobs > 8:
@@ -135,6 +139,9 @@ class WebSettings:
                 env("RESULT_CACHE_TTL_HOURS"), 24, "RESULT_CACHE_TTL_HOURS"
             ),
             job_retention_days=_parse_int(env("JOB_RETENTION_DAYS"), 7, "JOB_RETENTION_DAYS"),
+            shutdown_drain_seconds=_parse_int(
+                env("SHUTDOWN_DRAIN_SECONDS"), 25, "SHUTDOWN_DRAIN_SECONDS"
+            ),
             max_topic_chars=_parse_int(env("MAX_TOPIC_CHARS"), 300, "MAX_TOPIC_CHARS"),
             max_instructions_chars=_parse_int(
                 env("MAX_INSTRUCTIONS_CHARS"), 1000, "MAX_INSTRUCTIONS_CHARS"

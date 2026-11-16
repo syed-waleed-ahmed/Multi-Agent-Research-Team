@@ -135,9 +135,19 @@ request still waits for the API to wake up.
 
 ## 7. Operating notes
 
-* **Graceful shutdown.** On redeploy, running jobs are stopped and recorded as
-  `interrupted`; queued jobs resume when the new instance starts (persistent
-  database required for them to survive).
+* **Zero-downtime deploys.** Render keeps the old instance for 60 s after
+  switching traffic, then sends SIGTERM and allows `maxShutdownDelaySeconds`
+  (300 in the blueprint) before SIGKILL. The old instance starts no new jobs,
+  lets running ones finish for up to `SHUTDOWN_DRAIN_SECONDS` (240), and keeps
+  heartbeating them so the new instance does not treat them as orphaned.
+  Queued jobs are picked up by the new instance. Only a job that outlives the
+  drain window is recorded as `interrupted` (requires the shared Postgres
+  database; with ephemeral SQLite each instance has its own data).
+* **Rate limits.** Groq's free tier allows 8,000 tokens per minute per model. A
+  request waits out rate limits for up to `RATE_LIMIT_MAX_WAIT_SECONDS` (using
+  the provider's own retry hint), then the stage continues on the next entry of
+  `LLM_FALLBACK_PROVIDERS` (the blueprint uses `groq:openai/gpt-oss-20b`, which
+  has its own free budget).
 * **Retention.** Finished jobs are deleted after `JOB_RETENTION_DAYS` (default 7).
 * **Logs.** Structured application logs go to stderr (visible in Render's
   log stream). Client IPs are never logged or stored — only salted hashes.

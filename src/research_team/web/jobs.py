@@ -8,10 +8,15 @@ Execution model
 * ``MAX_CONCURRENT_JOBS`` caps parallel runs (default 1: free-tier LLM quotas
   are per account, so parallel runs mostly just collide on rate limits).
   ``MAX_QUEUED_JOBS`` caps the backlog; the API rejects work beyond it.
-* **Restart recovery.** On startup, jobs left ``running`` by a crashed or
-  restarted process are marked ``failed`` with code ``interrupted`` (their
-  partial work cannot be resumed), and ``queued`` jobs are re-submitted, so
-  accepted work is not silently dropped.
+* **Heartbeats and recovery.** A worker refreshes ``heartbeat_at`` on its
+  running jobs every 15 s. At startup and every 30 s, jobs whose heartbeat is
+  stale (> 90 s) are marked ``failed`` with code ``interrupted`` (partial work
+  cannot be resumed) and unclaimed ``queued`` jobs are picked up. Jobs that
+  another live instance is still executing (e.g. during a zero-downtime
+  deploy) are left alone.
+* **Graceful shutdown.** On SIGTERM no new job starts; running jobs get up to
+  ``SHUTDOWN_DRAIN_SECONDS`` to finish before they are stopped, and queued
+  jobs stay queued for the next instance.
 * **Cancellation** is cooperative: a queued job is cancelled immediately; a
   running job stops at the engine's next checkpoint (before its next model
   request or search).
@@ -21,6 +26,7 @@ Execution model
 from __future__ import annotations
 
 import threading
+import time
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict
@@ -50,6 +56,12 @@ log = get_logger("web.jobs")
 Runner = Callable[..., ResearchResult]
 
 _CLEANUP_INTERVAL_SECONDS = 600
+#: How often a worker records that it is still executing its jobs.
+_HEARTBEAT_SECONDS = 15
+#: A running job whose heartbeat is older than this is treated as orphaned.
+_STALE_AFTER_SECONDS = 90
+#: How often to look for orphaned running jobs and unclaimed queued jobs.
+_SWEEP_SECONDS = 30
 
 
 class JobObserver:
@@ -137,7 +149,7 @@ def _error_for(exc: BaseException) -> tuple[JobStatus, str, str]:
 
 
 class JobManager:
-    """Owns the worker pool, cancellation handles, and the cleanup janitor."""
+    """Owns the worker pool, cancellation handles, heartbeats and the janitor."""
 
     def __init__(
         self,
@@ -155,38 +167,60 @@ class JobManager:
             max_workers=settings.max_concurrent_jobs, thread_name_prefix="research-job"
         )
         self._controls: dict[str, RunControl] = {}
+        #: Job ids handed to the executor and not finished yet (prevents duplicates).
+        self._submitted: set[str] = set()
         self._lock = threading.Lock()
         #: Serialises quota checks + inserts so concurrent requests cannot overshoot limits.
         self.create_lock = threading.Lock()
+        #: Set when shutdown begins: no new job starts on this instance.
         self._stopping = threading.Event()
-        self._janitor: threading.Thread | None = None
+        #: Set when shutdown has finished: background threads exit.
+        self._stopped = threading.Event()
+        self._threads: list[threading.Thread] = []
         self.started = False
 
     # -- lifecycle ---------------------------------------------------------
     def start(self) -> None:
-        with self.db.session() as session:
-            queued = repo.recover_interrupted(session)
-        for job_id in queued:
-            self.submit(job_id)
-        if queued:
-            log.info("Re-queued %d job(s) after restart", len(queued))
-        self._janitor = threading.Thread(target=self._janitor_loop, name="job-janitor", daemon=True)
-        self._janitor.start()
+        resumed = self.sweep()
+        if resumed:
+            log.info("Re-queued %d job(s) after restart", resumed)
+        loops = ((self._janitor_loop, "job-janitor"), (self._heartbeat_loop, "job-heartbeat"))
+        for target, name in loops:
+            thread = threading.Thread(target=target, name=name, daemon=True)
+            thread.start()
+            self._threads.append(thread)
         self.started = True
 
-    def shutdown(self, timeout: float = 20.0) -> None:
-        """Graceful stop: cancel running jobs and wait briefly for workers."""
+    def shutdown(self, drain_seconds: float = 0.0, join_timeout: float = 15.0) -> None:
+        """Graceful stop for deploys and restarts.
+
+        1. Stop starting new jobs (queued ones stay queued for the next instance).
+        2. Let running jobs finish for up to ``drain_seconds``; their heartbeat
+           keeps other instances from treating them as orphaned meanwhile.
+        3. Cancel whatever is still running (recorded as ``interrupted``).
+        """
         self._stopping.set()
+        deadline = time.monotonic() + max(0.0, drain_seconds)
+        with self._lock:
+            running = len(self._controls)
+        if running and drain_seconds > 0:
+            log.info("Draining %d running job(s) for up to %.0fs", running, drain_seconds)
+        while time.monotonic() < deadline:
+            with self._lock:
+                if not self._controls:
+                    break
+            time.sleep(0.25)
         with self._lock:
             controls = list(self._controls.values())
         for control in controls:
             control.cancel()
         self._executor.shutdown(wait=False, cancel_futures=True)
-        worker_threads = [
+        workers = [
             t for t in threading.enumerate() if t.name.startswith("research-job") and t.is_alive()
         ]
-        for thread in worker_threads:
-            thread.join(timeout=timeout / max(1, len(worker_threads)))
+        for thread in workers:
+            thread.join(timeout=join_timeout / max(1, len(workers)))
+        self._stopped.set()
         self.started = False
 
     @property
@@ -197,6 +231,10 @@ class JobManager:
     def submit(self, job_id: str) -> None:
         if self._stopping.is_set():
             return
+        with self._lock:
+            if job_id in self._submitted:
+                return
+            self._submitted.add(job_id)
         self._executor.submit(self._execute, job_id)
 
     def cancel(self, job_id: str) -> str:
@@ -215,11 +253,41 @@ class JobManager:
             control.cancel()
         return status
 
+    def sweep(self, stale_after_seconds: float = _STALE_AFTER_SECONDS) -> int:
+        """Fail orphaned running jobs and pick up queued jobs; returns jobs submitted.
+
+        Runs at startup and periodically, so work left behind by another
+        instance (a crash, or a deploy that ended before a queued job started)
+        is never stranded. A job whose worker is still heartbeating elsewhere is
+        not touched.
+        """
+        stale_before = repo.utcnow() - timedelta(seconds=stale_after_seconds)
+        try:
+            with self.db.session() as session:
+                queued = repo.recover_interrupted(session, stale_before)
+        except Exception:  # pragma: no cover - janitor must never die
+            log.exception("Job sweep failed")
+            return 0
+        with self._lock:
+            new = [job_id for job_id in queued if job_id not in self._submitted]
+        for job_id in new:
+            self.submit(job_id)
+        return len(new)
+
     # -- worker ------------------------------------------------------------
+    def _forget(self, job_id: str) -> None:
+        with self._lock:
+            self._submitted.discard(job_id)
+            self._controls.pop(job_id, None)
+
     def _execute(self, job_id: str) -> None:
+        if self._stopping.is_set():
+            self._forget(job_id)  # leave it queued for the next instance
+            return
         with self.db.session() as session:
             if not repo.mark_running(session, job_id):
-                return  # cancelled (or otherwise moved on) before a worker picked it up
+                self._forget(job_id)
+                return  # cancelled, or already taken by another instance
             job = repo.get_job(session, job_id)
             assert job is not None
             topic = job.topic
@@ -235,8 +303,6 @@ class JobManager:
             self._controls[job_id] = control
         observer = JobObserver(self.db, job_id)
         try:
-            if self._stopping.is_set():
-                control.cancel()
             config = self._config_factory()
             result = self._runner(
                 topic,
@@ -266,12 +332,28 @@ class JobManager:
             if not isinstance(exc, Exception):
                 raise
         finally:
+            self._forget(job_id)
+
+    # -- background threads ------------------------------------------------
+    def _heartbeat_loop(self) -> None:
+        while not self._stopped.wait(_HEARTBEAT_SECONDS):
             with self._lock:
-                self._controls.pop(job_id, None)
+                running = list(self._controls)
+            if not running:
+                continue
+            try:
+                with self.db.session() as session:
+                    repo.touch_heartbeats(session, running)
+            except Exception:  # pragma: no cover - a missed beat is tolerated
+                log.warning("Heartbeat update failed", exc_info=True)
 
     def _janitor_loop(self) -> None:
-        while not self._stopping.wait(_CLEANUP_INTERVAL_SECONDS):
-            self.cleanup()
+        last_cleanup = time.monotonic()
+        while not self._stopping.wait(_SWEEP_SECONDS):
+            self.sweep()
+            if time.monotonic() - last_cleanup >= _CLEANUP_INTERVAL_SECONDS:
+                self.cleanup()
+                last_cleanup = time.monotonic()
 
     def cleanup(self) -> int:
         try:

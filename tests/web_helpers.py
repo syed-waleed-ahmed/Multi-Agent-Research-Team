@@ -90,6 +90,7 @@ def make_settings(**overrides: Any) -> WebSettings:
         "static_dir": None,
         "ip_hash_salt": "test-salt",
         "result_cache_ttl_hours": 0,
+        "shutdown_drain_seconds": 0,
     }
     values.update(overrides)
     return WebSettings(**values)
