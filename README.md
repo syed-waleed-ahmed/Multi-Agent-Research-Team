@@ -1,6 +1,7 @@
 # Multi-Agent Research Team
 
 [![CI](https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/actions/workflows/ci.yml/badge.svg)](https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/syed-waleed-ahmed/Multi-Agent-Research-Team?sort=semver)](https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/releases/latest)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Style: ruff](https://img.shields.io/badge/style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
@@ -287,7 +288,10 @@ ESLint, TypeScript checks, dependency audits, and a Docker build smoke test.
 ## Contributing
 
 Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for setup,
-quality gates and the pull-request workflow. This project follows a
+quality gates and the pull-request workflow. Questions and ideas belong in
+[Discussions](https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/discussions);
+bugs and feature requests in
+[Issues](https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/issues). This project follows a
 [Code of Conduct](CODE_OF_CONDUCT.md); changes are recorded in
 [CHANGELOG.md](CHANGELOG.md).
 

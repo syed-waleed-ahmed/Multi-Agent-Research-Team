@@ -5,6 +5,8 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [2.0.0] - 2026-11-15
 
 The CLI becomes a public, open-source web research platform. The CLI remains a
@@ -86,7 +88,7 @@ supported interface.
   non-UTF-8 Windows consoles); CLI output streams are UTF-8 safe.
 - gpt-oss citation markers (`【n†url】`) are converted to Markdown links.
 
-## [1.0.0]
+## [1.0.0] - 2026-07-05
 
 First production-ready release.
 
@@ -126,3 +128,7 @@ First production-ready release.
 - `.gitignore` no longer excludes the committed `.env.example` template.
 - Configured mypy to skip third-party stubs (for example numpy's PEP 695 `type`
   statements) so CI type-checking passes across the Python 3.10-3.12 matrix.
+
+[Unreleased]: https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/compare/v1.0.0...v2.0.0
+[1.0.0]: https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/releases/tag/v1.0.0

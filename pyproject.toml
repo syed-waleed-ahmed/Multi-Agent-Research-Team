@@ -12,7 +12,19 @@ requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Syed Waleed Ahmed", email = "syedwaleedahmed9@gmail.com" }]
-keywords = ["crewai", "multi-agent", "llm", "groq", "research", "agents", "cli", "fastapi"]
+keywords = [
+  "crewai",
+  "multi-agent",
+  "ai-agents",
+  "llm",
+  "litellm",
+  "groq",
+  "research",
+  "web-search",
+  "code-generation",
+  "cli",
+  "fastapi",
+]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Environment :: Console",
@@ -59,7 +71,9 @@ research-team-web = "research_team.web.server:main"
 [project.urls]
 Homepage = "https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team"
 Repository = "https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team"
+Documentation = "https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team#readme"
 Issues = "https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/issues"
+Changelog = "https://github.com/syed-waleed-ahmed/Multi-Agent-Research-Team/blob/main/CHANGELOG.md"
 
 [tool.setuptools]
 include-package-data = true
