@@ -75,12 +75,33 @@ def extract_urls(markdown: str) -> list[str]:
     return found
 
 
+def is_public_url(url: str) -> bool:
+    """False for local/private addresses (e.g. ``http://localhost:16686``).
+
+    Such links appear in setup instructions ("open the dashboard at ...") and
+    are never citations, so the citation check ignores them.
+    """
+    import ipaddress
+    from urllib.parse import urlsplit
+
+    host = (urlsplit(url).hostname or "").lower().rstrip(".")
+    if not host or host == "localhost" or host.endswith((".localhost", ".local", ".internal")):
+        return False
+    try:
+        address = ipaddress.ip_address(host)
+    except ValueError:
+        return "." in host  # single-label names (e.g. "db") are internal
+    return address.is_global
+
+
 def check_citations(markdown: str, sources: Sequence[SearchResult]) -> CitationCheck:
-    """Compare the report's links with the URLs retrieved during the run."""
+    """Compare the report's public links with the URLs retrieved during the run."""
     retrieved = {normalize_url(source.url) for source in sources}
     matched: list[str] = []
     unmatched: list[str] = []
     for url in extract_urls(markdown):
+        if not is_public_url(url):
+            continue
         (matched if normalize_url(url) in retrieved else unmatched).append(url)
     return CitationCheck(matched=matched, unmatched=unmatched)
 

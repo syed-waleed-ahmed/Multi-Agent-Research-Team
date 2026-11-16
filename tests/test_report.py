@@ -48,6 +48,17 @@ def test_check_citations_flags_links_not_in_search_results():
     assert check.unmatched == ["https://invented.example/x"]
 
 
+def test_local_and_private_links_are_not_treated_as_citations():
+    # Seen in a live report: setup instructions linked the local Jaeger UI.
+    report = (
+        "Open http://localhost:16686 or http://127.0.0.1:3000, http://10.0.0.5/x, "
+        "http://jaeger.local/ui, http://grafana:3000 and [docs](https://invented.example/x)."
+    )
+    check = check_citations(report, SOURCES)
+    assert check.matched == []
+    assert check.unmatched == ["https://invented.example/x"]
+
+
 def test_enforce_max_length_truncates_and_closes_code_fence():
     text = "intro\n```python\n" + "x = 1\n" * 100
     truncated, was_truncated = enforce_max_length(text, 120)

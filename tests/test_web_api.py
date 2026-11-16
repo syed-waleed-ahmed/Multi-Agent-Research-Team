@@ -7,6 +7,7 @@ import threading
 import pytest
 from fastapi.testclient import TestClient
 
+from research_team import __version__
 from research_team.exceptions import (
     ProviderUnavailableError,
     RateLimitExceededError,
@@ -36,7 +37,7 @@ def _create(client, body=TOPIC, **headers):
 # --------------------------------------------------------------------------- #
 def test_health_and_security_headers(client):
     response = client.get("/api/health")
-    assert response.json() == {"status": "ok", "version": "2.0.0"}
+    assert response.json() == {"status": "ok", "version": __version__}
     headers = response.headers
     assert headers["x-content-type-options"] == "nosniff"
     assert headers["x-frame-options"] == "DENY"
