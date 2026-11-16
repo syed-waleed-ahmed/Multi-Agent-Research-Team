@@ -42,8 +42,9 @@ class FakeControl(RunControl):
         self.check()
 
 
-def _guard(control=None, events=None, max_retries=3, rng=lambda: 1.0):
+def _guard(control=None, events=None, max_retries=3, rng=lambda: 1.0, rate_limit_budget=60.0):
     return CallGuard(
+        rate_limit_budget=rate_limit_budget,
         control=control or FakeControl(),
         max_retries=max_retries,
         on_progress=(events.append if events is not None else None),
@@ -100,15 +101,56 @@ def test_retry_after_header_is_honoured():
     assert guard.delay_for(1, RateLimited(retry_after="999")) == 60.0
 
 
-def test_exhausted_rate_limit_becomes_rate_limit_error():
-    guard = _guard(max_retries=2)
+def test_rate_limits_are_retried_within_a_time_budget():
+    control = FakeControl()
+    guard = _guard(control, rate_limit_budget=5)  # rng=1.0 -> delays 2s, 4s, ...
 
     def call():
         raise RateLimited()
 
     with pytest.raises(RateLimitExceededError):
         guard.run(call)
-    assert guard.calls == 3
+    assert control.waits == [2.0]  # waiting 4s more would exceed the 5s budget
+    assert guard.calls == 2
+
+
+def test_rate_limits_are_not_bound_by_max_retries():
+    control = FakeControl()
+    guard = _guard(control, max_retries=0, rate_limit_budget=60)
+    attempts = {"n": 0}
+
+    def call():
+        attempts["n"] += 1
+        if attempts["n"] < 4:
+            raise RateLimited()
+        return "ok"
+
+    assert guard.run(call) == "ok"
+    assert control.waits == [2.0, 4.0, 8.0]
+
+
+@pytest.mark.parametrize(
+    ("message", "expected"),
+    [
+        ("Rate limit reached. Please try again in 7.66s. Visit ...", 7.66),
+        ("Please try again in 1m2.5s.", 62.5),
+        ("please TRY AGAIN IN 520ms", 0.52),
+        ("rate limited", None),
+    ],
+)
+def test_retry_hint_is_parsed_from_provider_message(message, expected):
+    from research_team.providers import _retry_after_seconds
+
+    result = _retry_after_seconds(Exception(message))
+    assert result == (pytest.approx(expected) if expected is not None else None)
+
+
+def test_message_hint_extends_the_backoff():
+    class HintedRateLimit(RateLimited):
+        def __str__(self):
+            return "Please try again in 7.66s."
+
+    assert _guard(rng=lambda: 0.0).delay_for(1, HintedRateLimit()) == pytest.approx(7.66)
 
 
 def test_exhausted_transient_becomes_provider_unavailable():
@@ -147,6 +189,21 @@ def test_resolve_primary_with_model_override(base_config):
     assert [s.name for s in specs] == ["groq"]
     assert specs[0].litellm_model == "groq/openai/gpt-oss-20b"
     assert specs[0].api_key == "test-groq-key"
+
+
+def test_same_provider_model_fallback():
+    """Free-tier token limits are per model, so another Groq model is a real fallback."""
+    config = AppConfig(
+        groq_api_key="gk",
+        serper_api_key="sk",
+        fallback_providers=("groq:openai/gpt-oss-20b", "groq:openai/gpt-oss-120b"),
+    )
+    specs = resolve_providers(config)
+    assert [(s.name, s.model) for s in specs] == [
+        ("groq", "openai/gpt-oss-120b"),
+        ("groq", "openai/gpt-oss-20b"),  # the duplicate of the primary is skipped
+    ]
+    assert specs[1].litellm_model == "groq/openai/gpt-oss-20b"
 
 
 def test_fallbacks_without_credentials_are_skipped():
@@ -202,7 +259,7 @@ def test_build_llm_passes_explicit_credentials(base_config, monkeypatch):
 
 
 def test_guard_trips_after_terminal_error_until_next_stage():
-    guard = _guard(max_retries=0)
+    guard = _guard(max_retries=0, rate_limit_budget=0)
     calls = []
 
     def call():

@@ -94,6 +94,9 @@ def test_non_numeric_temperature_raises(monkeypatch, clean_env):
         {"reasoning_effort": "extreme"},
         {"llm_provider": "skynet"},
         {"fallback_providers": ("nope",)},
+        {"fallback_providers": ("groq:",)},
+        {"fallback_providers": ("skynet:some-model",)},
+        {"rate_limit_max_wait": -1},
         {"search_providers": ("bing",)},
         {"llm_provider": "openai_compatible"},  # base URL + model missing
     ],
