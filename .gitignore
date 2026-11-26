@@ -61,8 +61,8 @@ reports/
 **/outputs/
 **/.crew_cache/
 
-# Graphify cache only; generated graph outputs are kept under version control
-graphify-out/cache/
+# A local code-graph tool's output, regenerable and unused by the project.
+graphify-out/
 
 # Jupyter
 .ipynb_checkpoints/
